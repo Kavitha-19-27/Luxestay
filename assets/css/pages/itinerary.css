@@ -1,0 +1,1112 @@
+/**
+ * Trip Intelligence & Smart Itinerary Generator Styles
+ * Premium styling for day-by-day itinerary display
+ */
+
+/* ==================== Container & Header ==================== */
+
+.itinerary-generator {
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.98) 0%, rgba(250, 250, 255, 0.95) 100%);
+    border-radius: 20px;
+    padding: 2rem;
+    margin: 2rem 0;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08);
+    border: 1px solid rgba(198, 165, 107, 0.2);
+}
+
+.itinerary-header {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+    padding-bottom: 1.5rem;
+    border-bottom: 2px solid rgba(198, 165, 107, 0.3);
+}
+
+.itinerary-icon {
+    width: 70px;
+    height: 70px;
+    background: linear-gradient(135deg, #c6a56b 0%, #8b7355 100%);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 15px rgba(198, 165, 107, 0.4);
+}
+
+.itinerary-icon i {
+    font-size: 1.8rem;
+    color: white;
+}
+
+.itinerary-header-content h2 {
+    margin: 0;
+    font-size: 1.8rem;
+    color: #1a1a2e;
+    font-weight: 700;
+}
+
+.itinerary-header-content p {
+    margin: 0.3rem 0 0;
+    color: #666;
+    font-size: 1rem;
+}
+
+/* ==================== Mood Selection ==================== */
+
+.mood-selection {
+    text-align: center;
+    padding: 1.5rem;
+}
+
+.mood-selection h3 {
+    font-size: 1.3rem;
+    color: #1a1a2e;
+    margin-bottom: 0.5rem;
+}
+
+.mood-selection h3 i {
+    color: #c6a56b;
+    margin-right: 0.5rem;
+}
+
+.mood-hint {
+    color: #888;
+    font-size: 0.95rem;
+    margin-bottom: 1.5rem;
+}
+
+.mood-options {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 1rem;
+    margin-bottom: 2rem;
+}
+
+.mood-option {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 1.2rem 1.5rem;
+    background: white;
+    border: 2px solid #e0e0e0;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    min-width: 120px;
+}
+
+.mood-option:hover {
+    border-color: var(--mood-color, #c6a56b);
+    transform: translateY(-3px);
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+}
+
+.mood-option.active {
+    border-color: var(--mood-color, #c6a56b);
+    background: var(--mood-color, #c6a56b);
+    color: white;
+    transform: translateY(-3px);
+    box-shadow: 0 5px 25px rgba(0, 0, 0, 0.15);
+}
+
+.mood-option i {
+    font-size: 1.5rem;
+    color: var(--mood-color, #c6a56b);
+    transition: color 0.3s ease;
+}
+
+.mood-option.active i {
+    color: white;
+}
+
+.mood-option span {
+    font-size: 0.9rem;
+    font-weight: 600;
+}
+
+.generate-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 1rem 2.5rem;
+    background: linear-gradient(135deg, #c6a56b 0%, #8b7355 100%);
+    color: white;
+    border: none;
+    border-radius: 50px;
+    font-size: 1.1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(198, 165, 107, 0.4);
+}
+
+.generate-btn:hover:not(:disabled) {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 25px rgba(198, 165, 107, 0.5);
+}
+
+.generate-btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    transform: none;
+}
+
+.generate-btn i {
+    font-size: 1.2rem;
+}
+
+/* ==================== Loading State ==================== */
+
+.itinerary-loading {
+    text-align: center;
+    padding: 4rem 2rem;
+}
+
+.loading-animation {
+    margin-bottom: 2rem;
+}
+
+.loading-icon {
+    font-size: 3rem;
+    color: #c6a56b;
+    animation: pulse 2s ease-in-out infinite;
+}
+
+.loading-dots {
+    display: flex;
+    justify-content: center;
+    gap: 0.5rem;
+    margin-top: 1rem;
+}
+
+.loading-dots span {
+    width: 10px;
+    height: 10px;
+    background: #c6a56b;
+    border-radius: 50%;
+    animation: bounce 1.4s ease-in-out infinite;
+}
+
+.loading-dots span:nth-child(2) { animation-delay: 0.2s; }
+.loading-dots span:nth-child(3) { animation-delay: 0.4s; }
+
+@keyframes pulse {
+    0%, 100% { transform: scale(1); opacity: 1; }
+    50% { transform: scale(1.1); opacity: 0.7; }
+}
+
+@keyframes bounce {
+    0%, 80%, 100% { transform: translateY(0); }
+    40% { transform: translateY(-10px); }
+}
+
+.itinerary-loading h3 {
+    color: #1a1a2e;
+    margin-bottom: 0.5rem;
+}
+
+.itinerary-loading p {
+    color: #888;
+}
+
+/* ==================== Error State ==================== */
+
+.itinerary-error {
+    text-align: center;
+    padding: 3rem 2rem;
+    color: #e74c3c;
+}
+
+.itinerary-error i {
+    font-size: 3rem;
+    margin-bottom: 1rem;
+}
+
+.itinerary-error h3 {
+    margin-bottom: 0.5rem;
+}
+
+/* ==================== Trip Context ==================== */
+
+.trip-context {
+    background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+    border-radius: 16px;
+    padding: 1.5rem;
+    margin-bottom: 2rem;
+    color: white;
+}
+
+.context-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 1.5rem;
+}
+
+.hotel-info h3 {
+    margin: 0;
+    font-size: 1.4rem;
+    font-weight: 600;
+}
+
+.hotel-info h3 i {
+    margin-right: 0.5rem;
+    color: #c6a56b;
+}
+
+.hotel-info .address {
+    margin: 0.3rem 0 0;
+    color: rgba(255, 255, 255, 0.7);
+    font-size: 0.95rem;
+}
+
+.mood-badge {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem 1rem;
+    border-radius: 20px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: white;
+}
+
+.trip-dates {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 2rem;
+    padding-top: 1rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.date-item {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.date-item > i {
+    font-size: 1.5rem;
+    color: #c6a56b;
+}
+
+.date-item > div {
+    display: flex;
+    flex-direction: column;
+}
+
+.date-item .label {
+    font-size: 0.8rem;
+    color: rgba(255, 255, 255, 0.6);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.date-item .value {
+    font-weight: 600;
+    font-size: 1rem;
+}
+
+.date-item .time {
+    font-size: 0.85rem;
+    color: rgba(255, 255, 255, 0.7);
+}
+
+.date-divider {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    color: #c6a56b;
+}
+
+.date-divider i {
+    font-size: 1.2rem;
+}
+
+.date-divider span {
+    font-size: 0.85rem;
+    margin-top: 0.3rem;
+}
+
+/* ==================== Itinerary Summary ==================== */
+
+.itinerary-summary {
+    background: white;
+    border-radius: 16px;
+    padding: 1.5rem;
+    margin-bottom: 2rem;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+}
+
+.itinerary-summary h3 {
+    margin: 0 0 1rem;
+    color: #1a1a2e;
+    font-size: 1.2rem;
+}
+
+.itinerary-summary h3 i {
+    margin-right: 0.5rem;
+    color: #c6a56b;
+}
+
+.summary-stats {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    justify-content: center;
+    margin-bottom: 1.5rem;
+}
+
+.stat-item {
+    text-align: center;
+    padding: 1rem 1.5rem;
+    background: #f8f9fa;
+    border-radius: 12px;
+    min-width: 100px;
+}
+
+.stat-value {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #1a1a2e;
+}
+
+.stat-value i {
+    color: #ffc107;
+    font-size: 1rem;
+}
+
+.stat-label {
+    font-size: 0.8rem;
+    color: #888;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-top: 0.3rem;
+}
+
+.stat-item.mood-match .stat-value {
+    color: #4caf50;
+}
+
+.stat-item.mood-match.excellent .stat-value { color: #4caf50; }
+.stat-item.mood-match.good .stat-value { color: #8bc34a; }
+.stat-item.mood-match.fair .stat-value { color: #ff9800; }
+
+/* Category Breakdown */
+
+.category-breakdown {
+    border-top: 1px solid #eee;
+    padding-top: 1rem;
+}
+
+.category-breakdown h4 {
+    margin: 0 0 1rem;
+    font-size: 0.95rem;
+    color: #666;
+}
+
+.category-bars {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.category-bar {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.category-name {
+    width: 100px;
+    font-size: 0.85rem;
+    color: #555;
+}
+
+.bar-container {
+    flex: 1;
+    height: 8px;
+    background: #f0f0f0;
+    border-radius: 4px;
+    overflow: hidden;
+}
+
+.bar {
+    height: 100%;
+    background: linear-gradient(90deg, #c6a56b, #8b7355);
+    border-radius: 4px;
+    transition: width 0.5s ease;
+}
+
+.category-count {
+    width: 30px;
+    text-align: center;
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: #333;
+}
+
+/* ==================== Day Plans ==================== */
+
+.day-plans {
+    margin-bottom: 2rem;
+}
+
+.day-plans h3 {
+    margin: 0 0 1.5rem;
+    color: #1a1a2e;
+    font-size: 1.3rem;
+}
+
+.day-plans h3 i {
+    margin-right: 0.5rem;
+    color: #c6a56b;
+}
+
+.day-card {
+    background: white;
+    border-radius: 16px;
+    margin-bottom: 1.5rem;
+    overflow: hidden;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
+    border: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.day-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1.2rem 1.5rem;
+    background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+    color: white;
+}
+
+.day-info {
+    display: flex;
+    flex-direction: column;
+}
+
+.day-label {
+    font-size: 1.2rem;
+    font-weight: 600;
+}
+
+.day-date {
+    font-size: 0.9rem;
+    color: rgba(255, 255, 255, 0.7);
+    margin-top: 0.2rem;
+}
+
+.day-theme {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem 1rem;
+    background: rgba(198, 165, 107, 0.2);
+    border-radius: 20px;
+    font-size: 0.9rem;
+    color: #c6a56b;
+}
+
+/* ==================== Day Timeline ==================== */
+
+.day-timeline {
+    padding: 1.5rem;
+    position: relative;
+}
+
+.day-timeline::before {
+    content: '';
+    position: absolute;
+    left: 2.8rem;
+    top: 1.5rem;
+    bottom: 1.5rem;
+    width: 2px;
+    background: linear-gradient(180deg, #c6a56b 0%, #e0e0e0 100%);
+}
+
+.activity-item {
+    display: flex;
+    gap: 1.5rem;
+    margin-bottom: 1.5rem;
+    position: relative;
+}
+
+.activity-item:last-child {
+    margin-bottom: 0;
+}
+
+.activity-timeline-marker {
+    width: 40px;
+    height: 40px;
+    background: linear-gradient(135deg, #c6a56b 0%, #8b7355 100%);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    z-index: 1;
+    box-shadow: 0 2px 10px rgba(198, 165, 107, 0.3);
+}
+
+.activity-timeline-marker i {
+    color: white;
+    font-size: 0.9rem;
+}
+
+.activity-timeline-marker.hotel {
+    background: linear-gradient(135deg, #16213e 0%, #1a1a2e 100%);
+}
+
+/* Activity Card */
+
+.activity-card {
+    flex: 1;
+    background: #f8f9fa;
+    border-radius: 12px;
+    padding: 1.2rem;
+    border: 1px solid #eee;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.activity-card:hover {
+    transform: translateX(5px);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+}
+
+.activity-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+    padding-bottom: 0.75rem;
+    border-bottom: 1px solid #eee;
+}
+
+.activity-time {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: #666;
+    font-size: 0.9rem;
+}
+
+.activity-time i {
+    color: #c6a56b;
+}
+
+.activity-category {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0.3rem 0.8rem;
+    background: rgba(198, 165, 107, 0.15);
+    border-radius: 15px;
+    font-size: 0.8rem;
+    color: #8b7355;
+}
+
+.activity-content {
+    display: flex;
+    gap: 1rem;
+}
+
+.activity-image {
+    width: 120px;
+    height: 90px;
+    border-radius: 8px;
+    overflow: hidden;
+    flex-shrink: 0;
+}
+
+.activity-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.activity-details {
+    flex: 1;
+}
+
+.activity-details h4 {
+    margin: 0 0 0.5rem;
+    color: #1a1a2e;
+    font-size: 1.1rem;
+}
+
+.activity-details .description {
+    margin: 0 0 0.75rem;
+    color: #666;
+    font-size: 0.9rem;
+    line-height: 1.5;
+}
+
+.activity-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    font-size: 0.85rem;
+    color: #888;
+}
+
+.activity-meta span {
+    display: flex;
+    align-items: center;
+    gap: 0.3rem;
+}
+
+.activity-meta i {
+    color: #c6a56b;
+}
+
+.activity-meta .rating i {
+    color: #ffc107;
+}
+
+.opening-hours {
+    margin-top: 0.5rem;
+    font-size: 0.85rem;
+    color: #666;
+}
+
+.opening-hours i {
+    margin-right: 0.3rem;
+    color: #4caf50;
+}
+
+.activity-recommendation {
+    margin-top: 1rem;
+    padding: 0.75rem;
+    background: rgba(255, 193, 7, 0.1);
+    border-radius: 8px;
+    font-size: 0.9rem;
+    color: #8b7355;
+    display: flex;
+    align-items: flex-start;
+    gap: 0.5rem;
+}
+
+.activity-recommendation i {
+    color: #ffc107;
+    margin-top: 2px;
+}
+
+.activity-travel {
+    margin-top: 0.75rem;
+    font-size: 0.85rem;
+    color: #888;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.activity-travel i {
+    color: #c6a56b;
+}
+
+/* Hotel Time Card */
+
+.hotel-time-card {
+    flex: 1;
+    background: linear-gradient(135deg, rgba(26, 26, 46, 0.05) 0%, rgba(22, 33, 62, 0.05) 100%);
+    border-radius: 12px;
+    padding: 1rem 1.2rem;
+    border: 1px dashed #c6a56b;
+}
+
+.hotel-time-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 0.5rem;
+}
+
+.hotel-time-header .label {
+    font-weight: 600;
+    color: #1a1a2e;
+}
+
+.hotel-time-header .time {
+    color: #888;
+    font-size: 0.9rem;
+}
+
+.hotel-time-card .suggestion {
+    margin: 0;
+    color: #666;
+    font-size: 0.95rem;
+}
+
+.hotel-time-card .amenities {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-top: 0.75rem;
+}
+
+.amenity-tag {
+    padding: 0.25rem 0.75rem;
+    background: rgba(198, 165, 107, 0.2);
+    border-radius: 15px;
+    font-size: 0.8rem;
+    color: #8b7355;
+}
+
+/* Day Summary */
+
+.day-summary {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 1.5rem;
+    padding: 1rem 1.5rem;
+    background: #f8f9fa;
+    border-top: 1px solid #eee;
+}
+
+.day-summary span {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-size: 0.85rem;
+    color: #666;
+}
+
+.day-summary i {
+    color: #c6a56b;
+}
+
+.day-summary .intensity {
+    padding: 0.25rem 0.75rem;
+    border-radius: 15px;
+    background: #e8f5e9;
+    color: #4caf50;
+}
+
+.day-summary .intensity.moderate {
+    background: #fff3e0;
+    color: #ff9800;
+}
+
+.day-summary .intensity.active {
+    background: #ffebee;
+    color: #f44336;
+}
+
+/* ==================== Travel Tips ==================== */
+
+.travel-tips {
+    background: linear-gradient(135deg, rgba(255, 193, 7, 0.1) 0%, rgba(255, 193, 7, 0.05) 100%);
+    border-radius: 16px;
+    padding: 1.5rem;
+    margin-bottom: 2rem;
+    border: 1px solid rgba(255, 193, 7, 0.2);
+}
+
+.travel-tips h3 {
+    margin: 0 0 1rem;
+    color: #8b7355;
+    font-size: 1.1rem;
+}
+
+.travel-tips h3 i {
+    color: #ffc107;
+    margin-right: 0.5rem;
+}
+
+.travel-tips ul {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.travel-tips li {
+    padding: 0.5rem 0;
+    color: #666;
+    display: flex;
+    align-items: flex-start;
+    gap: 0.75rem;
+}
+
+.travel-tips li i {
+    color: #4caf50;
+    margin-top: 3px;
+}
+
+/* ==================== Actions ==================== */
+
+.itinerary-actions {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    flex-wrap: wrap;
+}
+
+.action-btn {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.75rem 1.5rem;
+    border: 2px solid #e0e0e0;
+    background: white;
+    border-radius: 25px;
+    font-size: 0.95rem;
+    color: #666;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.action-btn:hover {
+    border-color: #c6a56b;
+    color: #8b7355;
+    background: rgba(198, 165, 107, 0.05);
+}
+
+.action-btn i {
+    font-size: 1rem;
+}
+
+/* ==================== Toast Notification ==================== */
+
+.itinerary-toast {
+    position: fixed;
+    bottom: 2rem;
+    left: 50%;
+    transform: translateX(-50%) translateY(20px);
+    background: #1a1a2e;
+    color: white;
+    padding: 1rem 2rem;
+    border-radius: 8px;
+    font-size: 0.95rem;
+    opacity: 0;
+    transition: all 0.3s ease;
+    z-index: 1000;
+}
+
+.itinerary-toast.show {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+}
+
+/* ==================== Responsive Design ==================== */
+
+@media (max-width: 768px) {
+    .itinerary-generator {
+        padding: 1.5rem;
+        margin: 1rem;
+        border-radius: 16px;
+    }
+
+    .itinerary-header {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .mood-options {
+        gap: 0.75rem;
+    }
+
+    .mood-option {
+        padding: 1rem;
+        min-width: 90px;
+    }
+
+    .trip-dates {
+        flex-direction: column;
+        gap: 1rem;
+    }
+
+    .date-divider {
+        flex-direction: row;
+        gap: 0.5rem;
+    }
+
+    .summary-stats {
+        gap: 0.75rem;
+    }
+
+    .stat-item {
+        padding: 0.75rem 1rem;
+        min-width: 80px;
+    }
+
+    .day-timeline::before {
+        left: 1.8rem;
+    }
+
+    .activity-item {
+        gap: 1rem;
+    }
+
+    .activity-timeline-marker {
+        width: 32px;
+        height: 32px;
+    }
+
+    .activity-content {
+        flex-direction: column;
+    }
+
+    .activity-image {
+        width: 100%;
+        height: 150px;
+    }
+
+    .activity-meta {
+        gap: 0.75rem;
+    }
+
+    .day-summary {
+        gap: 1rem;
+    }
+
+    .context-header {
+        flex-direction: column;
+        text-align: center;
+        gap: 1rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .mood-options {
+        flex-direction: column;
+    }
+
+    .mood-option {
+        width: 100%;
+        flex-direction: row;
+        justify-content: center;
+    }
+
+    .generate-btn {
+        width: 100%;
+        justify-content: center;
+    }
+
+    .itinerary-actions {
+        flex-direction: column;
+    }
+
+    .action-btn {
+        width: 100%;
+        justify-content: center;
+    }
+}
+
+/* ==================== Print Styles ==================== */
+
+@media print {
+    .itinerary-generator {
+        box-shadow: none;
+        border: none;
+    }
+
+    .mood-selection,
+    .generate-btn,
+    .itinerary-actions {
+        display: none !important;
+    }
+
+    .day-card {
+        break-inside: avoid;
+        page-break-inside: avoid;
+    }
+
+    .activity-card:hover {
+        transform: none;
+        box-shadow: none;
+    }
+}
+
+/* ==================== Hotel-Centric Activities ==================== */
+
+.activity-item.hotel-activity .activity-card.hotel-centric {
+    background: linear-gradient(135deg, rgba(198, 165, 107, 0.08) 0%, rgba(139, 115, 85, 0.05) 100%);
+    border: 2px solid rgba(198, 165, 107, 0.3);
+}
+
+.activity-item.hotel-activity .activity-card.hotel-centric:hover {
+    border-color: rgba(198, 165, 107, 0.5);
+    background: linear-gradient(135deg, rgba(198, 165, 107, 0.12) 0%, rgba(139, 115, 85, 0.08) 100%);
+}
+
+.activity-icon-placeholder {
+    width: 80px;
+    height: 80px;
+    min-width: 80px;
+    background: linear-gradient(135deg, #c6a56b 0%, #a08050 100%);
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 1rem;
+}
+
+.activity-icon-placeholder i {
+    font-size: 2rem;
+    color: white;
+}
+
+/* Mood Match Variants */
+.stat-item.mood-match.excellent .stat-value {
+    color: #4caf50;
+}
+
+.stat-item.mood-match.good .stat-value {
+    color: #2196f3;
+}
+
+.stat-item.mood-match.customized .stat-value {
+    color: #ff9800;
+}
+
+.stat-item.mood-match.personalized .stat-value {
+    color: #9c27b0;
+}
+
+/* Intensity Variants */
+.day-summary .intensity.very-relaxed {
+    color: #4caf50;
+    background: rgba(76, 175, 80, 0.1);
+}
+
+.day-summary .intensity.relaxed {
+    color: #8bc34a;
+    background: rgba(139, 195, 74, 0.1);
+}
+
+.day-summary .intensity.balanced {
+    color: #2196f3;
+    background: rgba(33, 150, 243, 0.1);
+}
+
+.day-summary .intensity.moderate {
+    color: #ff9800;
+    background: rgba(255, 152, 0, 0.1);
+}
+
+.day-summary .intensity.active {
+    color: #f44336;
+    background: rgba(244, 67, 54, 0.1);
+}
+
+/* No Plans Message */
+.no-plans {
+    text-align: center;
+    padding: 3rem;
+    color: #888;
+    font-size: 1.1rem;
+}
+
+.no-plans i {
+    display: block;
+    font-size: 3rem;
+    color: #c6a56b;
+    margin-bottom: 1rem;
+}
+

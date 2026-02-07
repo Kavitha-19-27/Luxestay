@@ -1,0 +1,503 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Hotel Settings - LuxeStay">
+    <title>Hotel Settings | LuxeStay</title>
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E💎%3C/text%3E%3C/svg%3E">
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    
+    <link rel="stylesheet" href="../assets/css/base.css">
+    <link rel="stylesheet" href="../assets/css/components.css">
+    <link rel="stylesheet" href="../assets/css/layout.css">
+    <link rel="stylesheet" href="../assets/css/pages/admin.css">
+    <link rel="stylesheet" href="../assets/css/pages/owner.css">
+    <link rel="stylesheet" href="../assets/css/premium-enhancements.css">
+</head>
+<body class="admin-body owner-body">
+    <!-- Sidebar -->
+    <aside class="admin-sidebar owner-sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <a href="../index.html" class="sidebar-logo">
+                <span class="brand-icon"><i class="fas fa-gem"></i></span>
+                <span class="brand-text">LuxeStay</span>
+            </a>
+            <span class="owner-badge">Hotel Owner</span>
+        </div>
+        
+        <nav class="sidebar-nav">
+            <a href="dashboard.html" class="sidebar-link">
+                <i class="fas fa-tachometer-alt"></i>
+                <span>Dashboard</span>
+            </a>
+            <a href="rooms.html" class="sidebar-link">
+                <i class="fas fa-bed"></i>
+                <span>My Rooms</span>
+            </a>
+            <a href="bookings.html" class="sidebar-link">
+                <i class="fas fa-calendar-check"></i>
+                <span>Bookings</span>
+            </a>
+            <a href="reviews.html" class="sidebar-link">
+                <i class="fas fa-star"></i>
+                <span>Reviews</span>
+            </a>
+            <a href="hotel-settings.html" class="sidebar-link active">
+                <i class="fas fa-cog"></i>
+                <span>Hotel Settings</span>
+            </a>
+        </nav>
+        
+        <div class="sidebar-footer">
+            <a href="../index.html" class="sidebar-link">
+                <i class="fas fa-arrow-left"></i>
+                <span>Back to Site</span>
+            </a>
+            <button class="sidebar-link" id="logoutBtn">
+                <i class="fas fa-sign-out-alt"></i>
+                <span>Logout</span>
+            </button>
+        </div>
+    </aside>
+
+    <!-- Main Content -->
+    <div class="admin-main">
+        <!-- Top Bar -->
+        <header class="admin-topbar">
+            <button class="sidebar-toggle" id="sidebarToggle">
+                <i class="fas fa-bars"></i>
+            </button>
+            
+            <div class="topbar-hotel-info">
+                <span class="hotel-name" id="hotelName">Loading...</span>
+            </div>
+            
+            <div class="topbar-actions">
+                <div class="topbar-user">
+                    <span class="user-avatar" id="userAvatar">O</span>
+                    <span class="user-name" id="userName">Owner</span>
+                </div>
+            </div>
+        </header>
+
+        <!-- Settings Content -->
+        <main class="admin-content">
+            <div class="content-header">
+                <div>
+                    <h1>Hotel Settings</h1>
+                    <p class="content-subtitle">Manage your hotel information and preferences</p>
+                </div>
+            </div>
+
+            <!-- Settings Sections -->
+            <div class="settings-container">
+                <!-- Hotel Information -->
+                <div class="settings-section">
+                    <div class="settings-header">
+                        <div>
+                            <h2><i class="fas fa-hotel"></i> Hotel Information</h2>
+                            <p>Update your hotel details visible to guests</p>
+                        </div>
+                    </div>
+                    <form id="hotelInfoForm" onsubmit="handleHotelInfoSubmit(event)">
+                        <div class="settings-grid">
+                            <div class="form-group">
+                                <label for="hotelNameInput">Hotel Name</label>
+                                <input type="text" id="hotelNameInput" name="name" class="form-input" readonly>
+                                <small class="form-hint">Contact admin to change hotel name</small>
+                            </div>
+                            <div class="form-group">
+                                <label for="starRating">Star Rating</label>
+                                <select id="starRating" name="starRating" class="form-select">
+                                    <option value="3">3 Star</option>
+                                    <option value="4">4 Star</option>
+                                    <option value="5">5 Star</option>
+                                </select>
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="description">Hotel Description</label>
+                            <textarea id="description" name="description" class="form-textarea" rows="4" placeholder="Describe your hotel, amenities, and unique features..."></textarea>
+                        </div>
+                        
+                        <div class="settings-grid">
+                            <div class="form-group">
+                                <label for="checkInTime">Check-in Time</label>
+                                <input type="time" id="checkInTime" name="checkInTime" class="form-input" value="14:00">
+                            </div>
+                            <div class="form-group">
+                                <label for="checkOutTime">Check-out Time</label>
+                                <input type="time" id="checkOutTime" name="checkOutTime" class="form-input" value="11:00">
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="heroImageUrl">Main Image URL</label>
+                            <input type="url" id="heroImageUrl" name="heroImageUrl" class="form-input" placeholder="https://example.com/hotel-image.jpg">
+                            <small style="color: rgba(255,255,255,0.4); font-size: 0.8rem; margin-top: 0.25rem; display: block;">URL for your hotel's main display image</small>
+                        </div>
+                        
+                        <div class="form-group" id="hotelImagePreviewGroup" style="display: none;">
+                            <label>Current Image Preview</label>
+                            <div style="border-radius: 12px; overflow: hidden; max-height: 200px; background: rgba(0,0,0,0.3);">
+                                <img id="hotelImagePreview" src="" alt="Hotel Preview" style="width: 100%; height: 200px; object-fit: cover;">
+                            </div>
+                        </div>
+                        
+                        <div class="form-actions">
+                            <button type="submit" class="btn btn-success" id="saveHotelBtn">
+                                <i class="fas fa-save"></i> Save Changes
+                            </button>
+                        </div>
+                    </form>
+                </div>
+
+                <!-- Contact Information -->
+                <div class="settings-section">
+                    <div class="settings-header">
+                        <div>
+                            <h2><i class="fas fa-address-book"></i> Contact Information</h2>
+                            <p>How guests can reach your hotel</p>
+                        </div>
+                    </div>
+                    <form id="contactForm" onsubmit="handleContactSubmit(event)">
+                        <div class="settings-grid">
+                            <div class="form-group">
+                                <label for="email">Email Address</label>
+                                <input type="email" id="email" name="email" class="form-input" placeholder="hotel@example.com">
+                            </div>
+                            <div class="form-group">
+                                <label for="phone">Phone Number</label>
+                                <input type="tel" id="phone" name="phone" class="form-input" placeholder="+91 9876543210">
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="address">Full Address</label>
+                            <textarea id="address" name="address" class="form-textarea" rows="2" placeholder="Enter complete hotel address..."></textarea>
+                        </div>
+                        
+                        <div class="settings-grid">
+                            <div class="form-group">
+                                <label for="city">City</label>
+                                <input type="text" id="city" name="city" class="form-input" readonly>
+                            </div>
+                            <div class="form-group">
+                                <label for="country">Country</label>
+                                <input type="text" id="country" name="country" class="form-input" readonly>
+                            </div>
+                        </div>
+                        
+                        <div class="form-actions">
+                            <button type="submit" class="btn btn-success" id="saveContactBtn">
+                                <i class="fas fa-save"></i> Save Contact Info
+                            </button>
+                        </div>
+                    </form>
+                </div>
+
+                <!-- Amenities -->
+                <div class="settings-section">
+                    <div class="settings-header">
+                        <div>
+                            <h2><i class="fas fa-concierge-bell"></i> Hotel Amenities</h2>
+                            <p>Features and services your hotel offers</p>
+                        </div>
+                    </div>
+                    <form id="amenitiesForm" onsubmit="handleAmenitiesSubmit(event)">
+                        <div class="amenities-grid" id="amenitiesGrid">
+                            <label class="amenity-checkbox">
+                                <input type="checkbox" name="amenities" value="Free WiFi">
+                                <i class="fas fa-wifi"></i>
+                                <span>Free WiFi</span>
+                            </label>
+                            <label class="amenity-checkbox">
+                                <input type="checkbox" name="amenities" value="Swimming Pool">
+                                <i class="fas fa-swimming-pool"></i>
+                                <span>Swimming Pool</span>
+                            </label>
+                            <label class="amenity-checkbox">
+                                <input type="checkbox" name="amenities" value="Spa">
+                                <i class="fas fa-spa"></i>
+                                <span>Spa</span>
+                            </label>
+                            <label class="amenity-checkbox">
+                                <input type="checkbox" name="amenities" value="Gym">
+                                <i class="fas fa-dumbbell"></i>
+                                <span>Gym</span>
+                            </label>
+                            <label class="amenity-checkbox">
+                                <input type="checkbox" name="amenities" value="Restaurant">
+                                <i class="fas fa-utensils"></i>
+                                <span>Restaurant</span>
+                            </label>
+                            <label class="amenity-checkbox">
+                                <input type="checkbox" name="amenities" value="Bar">
+                                <i class="fas fa-glass-martini-alt"></i>
+                                <span>Bar</span>
+                            </label>
+                            <label class="amenity-checkbox">
+                                <input type="checkbox" name="amenities" value="Room Service">
+                                <i class="fas fa-concierge-bell"></i>
+                                <span>Room Service</span>
+                            </label>
+                            <label class="amenity-checkbox">
+                                <input type="checkbox" name="amenities" value="Parking">
+                                <i class="fas fa-parking"></i>
+                                <span>Parking</span>
+                            </label>
+                            <label class="amenity-checkbox">
+                                <input type="checkbox" name="amenities" value="Airport Shuttle">
+                                <i class="fas fa-shuttle-van"></i>
+                                <span>Airport Shuttle</span>
+                            </label>
+                            <label class="amenity-checkbox">
+                                <input type="checkbox" name="amenities" value="Business Center">
+                                <i class="fas fa-briefcase"></i>
+                                <span>Business Center</span>
+                            </label>
+                            <label class="amenity-checkbox">
+                                <input type="checkbox" name="amenities" value="Pet Friendly">
+                                <i class="fas fa-paw"></i>
+                                <span>Pet Friendly</span>
+                            </label>
+                            <label class="amenity-checkbox">
+                                <input type="checkbox" name="amenities" value="24/7 Front Desk">
+                                <i class="fas fa-clock"></i>
+                                <span>24/7 Front Desk</span>
+                            </label>
+                        </div>
+                        
+                        <div class="form-actions">
+                            <button type="submit" class="btn btn-success" id="saveAmenitiesBtn">
+                                <i class="fas fa-save"></i> Save Amenities
+                            </button>
+                        </div>
+                    </form>
+                </div>
+
+                <!-- Account Settings -->
+                <div class="settings-section">
+                    <div class="settings-header">
+                        <div>
+                            <h2><i class="fas fa-user-shield"></i> Account Settings</h2>
+                            <p>Manage your account security</p>
+                        </div>
+                    </div>
+                    <div class="account-actions">
+                        <a href="change-password.html" class="btn btn-outline">
+                            <i class="fas fa-key"></i> Change Password
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <div class="toast-container" id="toastContainer"></div>
+
+    <script src="../assets/js/config.js"></script>
+    <script src="../assets/js/auth.js"></script>
+    <script src="../assets/js/api.js"></script>
+    <script src="../assets/js/ui.js"></script>
+    <script>
+        let hotelData = null;
+        
+        // Helper function to validate URL
+        function isValidUrl(string) {
+            try {
+                new URL(string);
+                return true;
+            } catch (_) {
+                return false;
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            // Check hotel owner access
+            if (!requireHotelOwner()) return;
+            
+            // Set user info
+            const user = Auth.getUser();
+            document.getElementById('userAvatar').textContent = Auth.getUserInitials();
+            document.getElementById('userName').textContent = user?.firstName || 'Owner';
+            
+            // Sidebar toggle
+            document.getElementById('sidebarToggle').addEventListener('click', () => {
+                document.getElementById('sidebar').classList.toggle('collapsed');
+            });
+            
+            // Logout handler
+            document.getElementById('logoutBtn').addEventListener('click', () => {
+                Auth.logout();
+                window.location.href = '../index.html';
+            });
+            
+            // Image preview on URL input
+            document.getElementById('heroImageUrl').addEventListener('input', function() {
+                const url = this.value.trim();
+                const previewGroup = document.getElementById('hotelImagePreviewGroup');
+                const previewImg = document.getElementById('hotelImagePreview');
+                if (url && isValidUrl(url)) {
+                    previewImg.src = url;
+                    previewGroup.style.display = 'block';
+                } else {
+                    previewGroup.style.display = 'none';
+                }
+            });
+            
+            // Load hotel data
+            loadHotelData();
+            
+            // Add toggle selected class for checkbox styling
+            document.querySelectorAll('.amenity-checkbox input').forEach(checkbox => {
+                checkbox.addEventListener('change', function() {
+                    this.closest('.amenity-checkbox').classList.toggle('selected', this.checked);
+                });
+            });
+        });
+
+        async function loadHotelData() {
+            try {
+                const response = await API.owner.getMyHotel();
+                hotelData = response.data || response;
+                
+                // Update header
+                document.getElementById('hotelName').textContent = hotelData.name || 'My Hotel';
+                
+                // Populate forms
+                populateForms(hotelData);
+            } catch (error) {
+                console.error('Failed to load hotel data:', error);
+                UI.toast('Failed to load hotel settings', 'error');
+            }
+        }
+
+        function populateForms(hotel) {
+            // Hotel Info Form
+            document.getElementById('hotelNameInput').value = hotel.name || '';
+            document.getElementById('starRating').value = hotel.starRating || 4;
+            document.getElementById('description').value = hotel.description || '';
+            document.getElementById('checkInTime').value = hotel.checkInTime || '14:00';
+            document.getElementById('checkOutTime').value = hotel.checkOutTime || '11:00';
+            document.getElementById('heroImageUrl').value = hotel.heroImageUrl || hotel.imageUrl || '';
+            
+            // Show image preview if URL exists
+            const imageUrl = hotel.heroImageUrl || hotel.imageUrl || '';
+            const previewGroup = document.getElementById('hotelImagePreviewGroup');
+            const previewImg = document.getElementById('hotelImagePreview');
+            if (imageUrl && isValidUrl(imageUrl)) {
+                previewImg.src = imageUrl;
+                previewGroup.style.display = 'block';
+            } else {
+                previewGroup.style.display = 'none';
+            }
+            
+            // Contact Form
+            document.getElementById('email').value = hotel.email || '';
+            document.getElementById('phone').value = hotel.phone || '';
+            document.getElementById('address').value = hotel.address || '';
+            document.getElementById('city').value = hotel.city || '';
+            document.getElementById('country').value = hotel.country || '';
+            
+            // Amenities
+            const amenities = hotel.amenities || [];
+            document.querySelectorAll('input[name="amenities"]').forEach(checkbox => {
+                const isChecked = amenities.includes(checkbox.value);
+                checkbox.checked = isChecked;
+                checkbox.closest('.amenity-checkbox').classList.toggle('selected', isChecked);
+            });
+        }
+
+        async function handleHotelInfoSubmit(event) {
+            event.preventDefault();
+            
+            const formData = new FormData(event.target);
+            const data = {
+                starRating: parseInt(formData.get('starRating')),
+                description: formData.get('description'),
+                checkInTime: formData.get('checkInTime'),
+                checkOutTime: formData.get('checkOutTime'),
+                heroImageUrl: formData.get('heroImageUrl') || null
+            };
+            
+            try {
+                await API.owner.updateMyHotel(data);
+                UI.toast('Hotel information updated', 'success');
+            } catch (error) {
+                console.error('Failed to update hotel:', error);
+                UI.toast(error.message || 'Failed to update hotel information', 'error');
+            }
+        }
+
+        async function handleContactSubmit(event) {
+            event.preventDefault();
+            
+            const formData = new FormData(event.target);
+            const data = {
+                email: formData.get('email'),
+                phone: formData.get('phone'),
+                address: formData.get('address')
+            };
+            
+            try {
+                await API.owner.updateMyHotel(data);
+                UI.toast('Contact information updated', 'success');
+            } catch (error) {
+                console.error('Failed to update contact:', error);
+                UI.toast(error.message || 'Failed to update contact information', 'error');
+            }
+        }
+
+        async function handleAmenitiesSubmit(event) {
+            event.preventDefault();
+            
+            const checkboxes = document.querySelectorAll('input[name="amenities"]:checked');
+            const amenities = Array.from(checkboxes).map(cb => cb.value);
+            
+            try {
+                await API.owner.updateMyHotel({ amenities });
+                UI.toast('Amenities updated', 'success');
+            } catch (error) {
+                console.error('Failed to update amenities:', error);
+                UI.toast(error.message || 'Failed to update amenities', 'error');
+            }
+        }
+    </script>
+    
+    <style>
+        /* Additional Settings Page Styles */
+        .settings-container {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+        
+        .form-hint {
+            color: rgba(255, 255, 255, 0.4);
+            font-size: 0.8rem;
+            margin-top: 0.4rem;
+            display: block;
+        }
+        
+        .form-actions {
+            margin-top: 1.75rem;
+            padding-top: 1.25rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.06);
+            display: flex;
+            justify-content: flex-end;
+        }
+        
+        .account-actions {
+            display: flex;
+            gap: 1rem;
+        }
+    </style>
+</body>
+</html>

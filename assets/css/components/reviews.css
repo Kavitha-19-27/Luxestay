@@ -1,0 +1,1108 @@
+/**
+ * Reviews & Feedback Component Styles
+ * Premium styling for hotel review system
+ */
+
+/* =====================================================
+   REVIEW SECTION ON HOTEL DETAIL PAGE
+   ===================================================== */
+
+.reviews-section {
+    margin-top: var(--spacing-xl);
+    padding-top: var(--spacing-xl);
+    border-top: 1px solid var(--border-color);
+}
+
+.reviews-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: var(--spacing-lg);
+    flex-wrap: wrap;
+    gap: var(--spacing-md);
+}
+
+.reviews-title {
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-sm);
+}
+
+.reviews-count {
+    font-size: 0.875rem;
+    color: var(--text-secondary);
+    font-weight: 400;
+}
+
+/* =====================================================
+   REVIEW STATS CARD
+   ===================================================== */
+
+.review-stats-card {
+    background: linear-gradient(135deg, var(--gold-primary) 0%, var(--gold-secondary) 100%);
+    border-radius: var(--radius-xl);
+    padding: var(--spacing-xl);
+    margin-bottom: var(--spacing-xl);
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: var(--spacing-xl);
+    align-items: center;
+    color: white;
+}
+
+.review-stats-score {
+    text-align: center;
+    min-width: 120px;
+}
+
+.review-stats-number {
+    font-size: 4rem;
+    font-weight: 700;
+    line-height: 1;
+    margin-bottom: var(--spacing-xs);
+}
+
+.review-stats-label {
+    font-size: 0.875rem;
+    opacity: 0.9;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.review-stats-stars {
+    display: flex;
+    justify-content: center;
+    gap: 4px;
+    margin-top: var(--spacing-sm);
+}
+
+.review-stats-stars i {
+    font-size: 1.25rem;
+}
+
+/* Rating Distribution Bars */
+.rating-distribution {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-sm);
+}
+
+.rating-bar-row {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-sm);
+}
+
+.rating-bar-label {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    min-width: 50px;
+    font-size: 0.875rem;
+}
+
+.rating-bar-label i {
+    font-size: 0.75rem;
+}
+
+.rating-bar-container {
+    flex: 1;
+    height: 8px;
+    background: rgba(255, 255, 255, 0.3);
+    border-radius: 4px;
+    overflow: hidden;
+}
+
+.rating-bar-fill {
+    height: 100%;
+    background: white;
+    border-radius: 4px;
+    transition: width 0.6s ease-out;
+}
+
+.rating-bar-count {
+    min-width: 40px;
+    text-align: right;
+    font-size: 0.75rem;
+    opacity: 0.8;
+}
+
+/* =====================================================
+   REVIEW CARDS
+   ===================================================== */
+
+.reviews-list {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-lg);
+}
+
+.review-card {
+    background: var(--card-bg);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-lg);
+    padding: var(--spacing-lg);
+    transition: all 0.3s ease;
+}
+
+.review-card:hover {
+    box-shadow: var(--shadow-md);
+    transform: translateY(-2px);
+}
+
+.review-card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: var(--spacing-md);
+    gap: var(--spacing-md);
+}
+
+.review-author {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-md);
+}
+
+.review-avatar {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--gold-primary) 0%, var(--gold-secondary) 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-weight: 600;
+    font-size: 1.125rem;
+}
+
+.review-author-info {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.review-author-name {
+    font-weight: 600;
+    color: var(--text-primary);
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-sm);
+}
+
+.verified-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    background: var(--success-green);
+    color: white;
+    padding: 2px 8px;
+    border-radius: 20px;
+    font-size: 0.625rem;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.3px;
+}
+
+.verified-badge i {
+    font-size: 0.5rem;
+}
+
+.review-stay-info {
+    font-size: 0.75rem;
+    color: var(--text-secondary);
+}
+
+.review-rating {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 4px;
+}
+
+.review-rating-stars {
+    display: flex;
+    gap: 2px;
+}
+
+.review-rating-stars i {
+    color: var(--gold-primary);
+    font-size: 0.875rem;
+}
+
+.review-rating-stars i.empty {
+    color: var(--border-color);
+}
+
+.review-date {
+    font-size: 0.75rem;
+    color: var(--text-secondary);
+}
+
+/* Review Content */
+.review-title {
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin-bottom: var(--spacing-sm);
+}
+
+.review-comment {
+    color: var(--text-secondary);
+    line-height: 1.7;
+    font-size: 0.9375rem;
+}
+
+/* Owner Reply */
+.review-reply {
+    margin-top: var(--spacing-lg);
+    padding: var(--spacing-md);
+    background: var(--light-bg);
+    border-radius: var(--radius-md);
+    border-left: 3px solid var(--gold-primary);
+}
+
+.review-reply-header {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-sm);
+    margin-bottom: var(--spacing-sm);
+}
+
+.review-reply-label {
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: var(--gold-primary);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.review-reply-date {
+    font-size: 0.75rem;
+    color: var(--text-secondary);
+}
+
+.review-reply-text {
+    color: var(--text-secondary);
+    font-size: 0.875rem;
+    line-height: 1.6;
+}
+
+/* Review Status Badge */
+.review-status-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    padding: 4px 10px;
+    border-radius: 20px;
+    font-size: 0.75rem;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.3px;
+}
+
+.review-status-badge.pending {
+    background: #fff3cd;
+    color: #856404;
+}
+
+.review-status-badge.approved {
+    background: #d4edda;
+    color: #155724;
+}
+
+.review-status-badge.rejected {
+    background: #f8d7da;
+    color: #721c24;
+}
+
+.review-status-badge.flagged {
+    background: #ffe5d0;
+    color: #8a4000;
+}
+
+/* =====================================================
+   REVIEW FORM
+   ===================================================== */
+
+.review-form-container {
+    background: var(--card-bg);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-lg);
+    padding: var(--spacing-xl);
+    margin-bottom: var(--spacing-xl);
+}
+
+.review-form-title {
+    font-size: 1.125rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin-bottom: var(--spacing-lg);
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-sm);
+}
+
+.review-form-title i {
+    color: var(--gold-primary);
+}
+
+/* Star Rating Input */
+.star-rating-input {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-md);
+    margin-bottom: var(--spacing-lg);
+}
+
+.star-rating-label {
+    font-weight: 500;
+    color: var(--text-primary);
+    min-width: 80px;
+}
+
+.star-rating-buttons {
+    display: flex;
+    gap: 8px;
+}
+
+.star-rating-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 4px;
+    transition: transform 0.2s ease;
+}
+
+.star-rating-btn:hover {
+    transform: scale(1.2);
+}
+
+.star-rating-btn i {
+    font-size: 2rem;
+    color: var(--border-color);
+    transition: color 0.2s ease;
+}
+
+.star-rating-btn.active i,
+.star-rating-btn.hover i {
+    color: var(--gold-primary);
+}
+
+.star-rating-text {
+    font-size: 0.875rem;
+    color: var(--text-secondary);
+    min-width: 100px;
+}
+
+/* Character Counter */
+.textarea-with-counter {
+    position: relative;
+}
+
+.character-counter {
+    position: absolute;
+    bottom: 12px;
+    right: 12px;
+    font-size: 0.75rem;
+    color: var(--text-secondary);
+    pointer-events: none;
+}
+
+.character-counter.warning {
+    color: var(--warning-yellow);
+}
+
+.character-counter.error {
+    color: var(--error-red);
+}
+
+/* =====================================================
+   REVIEW MODERATION (ADMIN)
+   ===================================================== */
+
+.review-moderation-card {
+    background: var(--card-bg);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+}
+
+.review-moderation-header {
+    padding: var(--spacing-md) var(--spacing-lg);
+    background: var(--light-bg);
+    border-bottom: 1px solid var(--border-color);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.review-moderation-actions {
+    display: flex;
+    gap: var(--spacing-sm);
+}
+
+.review-moderation-body {
+    padding: var(--spacing-lg);
+}
+
+.review-moderation-meta {
+    font-size: 0.75rem;
+    color: var(--text-secondary);
+    margin-top: var(--spacing-sm);
+}
+
+/* Admin Action Buttons */
+.btn-approve {
+    background: var(--success-green);
+    color: white;
+    border: none;
+    padding: 6px 16px;
+    border-radius: var(--radius-md);
+    font-size: 0.75rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.btn-approve:hover {
+    background: #218838;
+    transform: translateY(-1px);
+}
+
+.btn-reject {
+    background: var(--error-red);
+    color: white;
+    border: none;
+    padding: 6px 16px;
+    border-radius: var(--radius-md);
+    font-size: 0.75rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.btn-reject:hover {
+    background: #c82333;
+    transform: translateY(-1px);
+}
+
+.btn-flag {
+    background: #fd7e14;
+    color: white;
+    border: none;
+    padding: 6px 16px;
+    border-radius: var(--radius-md);
+    font-size: 0.75rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.btn-flag:hover {
+    background: #e96a00;
+    transform: translateY(-1px);
+}
+
+/* =====================================================
+   EMPTY STATE
+   ===================================================== */
+
+.reviews-empty {
+    text-align: center;
+    padding: var(--spacing-2xl) var(--spacing-lg);
+    color: var(--text-secondary);
+}
+
+.reviews-empty-icon {
+    font-size: 3rem;
+    color: var(--border-color);
+    margin-bottom: var(--spacing-md);
+}
+
+.reviews-empty-title {
+    font-size: 1.125rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin-bottom: var(--spacing-sm);
+}
+
+.reviews-empty-text {
+    font-size: 0.875rem;
+    max-width: 300px;
+    margin: 0 auto;
+}
+
+/* =====================================================
+   SKELETON LOADERS FOR REVIEWS
+   ===================================================== */
+
+.review-skeleton {
+    background: var(--card-bg);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-lg);
+    padding: var(--spacing-lg);
+    animation: skeleton-pulse 1.5s ease-in-out infinite;
+}
+
+.review-skeleton-header {
+    display: flex;
+    gap: var(--spacing-md);
+    margin-bottom: var(--spacing-md);
+}
+
+.review-skeleton-avatar {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    background: var(--border-color);
+}
+
+.review-skeleton-info {
+    flex: 1;
+}
+
+.review-skeleton-name {
+    width: 120px;
+    height: 16px;
+    background: var(--border-color);
+    border-radius: 4px;
+    margin-bottom: 8px;
+}
+
+.review-skeleton-date {
+    width: 80px;
+    height: 12px;
+    background: var(--border-color);
+    border-radius: 4px;
+}
+
+.review-skeleton-content {
+    height: 60px;
+    background: var(--border-color);
+    border-radius: 8px;
+}
+
+/* =====================================================
+   RESPONSIVE DESIGN
+   ===================================================== */
+
+@media (max-width: 768px) {
+    .review-stats-card {
+        grid-template-columns: 1fr;
+        text-align: center;
+    }
+    
+    .review-stats-score {
+        padding-bottom: var(--spacing-md);
+        border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+    }
+    
+    .review-card-header {
+        flex-direction: column;
+    }
+    
+    .review-rating {
+        align-items: flex-start;
+    }
+    
+    .star-rating-input {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    
+    .reviews-header {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+}
+
+/* =====================================================
+   ANIMATIONS
+   ===================================================== */
+
+@keyframes skeleton-pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.5; }
+}
+
+.review-card {
+    animation: fadeInUp 0.4s ease forwards;
+    opacity: 0;
+}
+
+.review-card:nth-child(1) { animation-delay: 0.1s; }
+.review-card:nth-child(2) { animation-delay: 0.2s; }
+.review-card:nth-child(3) { animation-delay: 0.3s; }
+.review-card:nth-child(4) { animation-delay: 0.4s; }
+.review-card:nth-child(5) { animation-delay: 0.5s; }
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Star rating animation */
+.star-rating-btn i {
+    transition: all 0.2s ease;
+}
+
+.star-rating-btn:hover i {
+    animation: starBounce 0.3s ease;
+}
+
+@keyframes starBounce {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.3); }
+}
+
+/* =====================================================
+   REVIEW MODAL - PREMIUM STYLING
+   ===================================================== */
+
+#reviewModal {
+    background: linear-gradient(180deg, #ffffff 0%, #faf9f7 100%);
+    border: 1px solid rgba(212, 175, 55, 0.2);
+    max-width: 560px;
+    width: 95%;
+    max-height: 90vh;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    border-radius: 16px;
+}
+
+#reviewModal::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 80px;
+    height: 4px;
+    background: linear-gradient(90deg, #d4af37, #c9a227);
+    border-radius: 0 0 4px 4px;
+    z-index: 10;
+}
+
+#reviewModal .modal-header {
+    background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+    border-bottom: none;
+    padding: 20px 28px;
+    border-radius: 16px 16px 0 0;
+    flex-shrink: 0;
+}
+
+#reviewModal .modal-title {
+    color: white;
+    font-family: 'Playfair Display', serif;
+    font-size: 1.4rem;
+    font-weight: 600;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 10px;
+    letter-spacing: 0.3px;
+    line-height: 1.3;
+}
+
+#reviewModal .modal-title i,
+#reviewModal .modal-title .text-gold {
+    color: #d4af37;
+}
+
+#reviewModal .modal-close {
+    color: rgba(255, 255, 255, 0.7);
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 50%;
+    width: 36px;
+    height: 36px;
+    transition: all 0.25s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: none;
+    cursor: pointer;
+}
+
+#reviewModal .modal-close:hover {
+    background: rgba(255, 255, 255, 0.2);
+    color: white;
+    transform: rotate(90deg);
+}
+
+#reviewModal .modal-body {
+    padding: 24px 28px 28px;
+    overflow-y: auto;
+    flex: 1;
+}
+
+/* Review Form in Modal */
+#reviewModal .review-form-container {
+    background: transparent;
+    border: none;
+    padding: 0;
+    margin: 0;
+}
+
+/* Enhanced Star Rating in Modal */
+#reviewModal .star-rating-input {
+    background: linear-gradient(135deg, #fefcf7 0%, #fffbeb 100%);
+    padding: 20px;
+    border-radius: 12px;
+    border: 2px solid rgba(212, 175, 55, 0.25);
+    margin-bottom: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+}
+
+#reviewModal .star-rating-label {
+    font-weight: 600;
+    color: #1a1a2e;
+    font-size: 0.95rem;
+    text-align: center;
+    margin: 0;
+}
+
+#reviewModal .star-rating-buttons {
+    display: flex;
+    gap: 12px;
+    justify-content: center;
+}
+
+#reviewModal .star-rating-btn {
+    padding: 4px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    transition: transform 0.2s ease;
+}
+
+#reviewModal .star-rating-btn:hover {
+    transform: scale(1.1);
+}
+
+#reviewModal .star-rating-btn i {
+    font-size: 2rem;
+    color: #d4d4d4;
+    transition: all 0.2s ease;
+}
+
+#reviewModal .star-rating-btn:hover i {
+    color: #e6c84b;
+}
+
+#reviewModal .star-rating-btn.active i,
+#reviewModal .star-rating-btn.hover i {
+    color: #d4af37;
+}
+
+#reviewModal .star-rating-btn.active i {
+    animation: starPop 0.3s ease;
+}
+
+@keyframes starPop {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.25); }
+    100% { transform: scale(1); }
+}
+
+#reviewModal .star-rating-text {
+    display: inline-block;
+    min-width: 90px;
+    padding: 6px 14px;
+    background: linear-gradient(135deg, #d4af37 0%, #c9a227 100%);
+    color: white;
+    font-weight: 600;
+    font-size: 0.85rem;
+    border-radius: 20px;
+    text-align: center;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 8px rgba(212, 175, 55, 0.3);
+}
+
+/* Form Inputs in Modal */
+#reviewModal .form-group {
+    margin-bottom: 16px;
+}
+
+#reviewModal .form-group label {
+    display: block;
+    font-weight: 600;
+    color: #1a1a2e;
+    margin-bottom: 6px;
+    font-size: 0.9rem;
+}
+
+#reviewModal .form-input,
+#reviewModal input[type="text"] {
+    width: 100%;
+    padding: 12px 14px;
+    font-size: 0.95rem;
+    font-family: 'Inter', sans-serif;
+    color: #333;
+    background: #fff;
+    border: 2px solid #e0e0e0;
+    border-radius: 10px;
+    transition: all 0.25s ease;
+    box-sizing: border-box;
+}
+
+#reviewModal .form-input:focus,
+#reviewModal input[type="text"]:focus {
+    outline: none;
+    border-color: #d4af37;
+    box-shadow: 0 0 0 4px rgba(212, 175, 55, 0.12);
+}
+
+#reviewModal .form-input::placeholder,
+#reviewModal input[type="text"]::placeholder {
+    color: #999;
+}
+
+#reviewModal .form-textarea,
+#reviewModal textarea {
+    width: 100%;
+    padding: 12px 14px;
+    font-size: 0.95rem;
+    font-family: 'Inter', sans-serif;
+    color: #333;
+    background: #fff;
+    border: 2px solid #e0e0e0;
+    border-radius: 10px;
+    transition: all 0.25s ease;
+    resize: vertical;
+    min-height: 100px;
+    line-height: 1.5;
+    box-sizing: border-box;
+}
+
+#reviewModal .form-textarea:focus,
+#reviewModal textarea:focus {
+    outline: none;
+    border-color: #d4af37;
+    box-shadow: 0 0 0 4px rgba(212, 175, 55, 0.12);
+}
+
+#reviewModal .textarea-with-counter {
+    position: relative;
+}
+
+#reviewModal .character-counter {
+    position: absolute;
+    bottom: 14px;
+    right: 14px;
+    font-size: 0.8rem;
+    color: #aaa;
+    background: rgba(255,255,255,0.9);
+    padding: 2px 8px;
+    border-radius: 6px;
+    pointer-events: none;
+}
+
+/* Submit Button in Modal */
+#reviewModal .btn-primary,
+#reviewModal button[type="submit"] {
+    width: 100%;
+    padding: 14px 20px;
+    margin-top: 4px;
+    font-size: 0.95rem;
+    font-weight: 600;
+    font-family: 'Inter', sans-serif;
+    background: linear-gradient(135deg, #d4af37 0%, #c9a227 100%);
+    color: white;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: all 0.25s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    box-shadow: 0 4px 14px rgba(212, 175, 55, 0.35);
+    text-transform: uppercase;
+    letter-spacing: 0.6px;
+}
+
+#reviewModal .btn-primary:hover,
+#reviewModal button[type="submit"]:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 24px rgba(212, 175, 55, 0.45);
+    background: linear-gradient(135deg, #dbb93f 0%, #d4af37 100%);
+}
+
+#reviewModal .btn-primary:active,
+#reviewModal button[type="submit"]:active {
+    transform: translateY(0);
+}
+
+#reviewModal .btn-primary:disabled,
+#reviewModal button[type="submit"]:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    transform: none;
+}
+
+#reviewModal .btn-primary i,
+#reviewModal button[type="submit"] i {
+    font-size: 0.95rem;
+}
+
+/* Form Hint */
+#reviewModal .form-hint {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    margin-top: 12px;
+    padding: 10px 14px;
+    background: #f8f8f8;
+    border-radius: 8px;
+    color: #666;
+    font-size: 0.8rem;
+}
+
+#reviewModal .form-hint i {
+    color: #d4af37;
+    font-size: 0.85rem;
+}
+
+/* Success State in Modal */
+#reviewModal .review-submitted-success {
+    text-align: center;
+    padding: 32px 24px;
+}
+
+#reviewModal .review-submitted-success i.fa-check-circle {
+    font-size: 4rem;
+    color: #22c55e;
+    margin-bottom: 20px;
+    animation: successBounce 0.6s ease;
+}
+
+@keyframes successBounce {
+    0% { transform: scale(0); opacity: 0; }
+    50% { transform: scale(1.2); }
+    100% { transform: scale(1); opacity: 1; }
+}
+
+#reviewModal .review-submitted-success h4 {
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: #1a1a2e;
+    margin-bottom: 8px;
+}
+
+#reviewModal .review-submitted-success p {
+    color: #666;
+    margin-bottom: 20px;
+    line-height: 1.6;
+}
+
+/* Modal Large Size */
+.modal-lg#reviewModal {
+    max-width: 560px;
+}
+
+/* Modal Subtitle (Hotel Name) */
+#reviewModal .modal-title .modal-subtitle {
+    flex-basis: 100%;
+    font-size: 0.95rem;
+    font-weight: 400;
+    font-family: 'Inter', sans-serif;
+    color: #d4af37;
+    margin-top: 2px;
+    letter-spacing: normal;
+}
+
+/* Mobile Responsive for Review Modal */
+@media (max-width: 600px) {
+    #reviewModal {
+        width: 100%;
+        max-width: 100%;
+        max-height: 100vh;
+        border-radius: 0;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        transform: none;
+    }
+    
+    #reviewModal.active {
+        transform: none;
+    }
+    
+    #reviewModal .modal-header {
+        border-radius: 0;
+        padding: 16px 20px;
+    }
+    
+    #reviewModal .modal-title {
+        font-size: 1.2rem;
+    }
+    
+    #reviewModal .modal-body {
+        padding: 20px;
+    }
+    
+    #reviewModal .star-rating-input {
+        padding: 16px;
+    }
+    
+    #reviewModal .star-rating-btn i {
+        font-size: 2rem;
+    }
+    
+    #reviewModal .star-rating-buttons {
+        gap: 8px;
+    }
+}
+/* =====================================================
+   REVIEW STATUS BADGES (My Bookings Page)
+   ===================================================== */
+
+.review-submitted-badge,
+.review-rejected-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 12px;
+    border-radius: 20px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.review-submitted-badge {
+    background: linear-gradient(135deg, rgba(46, 204, 113, 0.15), rgba(39, 174, 96, 0.15));
+    color: #27ae60;
+    border: 1px solid rgba(46, 204, 113, 0.3);
+}
+
+.review-submitted-badge i {
+    color: #2ecc71;
+}
+
+.review-rejected-badge {
+    background: linear-gradient(135deg, rgba(149, 165, 166, 0.15), rgba(127, 140, 141, 0.15));
+    color: #7f8c8d;
+    border: 1px solid rgba(149, 165, 166, 0.3);
+}
+
+.review-rejected-badge i {
+    color: #95a5a6;
+}

@@ -1,0 +1,899 @@
+/* =====================================================
+   LUXESTAY VOICE ASSISTANT STYLES
+   Production-grade voice search UI
+   ===================================================== */
+
+/* ==================== FLOATING BUTTON ==================== */
+
+.voice-assistant-btn {
+    position: fixed;
+    bottom: var(--space-6, 24px);
+    left: var(--space-6, 24px);
+    z-index: 9998;
+}
+
+.voice-btn {
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #6366f1, #8b5cf6);
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 20px rgba(99, 102, 241, 0.4);
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: visible;
+}
+
+.voice-btn:hover {
+    transform: scale(1.1);
+    box-shadow: 0 6px 30px rgba(99, 102, 241, 0.5);
+}
+
+.voice-btn i {
+    font-size: 22px;
+    color: white;
+    transition: transform 0.3s ease;
+}
+
+.voice-btn:hover i {
+    transform: scale(1.1);
+}
+
+/* Pulse Animation */
+.voice-pulse {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    background: rgba(99, 102, 241, 0.4);
+    animation: voice-pulse-ring 2s infinite;
+    z-index: -1;
+}
+
+@keyframes voice-pulse-ring {
+    0% {
+        transform: scale(1);
+        opacity: 0.6;
+    }
+    100% {
+        transform: scale(1.8);
+        opacity: 0;
+    }
+}
+
+/* ==================== MODAL ==================== */
+
+.voice-modal {
+    position: fixed;
+    inset: 0;
+    z-index: 10000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s ease;
+}
+
+.voice-modal.active {
+    opacity: 1;
+    visibility: visible;
+}
+
+.voice-modal-backdrop {
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.7);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+}
+
+.voice-modal-content {
+    position: relative;
+    width: 90%;
+    max-width: 480px;
+    max-height: 85vh;
+    background: linear-gradient(180deg, #1e1e2e, #2a2a3e);
+    border-radius: 24px;
+    box-shadow: 0 25px 80px rgba(0, 0, 0, 0.5);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    transform: translateY(30px) scale(0.95);
+    transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.voice-modal.active .voice-modal-content {
+    transform: translateY(0) scale(1);
+}
+
+/* ==================== HEADER ==================== */
+
+.voice-modal-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 16px 20px;
+    background: linear-gradient(135deg, #6366f1, #8b5cf6);
+    color: white;
+}
+
+.voice-header-info {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-weight: 600;
+    font-size: 16px;
+}
+
+.voice-header-info i {
+    font-size: 20px;
+}
+
+.voice-close-btn {
+    width: 36px;
+    height: 36px;
+    border: none;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.2);
+    color: white;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s ease;
+}
+
+.voice-close-btn:hover {
+    background: rgba(255, 255, 255, 0.3);
+    transform: rotate(90deg);
+}
+
+/* ==================== BODY ==================== */
+
+.voice-modal-body {
+    flex: 1;
+    padding: 24px;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+/* ==================== VISUALIZER ==================== */
+
+.voice-visualizer {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 60px;
+    opacity: 0.3;
+    transition: opacity 0.3s ease;
+}
+
+.voice-visualizer.active {
+    opacity: 1;
+}
+
+.voice-wave {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    height: 40px;
+}
+
+.voice-wave span {
+    width: 6px;
+    height: 10px;
+    background: linear-gradient(180deg, #6366f1, #8b5cf6);
+    border-radius: 3px;
+    animation: none;
+}
+
+.voice-visualizer.active .voice-wave span {
+    animation: voice-wave 0.8s ease-in-out infinite;
+}
+
+.voice-wave span:nth-child(1) { animation-delay: 0s; }
+.voice-wave span:nth-child(2) { animation-delay: 0.1s; }
+.voice-wave span:nth-child(3) { animation-delay: 0.2s; }
+.voice-wave span:nth-child(4) { animation-delay: 0.3s; }
+.voice-wave span:nth-child(5) { animation-delay: 0.4s; }
+
+@keyframes voice-wave {
+    0%, 100% {
+        height: 10px;
+    }
+    50% {
+        height: 40px;
+    }
+}
+
+/* ==================== STATUS ==================== */
+
+.voice-status {
+    text-align: center;
+}
+
+.voice-status-text {
+    color: #a1a1aa;
+    font-size: 14px;
+    transition: color 0.3s ease;
+}
+
+.voice-modal.listening .voice-status-text {
+    color: #6366f1;
+    font-weight: 500;
+}
+
+.voice-modal.processing .voice-status-text {
+    color: #f59e0b;
+}
+
+.voice-modal.success .voice-status-text {
+    color: #10b981;
+}
+
+.voice-modal.error .voice-status-text {
+    color: #ef4444;
+}
+
+/* ==================== TRANSCRIPT ==================== */
+
+.voice-transcript {
+    min-height: 60px;
+    padding: 16px;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 12px;
+    text-align: center;
+}
+
+.transcript-text {
+    color: white;
+    font-size: 18px;
+    font-weight: 500;
+    line-height: 1.5;
+}
+
+.interim-text {
+    color: #71717a;
+    font-size: 16px;
+    font-style: italic;
+    margin-top: 8px;
+}
+
+/* ==================== RESPONSE ==================== */
+
+.voice-response {
+    display: none;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 12px;
+    padding: 16px;
+    max-height: 300px;
+    overflow-y: auto;
+}
+
+.voice-response.active {
+    display: block;
+}
+
+.response-message {
+    color: white;
+    font-size: 15px;
+    line-height: 1.6;
+    margin-bottom: 16px;
+}
+
+.response-message strong {
+    color: #6366f1;
+}
+
+/* Hotel Cards */
+.voice-hotel-cards {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.voice-hotel-card {
+    display: flex;
+    gap: 12px;
+    background: rgba(255, 255, 255, 0.08);
+    border-radius: 10px;
+    padding: 12px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.voice-hotel-card:hover {
+    background: rgba(255, 255, 255, 0.12);
+    transform: translateX(4px);
+}
+
+.hotel-card-img {
+    width: 70px;
+    height: 70px;
+    border-radius: 8px;
+    object-fit: cover;
+}
+
+.hotel-card-info {
+    flex: 1;
+}
+
+.hotel-card-info h4 {
+    color: white;
+    font-size: 14px;
+    margin-bottom: 4px;
+}
+
+.hotel-card-info p {
+    color: #a1a1aa;
+    font-size: 12px;
+    margin-bottom: 4px;
+}
+
+.hotel-card-info p i {
+    margin-right: 4px;
+    color: #6366f1;
+}
+
+.hotel-card-rating {
+    font-size: 11px;
+}
+
+/* Room Cards */
+.voice-room-cards {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.voice-room-card {
+    background: rgba(255, 255, 255, 0.08);
+    border-radius: 10px;
+    padding: 12px;
+    transition: all 0.2s ease;
+}
+
+.voice-room-card:hover {
+    background: rgba(255, 255, 255, 0.12);
+}
+
+.voice-room-card h4 {
+    color: white;
+    font-size: 14px;
+    margin-bottom: 4px;
+}
+
+.voice-room-card p {
+    color: #a1a1aa;
+    font-size: 12px;
+    margin-bottom: 4px;
+}
+
+.voice-room-card .room-price {
+    color: #10b981;
+    font-weight: 600;
+    margin-bottom: 8px;
+}
+
+.voice-book-room-btn {
+    width: 100%;
+    padding: 8px 12px;
+    background: linear-gradient(135deg, #10b981, #059669);
+    border: none;
+    border-radius: 6px;
+    color: white;
+    font-size: 12px;
+    font-weight: 500;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    transition: all 0.2s ease;
+}
+
+.voice-book-room-btn:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
+}
+
+.voice-book-room-btn i {
+    font-size: 10px;
+}
+
+/* Book Hotel Button */
+.voice-book-hotel-btn {
+    width: 100%;
+    padding: 10px 14px;
+    background: linear-gradient(135deg, #d4a574, #c49660);
+    border: none;
+    border-radius: 6px;
+    color: white;
+    font-size: 12px;
+    font-weight: 600;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    margin-top: 10px;
+    transition: all 0.2s ease;
+}
+
+.voice-book-hotel-btn:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(212, 165, 116, 0.4);
+    background: linear-gradient(135deg, #c49660, #b08050);
+}
+
+.voice-book-hotel-btn i {
+    font-size: 11px;
+}
+
+/* Booking Cards */
+.voice-booking-cards {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.voice-booking-card {
+    background: rgba(255, 255, 255, 0.08);
+    border-radius: 10px;
+    padding: 12px;
+}
+
+.booking-card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 8px;
+}
+
+.booking-ref {
+    color: #6366f1;
+    font-weight: 600;
+    font-size: 12px;
+}
+
+.booking-status {
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-size: 10px;
+    font-weight: 600;
+    text-transform: uppercase;
+}
+
+.status-confirmed {
+    background: rgba(16, 185, 129, 0.2);
+    color: #10b981;
+}
+
+.status-pending {
+    background: rgba(245, 158, 11, 0.2);
+    color: #f59e0b;
+}
+
+.status-cancelled {
+    background: rgba(239, 68, 68, 0.2);
+    color: #ef4444;
+}
+
+.booking-card-info h4 {
+    color: white;
+    font-size: 14px;
+    margin-bottom: 4px;
+}
+
+.booking-card-info p {
+    color: #a1a1aa;
+    font-size: 12px;
+    margin-bottom: 2px;
+}
+
+/* Booking Confirmation */
+.voice-booking-confirmation {
+    text-align: center;
+    padding: 20px;
+}
+
+.confirmation-icon {
+    font-size: 48px;
+    color: #10b981;
+    margin-bottom: 12px;
+    animation: confirmation-pop 0.5s ease;
+}
+
+@keyframes confirmation-pop {
+    0% { transform: scale(0); }
+    50% { transform: scale(1.2); }
+    100% { transform: scale(1); }
+}
+
+.voice-booking-confirmation h3 {
+    color: white;
+    font-size: 20px;
+    margin-bottom: 8px;
+}
+
+.confirmation-ref {
+    color: #a1a1aa;
+    font-size: 14px;
+}
+
+.confirmation-ref strong {
+    color: #6366f1;
+}
+
+/* Help Content */
+.voice-help-content {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.help-section h4 {
+    color: white;
+    font-size: 13px;
+    margin-bottom: 8px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.help-examples {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.help-example {
+    padding: 6px 12px;
+    background: rgba(99, 102, 241, 0.2);
+    border-radius: 20px;
+    color: #a5b4fc;
+    font-size: 12px;
+}
+
+/* Clarification Options */
+.voice-clarification-options {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 12px;
+}
+
+.clarification-option {
+    padding: 10px 16px;
+    background: rgba(99, 102, 241, 0.2);
+    border: 1px solid rgba(99, 102, 241, 0.4);
+    border-radius: 20px;
+    color: white;
+    font-size: 13px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.clarification-option:hover {
+    background: rgba(99, 102, 241, 0.4);
+    border-color: #6366f1;
+}
+
+/* Navigation Button */
+.voice-nav-btn {
+    width: 100%;
+    padding: 12px;
+    margin-top: 12px;
+    background: linear-gradient(135deg, #6366f1, #8b5cf6);
+    border: none;
+    border-radius: 10px;
+    color: white;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.voice-nav-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 20px rgba(99, 102, 241, 0.4);
+}
+
+.voice-nav-btn i {
+    margin-right: 8px;
+}
+
+/* Error Message */
+.voice-error {
+    text-align: center;
+    padding: 20px;
+}
+
+.voice-error i {
+    font-size: 36px;
+    color: #ef4444;
+    margin-bottom: 12px;
+}
+
+.voice-error p {
+    color: #fca5a5;
+    font-size: 14px;
+}
+
+/* ==================== SUGGESTIONS ==================== */
+
+.voice-suggestions {
+    padding-top: 16px;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.suggestions-label {
+    color: #71717a;
+    font-size: 12px;
+    margin-bottom: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.suggestions-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.suggestion-chip {
+    padding: 8px 14px;
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: 20px;
+    color: white;
+    font-size: 13px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.suggestion-chip:hover {
+    background: rgba(99, 102, 241, 0.2);
+    border-color: rgba(99, 102, 241, 0.4);
+}
+
+.suggestion-chip i {
+    font-size: 11px;
+    color: #6366f1;
+}
+
+/* ==================== FOOTER ==================== */
+
+.voice-modal-footer {
+    padding: 20px;
+    display: flex;
+    justify-content: center;
+    background: rgba(0, 0, 0, 0.2);
+}
+
+.voice-mic-btn,
+.voice-stop-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    padding: 16px 32px;
+    border: none;
+    border-radius: 50px;
+    font-size: 16px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.voice-mic-btn {
+    background: linear-gradient(135deg, #6366f1, #8b5cf6);
+    color: white;
+    box-shadow: 0 4px 20px rgba(99, 102, 241, 0.4);
+}
+
+.voice-mic-btn:hover {
+    transform: scale(1.05);
+    box-shadow: 0 6px 30px rgba(99, 102, 241, 0.5);
+}
+
+.voice-mic-btn i {
+    font-size: 20px;
+}
+
+.voice-stop-btn {
+    background: #ef4444;
+    color: white;
+    animation: stop-pulse 1s infinite;
+}
+
+@keyframes stop-pulse {
+    0%, 100% {
+        box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.5);
+    }
+    50% {
+        box-shadow: 0 0 0 15px rgba(239, 68, 68, 0);
+    }
+}
+
+.voice-stop-btn:hover {
+    background: #dc2626;
+}
+
+.hidden {
+    display: none !important;
+}
+
+/* ==================== LISTENING STATE ==================== */
+
+.voice-modal.listening .voice-mic-btn {
+    background: #10b981;
+    animation: mic-pulse 1.5s infinite;
+}
+
+@keyframes mic-pulse {
+    0%, 100% {
+        box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.5);
+    }
+    50% {
+        box-shadow: 0 0 0 20px rgba(16, 185, 129, 0);
+    }
+}
+
+/* ==================== PROCESSING STATE ==================== */
+
+.voice-modal.processing .voice-modal-body::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, #6366f1, #8b5cf6, #6366f1);
+    background-size: 200% 100%;
+    animation: processing-bar 1.5s linear infinite;
+}
+
+@keyframes processing-bar {
+    0% { background-position: 200% 0; }
+    100% { background-position: -200% 0; }
+}
+
+/* ==================== RESPONSIVE ==================== */
+
+@media (max-width: 480px) {
+    .voice-assistant-btn {
+        bottom: 16px;
+        left: 16px;
+    }
+    
+    .voice-btn {
+        width: 50px;
+        height: 50px;
+    }
+    
+    .voice-btn i {
+        font-size: 18px;
+    }
+    
+    .voice-modal-content {
+        width: 95%;
+        max-height: 90vh;
+        border-radius: 20px;
+    }
+    
+    .voice-modal-body {
+        padding: 16px;
+    }
+    
+    .transcript-text {
+        font-size: 16px;
+    }
+    
+    .suggestion-chip {
+        padding: 6px 12px;
+        font-size: 12px;
+    }
+}
+
+/* ==================== DARK MODE COMPATIBILITY ==================== */
+
+@media (prefers-color-scheme: light) {
+    .voice-modal-content {
+        background: linear-gradient(180deg, #ffffff, #f4f4f5);
+    }
+    
+    .voice-transcript {
+        background: rgba(0, 0, 0, 0.05);
+    }
+    
+    .transcript-text {
+        color: #1e1e2e;
+    }
+    
+    .interim-text {
+        color: #71717a;
+    }
+    
+    .voice-response {
+        background: rgba(0, 0, 0, 0.03);
+    }
+    
+    .response-message {
+        color: #1e1e2e;
+    }
+    
+    .voice-hotel-card,
+    .voice-room-card,
+    .voice-booking-card {
+        background: rgba(0, 0, 0, 0.05);
+    }
+    
+    .voice-hotel-card:hover {
+        background: rgba(0, 0, 0, 0.08);
+    }
+    
+    .hotel-card-info h4,
+    .voice-room-card h4,
+    .booking-card-info h4,
+    .voice-booking-confirmation h3 {
+        color: #1e1e2e;
+    }
+    
+    .suggestion-chip {
+        background: rgba(0, 0, 0, 0.05);
+        border-color: rgba(0, 0, 0, 0.1);
+        color: #1e1e2e;
+    }
+    
+    .clarification-option {
+        color: #1e1e2e;
+    }
+}
+
+/* ==================== ACCESSIBILITY ==================== */
+
+.voice-btn:focus,
+.voice-close-btn:focus,
+.voice-mic-btn:focus,
+.voice-stop-btn:focus,
+.suggestion-chip:focus,
+.clarification-option:focus {
+    outline: 2px solid #6366f1;
+    outline-offset: 2px;
+}
+
+/* Reduced motion preference */
+@media (prefers-reduced-motion: reduce) {
+    .voice-pulse,
+    .voice-wave span,
+    .voice-modal-content,
+    .confirmation-icon,
+    .voice-mic-btn,
+    .voice-stop-btn {
+        animation: none !important;
+    }
+    
+    .voice-modal,
+    .voice-modal-content {
+        transition-duration: 0.1s !important;
+    }
+}
+
+/* ==================== PRINT ==================== */
+
+@media print {
+    .voice-assistant-btn,
+    .voice-modal {
+        display: none !important;
+    }
+}

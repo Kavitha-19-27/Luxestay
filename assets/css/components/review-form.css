@@ -1,0 +1,405 @@
+/**
+ * Mobile-First Review Form Styles
+ * Touch-friendly design with responsive layout
+ */
+
+/* ==================== FORM CONTAINER ==================== */
+
+.review-form {
+    background: var(--surface-color, #fff);
+    border-radius: 16px;
+    padding: 24px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+}
+
+.review-form-header {
+    text-align: center;
+    margin-bottom: 24px;
+}
+
+.review-form-header h3 {
+    font-size: 1.5rem;
+    font-weight: 600;
+    margin: 0 0 8px;
+    color: var(--text-primary, #111);
+}
+
+.review-hotel-info {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    color: var(--text-secondary, #666);
+    font-size: 14px;
+}
+
+.review-hotel-info .hotel-name {
+    font-weight: 500;
+    color: var(--text-primary, #333);
+}
+
+.review-hotel-info .room-name {
+    font-size: 13px;
+}
+
+/* ==================== STAR RATING ==================== */
+
+.star-rating-input {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+    padding: 16px;
+    background: var(--surface-muted, #f9fafb);
+    border-radius: 12px;
+}
+
+.stars-container {
+    display: flex;
+    gap: 8px;
+}
+
+.star-btn {
+    background: none;
+    border: none;
+    padding: 8px;
+    cursor: pointer;
+    font-size: 32px;
+    color: #d1d5db;
+    transition: all 0.2s ease;
+    -webkit-tap-highlight-color: transparent;
+    touch-action: manipulation;
+}
+
+.star-btn:hover,
+.star-btn:focus {
+    transform: scale(1.15);
+}
+
+.star-btn.active {
+    color: #f59e0b;
+}
+
+.star-btn.active i {
+    animation: star-pop 0.3s ease;
+}
+
+@keyframes star-pop {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.3); }
+    100% { transform: scale(1); }
+}
+
+.rating-label {
+    font-size: 16px;
+    font-weight: 500;
+    color: var(--text-secondary, #666);
+    min-height: 24px;
+    transition: all 0.2s ease;
+}
+
+.rating-label.preview {
+    opacity: 0.7;
+}
+
+.rating-label.rating-1 { color: #ef4444; }
+.rating-label.rating-2 { color: #f97316; }
+.rating-label.rating-3 { color: #eab308; }
+.rating-label.rating-4 { color: #84cc16; }
+.rating-label.rating-5 { color: #22c55e; }
+
+/* ==================== FORM FIELDS ==================== */
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-label {
+    display: block;
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--text-primary, #333);
+    margin-bottom: 8px;
+}
+
+.form-label .optional {
+    font-weight: 400;
+    color: var(--text-muted, #999);
+}
+
+.form-input,
+.form-textarea {
+    width: 100%;
+    padding: 14px 16px;
+    font-size: 16px; /* Prevents iOS zoom */
+    border: 2px solid var(--border-color, #e5e7eb);
+    border-radius: 10px;
+    background: var(--surface-color, #fff);
+    color: var(--text-primary, #111);
+    transition: all 0.2s ease;
+    -webkit-appearance: none;
+    appearance: none;
+}
+
+.form-input:focus,
+.form-textarea:focus {
+    outline: none;
+    border-color: var(--primary-color, #3b82f6);
+    box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.15);
+}
+
+.form-input.has-error,
+.form-textarea.has-error {
+    border-color: #ef4444;
+}
+
+.form-textarea {
+    min-height: 120px;
+    resize: vertical;
+    line-height: 1.5;
+}
+
+.star-rating-input.has-error {
+    border: 2px solid #ef4444;
+}
+
+/* ==================== CHARACTER COUNTER ==================== */
+
+.char-counter {
+    display: block;
+    text-align: right;
+    font-size: 12px;
+    color: var(--text-muted, #999);
+    margin-top: 6px;
+}
+
+.char-counter.warning {
+    color: #f59e0b;
+}
+
+.char-counter.danger {
+    color: #ef4444;
+}
+
+/* ==================== ERROR MESSAGES ==================== */
+
+.field-error {
+    display: block;
+    color: #ef4444;
+    font-size: 13px;
+    margin-top: 6px;
+}
+
+.form-error {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 12px 16px;
+    background: rgba(239, 68, 68, 0.1);
+    border-radius: 10px;
+    color: #dc2626;
+    font-size: 14px;
+    margin-bottom: 16px;
+    animation: shake 0.5s ease;
+}
+
+@keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    25% { transform: translateX(-5px); }
+    75% { transform: translateX(5px); }
+}
+
+/* ==================== FORM FOOTER ==================== */
+
+.form-footer {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    margin-top: 24px;
+}
+
+.moderation-note {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 12px;
+    color: var(--text-muted, #999);
+    margin: 0;
+}
+
+.moderation-note i {
+    color: #3b82f6;
+}
+
+.form-footer .btn-lg {
+    width: 100%;
+    padding: 16px 24px;
+    font-size: 16px;
+    font-weight: 600;
+    border-radius: 10px;
+}
+
+/* ==================== SUCCESS MESSAGE ==================== */
+
+.review-success-message {
+    text-align: center;
+    padding: 40px 24px;
+    background: var(--surface-color, #fff);
+    border-radius: 16px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+}
+
+.success-icon {
+    width: 64px;
+    height: 64px;
+    margin: 0 auto 16px;
+    background: linear-gradient(135deg, #d1fae5, #a7f3d0);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 28px;
+    color: #059669;
+    animation: success-pop 0.5s ease;
+}
+
+@keyframes success-pop {
+    0% { transform: scale(0); opacity: 0; }
+    50% { transform: scale(1.2); }
+    100% { transform: scale(1); opacity: 1; }
+}
+
+.review-success-message h3 {
+    font-size: 1.5rem;
+    font-weight: 600;
+    margin: 0 0 8px;
+    color: var(--text-primary, #111);
+}
+
+.review-success-message p {
+    color: var(--text-secondary, #666);
+    font-size: 14px;
+    margin: 0 0 12px;
+    line-height: 1.5;
+}
+
+.review-success-message .moderation-note {
+    justify-content: center;
+    margin-top: 16px;
+    padding-top: 16px;
+    border-top: 1px solid var(--border-color, #e5e7eb);
+}
+
+/* ==================== TABLET+ RESPONSIVE ==================== */
+
+@media (min-width: 768px) {
+    .review-form {
+        padding: 32px;
+        max-width: 600px;
+        margin: 0 auto;
+    }
+    
+    .star-btn {
+        font-size: 36px;
+        padding: 10px;
+    }
+    
+    .stars-container {
+        gap: 12px;
+    }
+    
+    .form-footer {
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+    }
+    
+    .form-footer .btn-lg {
+        width: auto;
+        min-width: 200px;
+    }
+}
+
+/* ==================== DARK MODE ==================== */
+
+@media (prefers-color-scheme: dark) {
+    .review-form {
+        background: var(--surface-dark, #1f2937);
+    }
+    
+    .star-rating-input {
+        background: rgba(255, 255, 255, 0.05);
+    }
+    
+    .star-btn {
+        color: #4b5563;
+    }
+    
+    .form-input,
+    .form-textarea {
+        background: var(--surface-dark, #1f2937);
+        border-color: rgba(255, 255, 255, 0.1);
+        color: #f3f4f6;
+    }
+    
+    .form-input:focus,
+    .form-textarea:focus {
+        border-color: var(--primary-color, #60a5fa);
+        box-shadow: 0 0 0 4px rgba(96, 165, 250, 0.2);
+    }
+    
+    .review-success-message {
+        background: var(--surface-dark, #1f2937);
+    }
+    
+    .success-icon {
+        background: linear-gradient(135deg, rgba(16, 185, 129, 0.3), rgba(5, 150, 105, 0.3));
+    }
+}
+
+/* ==================== INLINE OWNER REPLY ==================== */
+
+.review-owner-reply {
+    margin-top: 16px;
+    padding: 16px;
+    background: rgba(59, 130, 246, 0.05);
+    border-left: 3px solid #3b82f6;
+    border-radius: 0 10px 10px 0;
+}
+
+.review-owner-reply-header {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 8px;
+    font-size: 13px;
+    color: #3b82f6;
+    font-weight: 500;
+}
+
+.review-owner-reply-header i {
+    font-size: 14px;
+}
+
+.review-owner-reply-text {
+    font-size: 14px;
+    color: var(--text-primary, #333);
+    line-height: 1.6;
+    margin: 0;
+}
+
+.review-owner-reply-date {
+    font-size: 12px;
+    color: var(--text-muted, #999);
+    margin-top: 8px;
+}
+
+@media (prefers-color-scheme: dark) {
+    .review-owner-reply {
+        background: rgba(96, 165, 250, 0.1);
+        border-color: #60a5fa;
+    }
+    
+    .review-owner-reply-header {
+        color: #60a5fa;
+    }
+}

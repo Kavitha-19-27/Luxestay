@@ -1,0 +1,1246 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Register Your Hotel - LuxeStay Partner Program">
+    <title>Register Your Hotel | LuxeStay</title>
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E💎%3C/text%3E%3C/svg%3E">
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    
+    <style>
+        :root {
+            --gold-400: #d4af37;
+            --gold-500: #c7a563;
+            --gold-600: #b8956a;
+            --dark-50: #f8fafc;
+            --dark-100: #f1f5f9;
+            --dark-200: #e2e8f0;
+            --dark-300: #cbd5e1;
+            --dark-400: #94a3b8;
+            --dark-500: #64748b;
+            --dark-600: #475569;
+            --dark-700: #334155;
+            --dark-800: #1e293b;
+            --dark-900: #0f172a;
+            --dark-950: #020617;
+            --success-500: #22c55e;
+            --error-500: #ef4444;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--dark-950);
+            color: var(--dark-100);
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+        
+        /* Header */
+        .header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 100;
+            padding: 1rem 2rem;
+            background: rgba(2, 6, 23, 0.8);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+        
+        .header-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            text-decoration: none;
+            color: var(--dark-100);
+        }
+        
+        .logo-icon {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, var(--gold-400), var(--gold-600));
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.25rem;
+        }
+        
+        .logo-text {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.5rem;
+            font-weight: 600;
+        }
+        
+        .header-actions a {
+            color: var(--dark-300);
+            text-decoration: none;
+            font-size: 0.9rem;
+            transition: color 0.2s;
+        }
+        
+        .header-actions a:hover {
+            color: var(--gold-400);
+        }
+        
+        /* Main Layout */
+        .main-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            min-height: 100vh;
+        }
+        
+        /* Left Panel - Hero */
+        .hero-panel {
+            position: relative;
+            background: linear-gradient(135deg, var(--dark-900) 0%, var(--dark-950) 100%);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            padding: 6rem 4rem 4rem;
+            overflow: hidden;
+        }
+        
+        .hero-panel::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle at 30% 50%, rgba(212, 175, 55, 0.08) 0%, transparent 50%);
+            animation: pulse 15s ease-in-out infinite;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); opacity: 0.5; }
+            50% { transform: scale(1.1); opacity: 0.8; }
+        }
+        
+        .hero-content {
+            position: relative;
+            z-index: 1;
+        }
+        
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem 1rem;
+            background: rgba(212, 175, 55, 0.1);
+            border: 1px solid rgba(212, 175, 55, 0.3);
+            border-radius: 2rem;
+            color: var(--gold-400);
+            font-size: 0.8rem;
+            font-weight: 500;
+            margin-bottom: 2rem;
+        }
+        
+        .hero-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 3.5rem;
+            font-weight: 600;
+            line-height: 1.1;
+            margin-bottom: 1.5rem;
+            background: linear-gradient(135deg, var(--dark-100), var(--gold-400));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .hero-subtitle {
+            font-size: 1.1rem;
+            color: var(--dark-400);
+            margin-bottom: 3rem;
+            max-width: 400px;
+        }
+        
+        .benefits-grid {
+            display: grid;
+            gap: 1.25rem;
+        }
+        
+        .benefit-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 1rem;
+            padding: 1rem;
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 12px;
+            transition: all 0.3s ease;
+        }
+        
+        .benefit-item:hover {
+            background: rgba(255, 255, 255, 0.04);
+            border-color: rgba(212, 175, 55, 0.2);
+            transform: translateX(5px);
+        }
+        
+        .benefit-icon {
+            width: 44px;
+            height: 44px;
+            background: linear-gradient(135deg, rgba(212, 175, 55, 0.2), rgba(212, 175, 55, 0.05));
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--gold-400);
+            font-size: 1.1rem;
+            flex-shrink: 0;
+        }
+        
+        .benefit-content h4 {
+            font-size: 0.95rem;
+            font-weight: 600;
+            color: var(--dark-100);
+            margin-bottom: 0.25rem;
+        }
+        
+        .benefit-content p {
+            font-size: 0.85rem;
+            color: var(--dark-400);
+        }
+        
+        /* Stats */
+        .stats-row {
+            display: flex;
+            gap: 2rem;
+            margin-top: 3rem;
+            padding-top: 2rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .stat-item {
+            text-align: center;
+        }
+        
+        .stat-value {
+            font-family: 'Playfair Display', serif;
+            font-size: 2rem;
+            font-weight: 600;
+            color: var(--gold-400);
+        }
+        
+        .stat-label {
+            font-size: 0.8rem;
+            color: var(--dark-400);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        /* Right Panel - Form */
+        .form-panel {
+            background: var(--dark-900);
+            padding: 6rem 4rem 4rem;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+        
+        .form-container {
+            max-width: 480px;
+            margin: 0 auto;
+            width: 100%;
+        }
+        
+        .form-header {
+            margin-bottom: 2rem;
+        }
+        
+        .form-header h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: 2rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+        
+        .form-header p {
+            color: var(--dark-400);
+            font-size: 0.95rem;
+        }
+        
+        /* Progress Steps */
+        .progress-steps {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 2.5rem;
+            position: relative;
+        }
+        
+        .progress-steps::before {
+            content: '';
+            position: absolute;
+            top: 20px;
+            left: 40px;
+            right: 40px;
+            height: 2px;
+            background: var(--dark-700);
+        }
+        
+        .step {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.5rem;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .step-number {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: var(--dark-800);
+            border: 2px solid var(--dark-600);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.9rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+        
+        .step.active .step-number {
+            background: var(--gold-400);
+            border-color: var(--gold-400);
+            color: var(--dark-950);
+        }
+        
+        .step.completed .step-number {
+            background: var(--success-500);
+            border-color: var(--success-500);
+            color: white;
+        }
+        
+        .step-label {
+            font-size: 0.75rem;
+            color: var(--dark-500);
+            font-weight: 500;
+        }
+        
+        .step.active .step-label {
+            color: var(--gold-400);
+        }
+        
+        /* Form Steps */
+        .form-step {
+            display: none;
+        }
+        
+        .form-step.active {
+            display: block;
+            animation: fadeIn 0.3s ease;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .section-title {
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: var(--gold-400);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+        
+        .section-title::after {
+            content: '';
+            flex: 1;
+            height: 1px;
+            background: linear-gradient(to right, var(--dark-700), transparent);
+        }
+        
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+        }
+        
+        .form-group {
+            margin-bottom: 1.25rem;
+        }
+        
+        .form-group label {
+            display: flex;
+            align-items: center;
+            gap: 0.25rem;
+            margin-bottom: 0.5rem;
+            font-size: 0.85rem;
+            font-weight: 500;
+            color: var(--dark-300);
+        }
+        
+        .form-group label .required {
+            color: var(--error-500);
+        }
+        
+        .input-wrapper {
+            position: relative;
+        }
+        
+        .input-wrapper i {
+            position: absolute;
+            left: 1rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--dark-500);
+            font-size: 0.9rem;
+            pointer-events: none;
+        }
+        
+        .input-wrapper input,
+        .input-wrapper select,
+        .input-wrapper textarea {
+            padding-left: 2.75rem;
+        }
+        
+        .form-input,
+        .form-select,
+        .form-textarea {
+            width: 100%;
+            padding: 0.875rem 1rem;
+            background: var(--dark-800);
+            border: 1px solid var(--dark-600);
+            border-radius: 10px;
+            color: var(--dark-100);
+            font-size: 0.9rem;
+            font-family: inherit;
+            transition: all 0.2s ease;
+        }
+        
+        .form-input:focus,
+        .form-select:focus,
+        .form-textarea:focus {
+            outline: none;
+            border-color: var(--gold-400);
+            box-shadow: 0 0 0 4px rgba(212, 175, 55, 0.1);
+            background: var(--dark-900);
+        }
+        
+        .form-input::placeholder,
+        .form-textarea::placeholder {
+            color: var(--dark-500);
+        }
+        
+        .form-textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
+        
+        .form-select {
+            cursor: pointer;
+            appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%239ca3af'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M19 9l-7 7-7-7'%3E%3C/path%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 1rem center;
+            background-size: 1rem;
+            padding-right: 3rem;
+        }
+        
+        /* Password Strength */
+        .password-strength {
+            margin-top: 0.5rem;
+        }
+        
+        .strength-bar {
+            height: 4px;
+            background: var(--dark-700);
+            border-radius: 2px;
+            overflow: hidden;
+            margin-bottom: 0.25rem;
+        }
+        
+        .strength-fill {
+            height: 100%;
+            width: 0%;
+            transition: all 0.3s ease;
+            border-radius: 2px;
+        }
+        
+        .strength-fill.weak { width: 33%; background: var(--error-500); }
+        .strength-fill.medium { width: 66%; background: #f59e0b; }
+        .strength-fill.strong { width: 100%; background: var(--success-500); }
+        
+        .strength-text {
+            font-size: 0.75rem;
+            color: var(--dark-500);
+        }
+        
+        /* Button Group */
+        .button-group {
+            display: flex;
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+        
+        .btn {
+            flex: 1;
+            padding: 1rem 1.5rem;
+            border-radius: 10px;
+            font-size: 0.95rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            border: none;
+        }
+        
+        .btn-secondary {
+            background: var(--dark-800);
+            color: var(--dark-300);
+            border: 1px solid var(--dark-600);
+        }
+        
+        .btn-secondary:hover {
+            background: var(--dark-700);
+            border-color: var(--dark-500);
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, var(--gold-400), var(--gold-600));
+            color: var(--dark-950);
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px -10px rgba(212, 175, 55, 0.4);
+        }
+        
+        .btn-primary:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+        
+        /* Form Footer */
+        .form-footer {
+            text-align: center;
+            margin-top: 2rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid var(--dark-700);
+            color: var(--dark-400);
+            font-size: 0.9rem;
+        }
+        
+        .form-footer a {
+            color: var(--gold-400);
+            text-decoration: none;
+            font-weight: 500;
+        }
+        
+        .form-footer a:hover {
+            text-decoration: underline;
+        }
+        
+        /* Success State */
+        .success-container {
+            display: none;
+            text-align: center;
+            padding: 2rem 0;
+        }
+        
+        .success-container.show {
+            display: block;
+            animation: fadeIn 0.4s ease;
+        }
+        
+        .success-animation {
+            width: 120px;
+            height: 120px;
+            margin: 0 auto 2rem;
+            position: relative;
+        }
+        
+        .success-circle {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            background: linear-gradient(135deg, rgba(34, 197, 94, 0.2), rgba(34, 197, 94, 0.05));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            animation: scaleIn 0.4s ease;
+        }
+        
+        @keyframes scaleIn {
+            from { transform: scale(0); }
+            to { transform: scale(1); }
+        }
+        
+        .success-circle i {
+            font-size: 3rem;
+            color: var(--success-500);
+            animation: checkmark 0.4s ease 0.2s both;
+        }
+        
+        @keyframes checkmark {
+            from { opacity: 0; transform: scale(0); }
+            to { opacity: 1; transform: scale(1); }
+        }
+        
+        .success-container h3 {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.75rem;
+            margin-bottom: 1rem;
+            color: var(--dark-100);
+        }
+        
+        .success-container p {
+            color: var(--dark-400);
+            margin-bottom: 2rem;
+            max-width: 350px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        
+        .success-details {
+            background: var(--dark-800);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+            text-align: left;
+        }
+        
+        .success-detail-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 0.75rem 0;
+            border-bottom: 1px solid var(--dark-700);
+        }
+        
+        .success-detail-item:last-child {
+            border-bottom: none;
+        }
+        
+        .success-detail-label {
+            color: var(--dark-400);
+            font-size: 0.85rem;
+        }
+        
+        .success-detail-value {
+            color: var(--dark-100);
+            font-weight: 500;
+        }
+        
+        /* Toast */
+        .toast-container {
+            position: fixed;
+            top: 100px;
+            right: 2rem;
+            z-index: 9999;
+        }
+        
+        .toast {
+            background: var(--dark-800);
+            border: 1px solid var(--dark-600);
+            border-radius: 10px;
+            padding: 1rem 1.25rem;
+            margin-top: 0.75rem;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            min-width: 300px;
+            box-shadow: 0 20px 50px -10px rgba(0, 0, 0, 0.5);
+            animation: slideIn 0.3s ease;
+        }
+        
+        @keyframes slideIn {
+            from { transform: translateX(100%); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+        
+        .toast.error {
+            border-color: rgba(239, 68, 68, 0.3);
+        }
+        
+        .toast.error i {
+            color: var(--error-500);
+        }
+        
+        .toast.success {
+            border-color: rgba(34, 197, 94, 0.3);
+        }
+        
+        .toast.success i {
+            color: var(--success-500);
+        }
+        
+        /* Responsive */
+        @media (max-width: 1024px) {
+            .main-container {
+                grid-template-columns: 1fr;
+            }
+            
+            .hero-panel {
+                display: none;
+            }
+            
+            .form-panel {
+                padding: 5rem 2rem 2rem;
+            }
+        }
+        
+        @media (max-width: 600px) {
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+            
+            .header {
+                padding: 1rem;
+            }
+            
+            .form-container {
+                padding: 0 0.5rem;
+            }
+            
+            .progress-steps::before {
+                left: 20px;
+                right: 20px;
+            }
+            
+            .step-label {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="header-content">
+            <a href="index.html" class="logo">
+                <div class="logo-icon">💎</div>
+                <span class="logo-text">LuxeStay</span>
+            </a>
+            <div class="header-actions">
+                <a href="login.html">Already a partner? <strong>Sign In</strong></a>
+            </div>
+        </div>
+    </header>
+
+    <div class="main-container">
+        <!-- Hero Panel -->
+        <div class="hero-panel">
+            <div class="hero-content">
+                <div class="hero-badge">
+                    <i class="fas fa-star"></i>
+                    Partner Program
+                </div>
+                
+                <h1 class="hero-title">Grow Your Hotel Business</h1>
+                <p class="hero-subtitle">Join India's premier luxury hotel network and connect with travelers seeking exceptional experiences.</p>
+                
+                <div class="benefits-grid">
+                    <div class="benefit-item">
+                        <div class="benefit-icon">
+                            <i class="fas fa-chart-line"></i>
+                        </div>
+                        <div class="benefit-content">
+                            <h4>Boost Visibility</h4>
+                            <p>Reach millions of premium travelers actively searching for luxury stays</p>
+                        </div>
+                    </div>
+                    
+                    <div class="benefit-item">
+                        <div class="benefit-icon">
+                            <i class="fas fa-desktop"></i>
+                        </div>
+                        <div class="benefit-content">
+                            <h4>Smart Dashboard</h4>
+                            <p>Manage bookings, rooms, and analytics in one intuitive interface</p>
+                        </div>
+                    </div>
+                    
+                    <div class="benefit-item">
+                        <div class="benefit-icon">
+                            <i class="fas fa-clock"></i>
+                        </div>
+                        <div class="benefit-content">
+                            <h4>Real-time Updates</h4>
+                            <p>Instant notifications for bookings, check-ins, and reviews</p>
+                        </div>
+                    </div>
+                    
+                    <div class="benefit-item">
+                        <div class="benefit-icon">
+                            <i class="fas fa-headset"></i>
+                        </div>
+                        <div class="benefit-content">
+                            <h4>24/7 Support</h4>
+                            <p>Dedicated partner support team to help you succeed</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="stats-row">
+                    <div class="stat-item">
+                        <div class="stat-value">500+</div>
+                        <div class="stat-label">Partner Hotels</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-value">2M+</div>
+                        <div class="stat-label">Travelers</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-value">98%</div>
+                        <div class="stat-label">Satisfaction</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Form Panel -->
+        <div class="form-panel">
+            <div class="form-container">
+                <div class="form-header">
+                    <h2>Register Your Hotel</h2>
+                    <p>Complete the form below to join our partner network</p>
+                </div>
+                
+                <!-- Progress Steps -->
+                <div class="progress-steps">
+                    <div class="step active" data-step="1">
+                        <div class="step-number">1</div>
+                        <span class="step-label">Your Details</span>
+                    </div>
+                    <div class="step" data-step="2">
+                        <div class="step-number">2</div>
+                        <span class="step-label">Hotel Info</span>
+                    </div>
+                    <div class="step" data-step="3">
+                        <div class="step-number">3</div>
+                        <span class="step-label">Set Password</span>
+                    </div>
+                </div>
+                
+                <!-- Registration Form -->
+                <form id="registrationForm">
+                    <!-- Step 1: Owner Details -->
+                    <div class="form-step active" data-step="1">
+                        <div class="section-title">
+                            <i class="fas fa-user"></i>
+                            Owner Information
+                        </div>
+                        
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>First Name <span class="required">*</span></label>
+                                <div class="input-wrapper">
+                                    <i class="fas fa-user"></i>
+                                    <input type="text" id="firstName" name="firstName" class="form-input" required placeholder="John">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label>Last Name <span class="required">*</span></label>
+                                <div class="input-wrapper">
+                                    <i class="fas fa-user"></i>
+                                    <input type="text" id="lastName" name="lastName" class="form-input" required placeholder="Smith">
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label>Email Address <span class="required">*</span></label>
+                            <div class="input-wrapper">
+                                <i class="fas fa-envelope"></i>
+                                <input type="email" id="ownerEmail" name="ownerEmail" class="form-input" required placeholder="john@yourhotel.com">
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label>Phone Number <span class="required">*</span></label>
+                            <div class="input-wrapper">
+                                <i class="fas fa-phone"></i>
+                                <input type="tel" id="ownerPhone" name="ownerPhone" class="form-input" required placeholder="+91 98765 43210">
+                            </div>
+                        </div>
+                        
+                        <div class="button-group">
+                            <button type="button" class="btn btn-primary" onclick="nextStep(2)">
+                                Continue <i class="fas fa-arrow-right"></i>
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <!-- Step 2: Hotel Info -->
+                    <div class="form-step" data-step="2">
+                        <div class="section-title">
+                            <i class="fas fa-hotel"></i>
+                            Hotel Information
+                        </div>
+                        
+                        <div class="form-group">
+                            <label>Hotel Name <span class="required">*</span></label>
+                            <div class="input-wrapper">
+                                <i class="fas fa-building"></i>
+                                <input type="text" id="hotelName" name="hotelName" class="form-input" required placeholder="The Grand Palace Hotel">
+                            </div>
+                        </div>
+                        
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>Star Rating <span class="required">*</span></label>
+                                <div class="input-wrapper">
+                                    <i class="fas fa-star"></i>
+                                    <select id="starRating" name="starRating" class="form-select" required>
+                                        <option value="">Select rating</option>
+                                        <option value="3">3 Star</option>
+                                        <option value="4">4 Star</option>
+                                        <option value="5">5 Star</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label>Hotel Email</label>
+                                <div class="input-wrapper">
+                                    <i class="fas fa-envelope"></i>
+                                    <input type="email" id="hotelEmail" name="hotelEmail" class="form-input" placeholder="reservations@hotel.com">
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label>Address <span class="required">*</span></label>
+                            <div class="input-wrapper">
+                                <i class="fas fa-map-marker-alt"></i>
+                                <input type="text" id="address" name="address" class="form-input" required placeholder="123 Main Street, Downtown">
+                            </div>
+                        </div>
+                        
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>City <span class="required">*</span></label>
+                                <div class="input-wrapper">
+                                    <i class="fas fa-city"></i>
+                                    <input type="text" id="city" name="city" class="form-input" required placeholder="Mumbai">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label>Country</label>
+                                <div class="input-wrapper">
+                                    <i class="fas fa-globe"></i>
+                                    <input type="text" id="country" name="country" class="form-input" value="India" placeholder="India">
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label>Description</label>
+                            <textarea id="description" name="description" class="form-textarea" placeholder="Tell us about your property, amenities, and what makes it special..."></textarea>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label>Hotel Image URL</label>
+                            <div class="input-wrapper">
+                                <i class="fas fa-image"></i>
+                                <input type="url" id="imageUrl" name="imageUrl" class="form-input" placeholder="https://example.com/hotel-image.jpg">
+                            </div>
+                            <small style="color: var(--dark-400); font-size: 0.8rem; margin-top: 0.25rem; display: block;">Add a URL of your hotel's main image (optional, can be added later)</small>
+                            <div id="hotelImagePreviewGroup" style="display: none; margin-top: 1rem;">
+                                <label style="color: rgba(255, 255, 255, 0.6); font-size: 0.85rem;">Image Preview:</label>
+                                <img id="hotelImagePreview" src="" alt="Hotel preview" style="width: 100%; max-height: 200px; object-fit: cover; border-radius: 12px; margin-top: 0.5rem; border: 1px solid rgba(255, 255, 255, 0.1);">
+                            </div>
+                        </div>
+                        
+                        <div class="button-group">
+                            <button type="button" class="btn btn-secondary" onclick="prevStep(1)">
+                                <i class="fas fa-arrow-left"></i> Back
+                            </button>
+                            <button type="button" class="btn btn-primary" onclick="nextStep(3)">
+                                Continue <i class="fas fa-arrow-right"></i>
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <!-- Step 3: Password -->
+                    <div class="form-step" data-step="3">
+                        <div class="section-title">
+                            <i class="fas fa-lock"></i>
+                            Create Your Password
+                        </div>
+                        
+                        <div class="form-group">
+                            <label>Password <span class="required">*</span></label>
+                            <div class="input-wrapper">
+                                <i class="fas fa-lock"></i>
+                                <input type="password" id="password" name="password" class="form-input" required placeholder="Create a strong password" minlength="8">
+                            </div>
+                            <div class="password-strength">
+                                <div class="strength-bar">
+                                    <div class="strength-fill" id="strengthFill"></div>
+                                </div>
+                                <span class="strength-text" id="strengthText">Enter a password</span>
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label>Confirm Password <span class="required">*</span></label>
+                            <div class="input-wrapper">
+                                <i class="fas fa-lock"></i>
+                                <input type="password" id="confirmPassword" name="confirmPassword" class="form-input" required placeholder="Confirm your password">
+                            </div>
+                        </div>
+                        
+                        <div class="button-group">
+                            <button type="button" class="btn btn-secondary" onclick="prevStep(2)">
+                                <i class="fas fa-arrow-left"></i> Back
+                            </button>
+                            <button type="submit" class="btn btn-primary" id="submitBtn">
+                                <span id="btnText">Submit Registration</span>
+                                <span id="btnLoader" style="display: none;"><i class="fas fa-spinner fa-spin"></i></span>
+                            </button>
+                        </div>
+                    </div>
+                </form>
+                
+                <!-- Success State -->
+                <div class="success-container" id="successContainer">
+                    <div class="success-animation">
+                        <div class="success-circle">
+                            <i class="fas fa-check"></i>
+                        </div>
+                    </div>
+                    <h3>Registration Submitted!</h3>
+                    <p>Thank you for registering with LuxeStay. Our team will review your application and contact you within 2-3 business days.</p>
+                    
+                    <div class="success-details" id="successDetails">
+                        <!-- Filled dynamically -->
+                    </div>
+                    
+                    <a href="index.html" class="btn btn-primary" style="display: inline-flex;">
+                        <i class="fas fa-home"></i> Return to Home
+                    </a>
+                </div>
+                
+                <div class="form-footer" id="formFooter">
+                    Already a partner? <a href="login.html">Sign in to your dashboard</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="toast-container" id="toastContainer"></div>
+
+    <script src="assets/js/config.js"></script>
+    <script src="assets/js/auth.js"></script>
+    <script src="assets/js/api.js"></script>
+    <script>
+        let currentStep = 1;
+        
+        // Helper function to validate URL
+        function isValidUrl(string) {
+            try {
+                new URL(string);
+                return true;
+            } catch (_) {
+                return false;
+            }
+        }
+        
+        // Image preview on URL input
+        document.getElementById('imageUrl').addEventListener('input', function() {
+            const url = this.value.trim();
+            const previewGroup = document.getElementById('hotelImagePreviewGroup');
+            const previewImg = document.getElementById('hotelImagePreview');
+            if (url && isValidUrl(url)) {
+                previewImg.src = url;
+                previewGroup.style.display = 'block';
+            } else {
+                previewGroup.style.display = 'none';
+            }
+        });
+        
+        function nextStep(step) {
+            const currentFormStep = document.querySelector(`.form-step[data-step="${currentStep}"]`);
+            const inputs = currentFormStep.querySelectorAll('input[required], select[required]');
+            
+            let isValid = true;
+            inputs.forEach(input => {
+                if (!input.value.trim()) {
+                    isValid = false;
+                    input.style.borderColor = '#ef4444';
+                    input.addEventListener('input', () => {
+                        input.style.borderColor = '';
+                    }, { once: true });
+                }
+            });
+            
+            if (!isValid) {
+                showToast('Please fill in all required fields', 'error');
+                return;
+            }
+            
+            // Mark current step as completed
+            document.querySelector(`.step[data-step="${currentStep}"]`).classList.remove('active');
+            document.querySelector(`.step[data-step="${currentStep}"]`).classList.add('completed');
+            
+            // Activate new step
+            currentStep = step;
+            document.querySelector(`.step[data-step="${step}"]`).classList.add('active');
+            
+            // Show/hide form steps
+            document.querySelectorAll('.form-step').forEach(s => s.classList.remove('active'));
+            document.querySelector(`.form-step[data-step="${step}"]`).classList.add('active');
+        }
+        
+        function prevStep(step) {
+            document.querySelector(`.step[data-step="${currentStep}"]`).classList.remove('active');
+            document.querySelector(`.step[data-step="${step}"]`).classList.remove('completed');
+            document.querySelector(`.step[data-step="${step}"]`).classList.add('active');
+            
+            currentStep = step;
+            
+            document.querySelectorAll('.form-step').forEach(s => s.classList.remove('active'));
+            document.querySelector(`.form-step[data-step="${step}"]`).classList.add('active');
+        }
+        
+        // Password strength checker
+        document.getElementById('password').addEventListener('input', function() {
+            const password = this.value;
+            const fill = document.getElementById('strengthFill');
+            const text = document.getElementById('strengthText');
+            
+            let strength = 0;
+            if (password.length >= 8) strength++;
+            if (/[A-Z]/.test(password)) strength++;
+            if (/[0-9]/.test(password)) strength++;
+            if (/[^A-Za-z0-9]/.test(password)) strength++;
+            
+            fill.className = 'strength-fill';
+            if (strength <= 1) {
+                fill.classList.add('weak');
+                text.textContent = 'Weak password';
+            } else if (strength <= 2) {
+                fill.classList.add('medium');
+                text.textContent = 'Medium strength';
+            } else {
+                fill.classList.add('strong');
+                text.textContent = 'Strong password';
+            }
+        });
+        
+        // Form submission
+        document.getElementById('registrationForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const password = document.getElementById('password').value;
+            const confirmPassword = document.getElementById('confirmPassword').value;
+            
+            if (password !== confirmPassword) {
+                showToast('Passwords do not match', 'error');
+                return;
+            }
+            
+            if (password.length < 8) {
+                showToast('Password must be at least 8 characters', 'error');
+                return;
+            }
+            
+            const submitBtn = document.getElementById('submitBtn');
+            const btnText = document.getElementById('btnText');
+            const btnLoader = document.getElementById('btnLoader');
+            
+            submitBtn.disabled = true;
+            btnText.style.display = 'none';
+            btnLoader.style.display = 'inline';
+            
+            try {
+                const formData = {
+                    firstName: document.getElementById('firstName').value,
+                    lastName: document.getElementById('lastName').value,
+                    ownerEmail: document.getElementById('ownerEmail').value,
+                    ownerPhone: document.getElementById('ownerPhone').value,
+                    hotelName: document.getElementById('hotelName').value,
+                    hotelEmail: document.getElementById('hotelEmail').value || null,
+                    starRating: parseInt(document.getElementById('starRating').value),
+                    address: document.getElementById('address').value,
+                    city: document.getElementById('city').value,
+                    country: document.getElementById('country').value || 'India',
+                    description: document.getElementById('description').value || null,
+                    heroImageUrl: document.getElementById('imageUrl').value || null,
+                    password: password
+                };
+                
+                await API.hotelRegistration.register(formData);
+                
+                // Show success
+                document.getElementById('registrationForm').style.display = 'none';
+                document.querySelector('.progress-steps').style.display = 'none';
+                document.getElementById('formFooter').style.display = 'none';
+                document.getElementById('successContainer').classList.add('show');
+                
+                document.getElementById('successDetails').innerHTML = `
+                    <div class="success-detail-item">
+                        <span class="success-detail-label">Hotel Name</span>
+                        <span class="success-detail-value">${formData.hotelName}</span>
+                    </div>
+                    <div class="success-detail-item">
+                        <span class="success-detail-label">Owner Email</span>
+                        <span class="success-detail-value">${formData.ownerEmail}</span>
+                    </div>
+                    <div class="success-detail-item">
+                        <span class="success-detail-label">Status</span>
+                        <span class="success-detail-value" style="color: #f59e0b;">Pending Review</span>
+                    </div>
+                `;
+                
+            } catch (error) {
+                console.error('Registration failed:', error);
+                showToast(error.message || 'Registration failed. Please try again.', 'error');
+                
+                submitBtn.disabled = false;
+                btnText.style.display = 'inline';
+                btnLoader.style.display = 'none';
+            }
+        });
+        
+        function showToast(message, type = 'info') {
+            const container = document.getElementById('toastContainer');
+            const toast = document.createElement('div');
+            toast.className = `toast ${type}`;
+            toast.innerHTML = `
+                <i class="fas fa-${type === 'error' ? 'exclamation-circle' : 'check-circle'}"></i>
+                <span>${message}</span>
+            `;
+            container.appendChild(toast);
+            
+            setTimeout(() => {
+                toast.style.opacity = '0';
+                toast.style.transform = 'translateX(100%)';
+                setTimeout(() => toast.remove(), 300);
+            }, 4000);
+        }
+    </script>
+</body>
+</html>

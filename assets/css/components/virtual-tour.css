@@ -1,0 +1,609 @@
+/**
+ * Virtual Tour Component Styles
+ * 360° panorama viewer with mobile gyroscope support
+ * 
+ * ACCESSIBILITY:
+ * - Keyboard navigation support
+ * - Screen reader announcements
+ * - Reduced motion support
+ * - High contrast mode
+ */
+
+/* =====================================================
+   VIRTUAL TOUR CONTAINER
+   ===================================================== */
+
+.virtual-tour-container {
+    position: relative;
+    width: 100%;
+    background: #000;
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    touch-action: pan-y;
+}
+
+/* Aspect ratio based on viewport */
+.virtual-tour-viewer {
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    position: relative;
+    background: #1a1a1a;
+}
+
+@media (max-width: 640px) {
+    .virtual-tour-viewer {
+        aspect-ratio: 4 / 3;
+    }
+}
+
+/* Fullscreen mode */
+.virtual-tour-container.fullscreen {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 9999;
+    border-radius: 0;
+}
+
+.virtual-tour-container.fullscreen .virtual-tour-viewer {
+    aspect-ratio: auto;
+    height: 100%;
+}
+
+/* =====================================================
+   TOUR HEADER
+   ===================================================== */
+
+.virtual-tour-header {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    padding: var(--spacing-md);
+    background: linear-gradient(to bottom, rgba(0, 0, 0, 0.7), transparent);
+    z-index: 10;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    pointer-events: none;
+}
+
+.virtual-tour-header > * {
+    pointer-events: auto;
+}
+
+.virtual-tour-title {
+    color: white;
+    font-size: 1.125rem;
+    font-weight: 600;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+}
+
+.virtual-tour-scene-name {
+    color: rgba(255, 255, 255, 0.8);
+    font-size: 0.875rem;
+    margin-top: var(--spacing-xs);
+}
+
+/* =====================================================
+   TOUR CONTROLS
+   ===================================================== */
+
+.virtual-tour-controls {
+    position: absolute;
+    bottom: var(--spacing-md);
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: var(--spacing-sm);
+    z-index: 10;
+    padding: var(--spacing-sm);
+    background: rgba(0, 0, 0, 0.6);
+    border-radius: var(--radius-full);
+    backdrop-filter: blur(8px);
+}
+
+.virtual-tour-control-btn {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    border: none;
+    background: rgba(255, 255, 255, 0.2);
+    color: white;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.2s ease, transform 0.2s ease;
+}
+
+.virtual-tour-control-btn:hover {
+    background: rgba(255, 255, 255, 0.3);
+    transform: scale(1.1);
+}
+
+.virtual-tour-control-btn:active {
+    transform: scale(0.95);
+}
+
+.virtual-tour-control-btn:focus-visible {
+    outline: 2px solid var(--gold-primary);
+    outline-offset: 2px;
+}
+
+.virtual-tour-control-btn.active {
+    background: var(--gold-primary);
+}
+
+.virtual-tour-control-btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    transform: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .virtual-tour-control-btn {
+        transition: none;
+    }
+    
+    .virtual-tour-control-btn:hover,
+    .virtual-tour-control-btn:active {
+        transform: none;
+    }
+}
+
+/* Right-side controls */
+.virtual-tour-side-controls {
+    position: absolute;
+    right: var(--spacing-md);
+    top: 50%;
+    transform: translateY(-50%);
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-sm);
+    z-index: 10;
+}
+
+/* =====================================================
+   ZOOM CONTROLS
+   ===================================================== */
+
+.virtual-tour-zoom {
+    display: flex;
+    flex-direction: column;
+    background: rgba(0, 0, 0, 0.6);
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    backdrop-filter: blur(8px);
+}
+
+.virtual-tour-zoom-btn {
+    width: 36px;
+    height: 36px;
+    border: none;
+    background: transparent;
+    color: white;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.2s ease;
+}
+
+.virtual-tour-zoom-btn:hover {
+    background: rgba(255, 255, 255, 0.2);
+}
+
+.virtual-tour-zoom-btn:first-child {
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* =====================================================
+   SCENE THUMBNAILS
+   ===================================================== */
+
+.virtual-tour-scenes {
+    position: absolute;
+    bottom: calc(var(--spacing-md) + 56px);
+    left: var(--spacing-md);
+    right: var(--spacing-md);
+    display: flex;
+    gap: var(--spacing-sm);
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    scrollbar-width: none;
+    padding: var(--spacing-sm);
+    background: rgba(0, 0, 0, 0.6);
+    border-radius: var(--radius-lg);
+    backdrop-filter: blur(8px);
+    z-index: 10;
+}
+
+.virtual-tour-scenes::-webkit-scrollbar {
+    display: none;
+}
+
+.virtual-tour-scene-thumb {
+    flex: 0 0 80px;
+    height: 60px;
+    border-radius: var(--radius-md);
+    overflow: hidden;
+    cursor: pointer;
+    scroll-snap-align: start;
+    border: 2px solid transparent;
+    transition: border-color 0.2s ease, transform 0.2s ease;
+    position: relative;
+}
+
+.virtual-tour-scene-thumb:hover {
+    border-color: rgba(255, 255, 255, 0.5);
+    transform: scale(1.05);
+}
+
+.virtual-tour-scene-thumb.active {
+    border-color: var(--gold-primary);
+}
+
+.virtual-tour-scene-thumb img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.virtual-tour-scene-thumb-label {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding: 2px 4px;
+    background: rgba(0, 0, 0, 0.7);
+    color: white;
+    font-size: 0.625rem;
+    text-align: center;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .virtual-tour-scene-thumb {
+        transition: none;
+    }
+    
+    .virtual-tour-scene-thumb:hover {
+        transform: none;
+    }
+}
+
+/* Hide thumbnails on mobile in portrait */
+@media (max-width: 480px) and (orientation: portrait) {
+    .virtual-tour-scenes {
+        display: none;
+    }
+}
+
+/* =====================================================
+   HOTSPOTS
+   ===================================================== */
+
+.virtual-tour-hotspot {
+    position: absolute;
+    transform: translate(-50%, -50%);
+    cursor: pointer;
+    z-index: 5;
+}
+
+.virtual-tour-hotspot-icon {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: var(--gold-primary);
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+    animation: hotspot-pulse 2s infinite;
+}
+
+.virtual-tour-hotspot:hover .virtual-tour-hotspot-icon {
+    transform: scale(1.15);
+}
+
+.virtual-tour-hotspot-label {
+    position: absolute;
+    top: calc(100% + 8px);
+    left: 50%;
+    transform: translateX(-50%);
+    background: rgba(0, 0, 0, 0.8);
+    color: white;
+    padding: 4px 8px;
+    border-radius: var(--radius-sm);
+    font-size: 0.75rem;
+    white-space: nowrap;
+    opacity: 0;
+    transition: opacity 0.2s ease;
+    pointer-events: none;
+}
+
+.virtual-tour-hotspot:hover .virtual-tour-hotspot-label {
+    opacity: 1;
+}
+
+@keyframes hotspot-pulse {
+    0%, 100% { box-shadow: 0 0 0 0 rgba(202, 157, 69, 0.4); }
+    50% { box-shadow: 0 0 0 10px rgba(202, 157, 69, 0); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .virtual-tour-hotspot-icon {
+        animation: none;
+    }
+    
+    .virtual-tour-hotspot:hover .virtual-tour-hotspot-icon {
+        transform: none;
+    }
+}
+
+/* Hotspot types */
+.virtual-tour-hotspot--scene .virtual-tour-hotspot-icon {
+    background: var(--gold-primary);
+}
+
+.virtual-tour-hotspot--info .virtual-tour-hotspot-icon {
+    background: #3b82f6;
+}
+
+.virtual-tour-hotspot--link .virtual-tour-hotspot-icon {
+    background: #10b981;
+}
+
+/* =====================================================
+   INFO PANEL
+   ===================================================== */
+
+.virtual-tour-info-panel {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: rgba(0, 0, 0, 0.9);
+    color: white;
+    padding: var(--spacing-lg);
+    border-radius: var(--radius-lg);
+    max-width: 400px;
+    width: 90%;
+    z-index: 20;
+    display: none;
+    animation: fadeInScale 0.2s ease;
+}
+
+.virtual-tour-info-panel.visible {
+    display: block;
+}
+
+.virtual-tour-info-panel-close {
+    position: absolute;
+    top: var(--spacing-sm);
+    right: var(--spacing-sm);
+    background: none;
+    border: none;
+    color: white;
+    cursor: pointer;
+    padding: var(--spacing-xs);
+}
+
+.virtual-tour-info-panel h3 {
+    margin-bottom: var(--spacing-sm);
+}
+
+@keyframes fadeInScale {
+    from {
+        opacity: 0;
+        transform: translate(-50%, -50%) scale(0.9);
+    }
+    to {
+        opacity: 1;
+        transform: translate(-50%, -50%) scale(1);
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .virtual-tour-info-panel {
+        animation: none;
+    }
+}
+
+/* =====================================================
+   LOADING STATE
+   ===================================================== */
+
+.virtual-tour-loading {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background: #1a1a1a;
+    color: white;
+    z-index: 15;
+}
+
+.virtual-tour-loading-spinner {
+    width: 48px;
+    height: 48px;
+    border: 3px solid rgba(255, 255, 255, 0.2);
+    border-top-color: var(--gold-primary);
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+.virtual-tour-loading-text {
+    margin-top: var(--spacing-md);
+    font-size: 0.875rem;
+    color: rgba(255, 255, 255, 0.7);
+}
+
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .virtual-tour-loading-spinner {
+        animation: none;
+        border-top-color: var(--gold-primary);
+        border-right-color: var(--gold-primary);
+    }
+}
+
+/* =====================================================
+   GYROSCOPE INDICATOR
+   ===================================================== */
+
+.virtual-tour-gyro-indicator {
+    position: absolute;
+    top: var(--spacing-md);
+    right: var(--spacing-md);
+    background: rgba(0, 0, 0, 0.6);
+    color: white;
+    padding: var(--spacing-xs) var(--spacing-sm);
+    border-radius: var(--radius-full);
+    font-size: 0.75rem;
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-xs);
+    z-index: 10;
+}
+
+.virtual-tour-gyro-indicator i {
+    color: var(--gold-primary);
+}
+
+.virtual-tour-gyro-indicator.inactive i {
+    color: var(--text-secondary);
+}
+
+/* =====================================================
+   FALLBACK MODE
+   ===================================================== */
+
+.virtual-tour-fallback {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    background: #1a1a1a;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    text-align: center;
+    padding: var(--spacing-lg);
+}
+
+.virtual-tour-fallback-icon {
+    font-size: 3rem;
+    color: var(--gold-primary);
+    margin-bottom: var(--spacing-md);
+}
+
+.virtual-tour-fallback-text {
+    font-size: 0.875rem;
+    color: rgba(255, 255, 255, 0.7);
+    max-width: 300px;
+}
+
+.virtual-tour-fallback-gallery {
+    display: flex;
+    gap: var(--spacing-sm);
+    margin-top: var(--spacing-lg);
+    overflow-x: auto;
+    max-width: 100%;
+}
+
+.virtual-tour-fallback-image {
+    width: 80px;
+    height: 60px;
+    border-radius: var(--radius-md);
+    overflow: hidden;
+    flex-shrink: 0;
+}
+
+.virtual-tour-fallback-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+/* =====================================================
+   TOUR BUTTON (Entry Point)
+   ===================================================== */
+
+.virtual-tour-button {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--spacing-sm);
+    padding: var(--spacing-sm) var(--spacing-md);
+    background: linear-gradient(135deg, var(--gold-primary) 0%, var(--gold-secondary) 100%);
+    color: white;
+    border: none;
+    border-radius: var(--radius-md);
+    font-weight: 600;
+    cursor: pointer;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.virtual-tour-button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(202, 157, 69, 0.4);
+}
+
+.virtual-tour-button:active {
+    transform: translateY(0);
+}
+
+.virtual-tour-button i {
+    font-size: 1.125rem;
+}
+
+.virtual-tour-button-badge {
+    background: rgba(255, 255, 255, 0.2);
+    padding: 2px 6px;
+    border-radius: var(--radius-full);
+    font-size: 0.75rem;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .virtual-tour-button {
+        transition: none;
+    }
+    
+    .virtual-tour-button:hover,
+    .virtual-tour-button:active {
+        transform: none;
+    }
+}
+
+/* =====================================================
+   HIGH CONTRAST MODE
+   ===================================================== */
+
+@media (prefers-contrast: high) {
+    .virtual-tour-control-btn {
+        border: 2px solid white;
+    }
+    
+    .virtual-tour-scene-thumb {
+        border-width: 3px;
+    }
+    
+    .virtual-tour-hotspot-icon {
+        border: 2px solid white;
+    }
+}

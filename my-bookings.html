@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="View and manage your bookings - LuxeStay">
+    <title>My Bookings | LuxeStay</title>
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E💎%3C/text%3E%3C/svg%3E">
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    
+    <link rel="stylesheet" href="assets/css/base.css">
+    <link rel="stylesheet" href="assets/css/components.css">
+    <link rel="stylesheet" href="assets/css/layout.css">
+    <link rel="stylesheet" href="assets/css/pages/my-bookings.css">
+    <link rel="stylesheet" href="assets/css/pages/itinerary.css">
+    <link rel="stylesheet" href="assets/css/premium-enhancements.css">
+    <link rel="stylesheet" href="assets/css/components/reviews.css">
+    <link rel="stylesheet" href="assets/css/components/chatbot.css">
+    <link rel="stylesheet" href="assets/css/components/voice-assistant.css">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar navbar-dark" id="navbar">
+        <div class="container navbar-container">
+            <a href="index.html" class="navbar-brand">
+                <span class="brand-icon"><i class="fas fa-gem"></i></span>
+                <span class="brand-text">LuxeStay</span>
+            </a>
+            <button class="navbar-toggle" id="navbarToggle" aria-label="Toggle navigation">
+                <span class="hamburger"></span>
+            </button>
+            <div class="navbar-menu" id="navbarMenu">
+                <ul class="navbar-nav">
+                    <li class="nav-item"><a href="index.html" class="nav-link">Home</a></li>
+                    <li class="nav-item"><a href="hotels.html" class="nav-link">Hotels</a></li>
+                    <li class="nav-item"><a href="map.html" class="nav-link">Map</a></li>
+                    <li class="nav-item nav-item-auth" id="navAuth"></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Page Header -->
+    <header class="page-header">
+        <div class="container">
+            <h1 class="page-header-title">My <span class="text-gold">Bookings</span></h1>
+            <p class="page-header-subtitle">View and manage your hotel reservations</p>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="section">
+        <div class="container">
+            <!-- Tabs -->
+            <div class="bookings-tabs">
+                <button class="tab-btn active" data-tab="upcoming">
+                    <i class="fas fa-calendar-alt"></i>
+                    Upcoming
+                    <span class="tab-count" id="upcomingCount">0</span>
+                </button>
+                <button class="tab-btn" data-tab="past">
+                    <i class="fas fa-history"></i>
+                    Past
+                    <span class="tab-count" id="pastCount">0</span>
+                </button>
+                <button class="tab-btn" data-tab="cancelled">
+                    <i class="fas fa-times-circle"></i>
+                    Cancelled
+                    <span class="tab-count" id="cancelledCount">0</span>
+                </button>
+            </div>
+            
+            <!-- Bookings List -->
+            <div class="bookings-list" id="bookingsList">
+                <div class="loading-spinner">
+                    <div class="spinner"></div>
+                    <p>Loading your bookings...</p>
+                </div>
+            </div>
+
+            <!-- Itinerary Section (shown when viewing itinerary) -->
+            <div id="itinerary-section" style="display: none;"></div>
+        </div>
+    </main>
+
+    <!-- Cancel Modal -->
+    <div class="modal-backdrop" id="cancelModalBackdrop"></div>
+    <div class="modal" id="cancelModal">
+        <div class="modal-header">
+            <h3 class="modal-title">Cancel Booking</h3>
+            <button class="modal-close" id="closeCancelModal">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        <div class="modal-body">
+            <p>Are you sure you want to cancel this booking?</p>
+            <p class="text-muted">Booking Reference: <strong id="cancelBookingRef"></strong></p>
+        </div>
+        <div class="modal-footer">
+            <button class="btn btn-ghost" id="cancelModalNo">Keep Booking</button>
+            <button class="btn btn-danger" id="cancelModalYes">Yes, Cancel</button>
+        </div>
+    </div>
+
+    <!-- Review Modal -->
+    <div class="modal-backdrop" id="reviewModalBackdrop"></div>
+    <div class="modal modal-lg" id="reviewModal">
+        <div class="modal-header">
+            <h3 class="modal-title">
+                <i class="fas fa-star text-gold"></i>
+                Write a Review
+            </h3>
+            <button class="modal-close" id="closeReviewModal">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        <div class="modal-body" id="reviewModalBody">
+            <!-- Review form will be rendered here -->
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-bottom">
+                <p>&copy; 2026 LuxeStay. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <div class="toast-container" id="toastContainer"></div>
+
+    <script src="assets/js/config.js"></script>
+    <script src="assets/js/auth.js"></script>
+    <script src="assets/js/api.js"></script>
+    <script src="assets/js/ui.js"></script>
+    <script src="assets/js/reviews.js"></script>
+    <script src="assets/js/itinerary.js"></script>
+    <script src="assets/js/pages/my-bookings.js"></script>
+    <!-- Production Chatbot (Backend-Driven) -->
+    <script src="assets/js/chatbot-api.js?v=2"></script>
+    <script src="assets/js/chatbot-ui.js?v=2"></script>
+    <!-- Voice Assistant -->
+    <script src="assets/js/voice-assistant.js?v=1"></script>
+</body>
+</html>

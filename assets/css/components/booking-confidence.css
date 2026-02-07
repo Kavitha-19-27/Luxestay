@@ -1,0 +1,456 @@
+/**
+ * Booking Confidence & Risk Intelligence Styles
+ * 
+ * A clean, professional design that presents booking intelligence
+ * in a reassuring, non-alarming way.
+ */
+
+/* ==================== Confidence Panel ==================== */
+
+.confidence-panel {
+    background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+    border: 1px solid #e2e8f0;
+    border-radius: 16px;
+    padding: 24px;
+    margin: 20px 0;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+}
+
+.confidence-panel.fade-in {
+    animation: fadeIn 0.3s ease-out;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* ==================== Header ==================== */
+
+.confidence-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 16px;
+}
+
+.confidence-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 16px;
+    border-radius: 24px;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+}
+
+.confidence-badge i {
+    font-size: 14px;
+}
+
+.confidence-score {
+    display: flex;
+    align-items: baseline;
+    gap: 2px;
+}
+
+.score-value {
+    font-size: 32px;
+    font-weight: 700;
+    color: #1e293b;
+}
+
+.score-max {
+    font-size: 14px;
+    color: #64748b;
+}
+
+/* ==================== Summary ==================== */
+
+.confidence-summary {
+    font-size: 15px;
+    color: #475569;
+    line-height: 1.6;
+    margin-bottom: 20px;
+    padding-bottom: 16px;
+    border-bottom: 1px solid #e2e8f0;
+}
+
+/* ==================== Signal Cards ==================== */
+
+.confidence-signals {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 16px;
+    margin-bottom: 20px;
+}
+
+.signal-card {
+    background: white;
+    border: 1px solid #e2e8f0;
+    border-radius: 12px;
+    padding: 16px;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.signal-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+.signal-header {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 12px;
+}
+
+.signal-header i {
+    color: #64748b;
+    font-size: 14px;
+}
+
+.signal-title {
+    font-size: 12px;
+    font-weight: 600;
+    color: #64748b;
+    text-transform: uppercase;
+    letter-spacing: 0.3px;
+}
+
+.signal-body {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 8px;
+}
+
+.signal-status {
+    font-size: 14px;
+    font-weight: 600;
+    min-width: 70px;
+}
+
+.signal-status.score-high {
+    color: #10b981;
+}
+
+.signal-status.score-medium {
+    color: #f59e0b;
+}
+
+.signal-status.score-low {
+    color: #ef4444;
+}
+
+.signal-bar {
+    flex: 1;
+    height: 6px;
+    background: #e2e8f0;
+    border-radius: 3px;
+    overflow: hidden;
+}
+
+.signal-bar-fill {
+    height: 100%;
+    border-radius: 3px;
+    transition: width 0.5s ease-out;
+}
+
+.signal-bar-fill.score-high {
+    background: linear-gradient(90deg, #10b981, #059669);
+}
+
+.signal-bar-fill.score-medium {
+    background: linear-gradient(90deg, #f59e0b, #d97706);
+}
+
+.signal-bar-fill.score-low {
+    background: linear-gradient(90deg, #ef4444, #dc2626);
+}
+
+.signal-explanation {
+    font-size: 12px;
+    color: #64748b;
+    line-height: 1.4;
+    margin: 0;
+}
+
+/* ==================== Insights ==================== */
+
+.confidence-insights {
+    margin-bottom: 20px;
+}
+
+.confidence-insights h4 {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 14px;
+    font-weight: 600;
+    color: #1e293b;
+    margin-bottom: 12px;
+}
+
+.confidence-insights h4 i {
+    color: #fbbf24;
+}
+
+.insight-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    padding: 12px 16px;
+    background: white;
+    border-radius: 8px;
+    margin-bottom: 8px;
+    border-left: 3px solid #e2e8f0;
+}
+
+.insight-item.insight-highlight {
+    border-left-color: #10b981;
+    background: #f0fdf4;
+}
+
+.insight-item.insight-info {
+    border-left-color: #3b82f6;
+    background: #eff6ff;
+}
+
+.insight-item.insight-tip {
+    border-left-color: #fbbf24;
+    background: #fffbeb;
+}
+
+.insight-item i {
+    color: #64748b;
+    font-size: 14px;
+    margin-top: 2px;
+}
+
+.insight-highlight i {
+    color: #10b981;
+}
+
+.insight-info i {
+    color: #3b82f6;
+}
+
+.insight-tip i {
+    color: #fbbf24;
+}
+
+.insight-content {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.insight-title {
+    font-size: 13px;
+    font-weight: 600;
+    color: #1e293b;
+}
+
+.insight-message {
+    font-size: 12px;
+    color: #64748b;
+}
+
+/* ==================== Disclaimer ==================== */
+
+.confidence-disclaimer {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    padding: 12px 16px;
+    background: #f1f5f9;
+    border-radius: 8px;
+    border: 1px dashed #cbd5e1;
+}
+
+.confidence-disclaimer i {
+    color: #94a3b8;
+    font-size: 12px;
+    margin-top: 2px;
+}
+
+.confidence-disclaimer p {
+    font-size: 11px;
+    color: #64748b;
+    line-height: 1.5;
+    margin: 0;
+}
+
+/* ==================== Loading State ==================== */
+
+.confidence-loading {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 40px;
+    color: #64748b;
+}
+
+.loading-spinner {
+    width: 32px;
+    height: 32px;
+    border: 3px solid #e2e8f0;
+    border-top-color: var(--primary-color, #6366f1);
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+    margin-bottom: 12px;
+}
+
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+.confidence-loading p {
+    font-size: 14px;
+    margin: 0;
+}
+
+/* ==================== Error State ==================== */
+
+.confidence-error {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 16px 20px;
+    background: #fef2f2;
+    border: 1px solid #fecaca;
+    border-radius: 12px;
+    color: #dc2626;
+}
+
+.confidence-error i {
+    font-size: 18px;
+}
+
+.confidence-error p {
+    font-size: 14px;
+    margin: 0;
+}
+
+/* ==================== Compact Widget ==================== */
+
+.confidence-widget {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 4px 10px;
+    background: rgba(0, 0, 0, 0.03);
+    border-radius: 12px;
+    font-size: 11px;
+    font-weight: 500;
+    cursor: help;
+}
+
+.confidence-widget i {
+    font-size: 12px;
+}
+
+/* ==================== Level-specific Panel Styling ==================== */
+
+.confidence-panel[data-level="HIGH"] {
+    border-color: #bbf7d0;
+}
+
+.confidence-panel[data-level="MEDIUM"] {
+    border-color: #fde68a;
+}
+
+.confidence-panel[data-level="LOW"] {
+    border-color: #fecaca;
+}
+
+/* ==================== Responsive ==================== */
+
+@media (max-width: 768px) {
+    .confidence-panel {
+        padding: 16px;
+    }
+
+    .confidence-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 12px;
+    }
+
+    .confidence-signals {
+        grid-template-columns: 1fr;
+    }
+
+    .signal-card {
+        padding: 12px;
+    }
+}
+
+/* ==================== Dark Mode Support ==================== */
+
+@media (prefers-color-scheme: dark) {
+    .confidence-panel {
+        background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+        border-color: #334155;
+    }
+
+    .confidence-summary {
+        color: #cbd5e1;
+        border-bottom-color: #334155;
+    }
+
+    .score-value {
+        color: #f1f5f9;
+    }
+
+    .signal-card {
+        background: #1e293b;
+        border-color: #334155;
+    }
+
+    .signal-title,
+    .signal-explanation {
+        color: #94a3b8;
+    }
+
+    .signal-bar {
+        background: #334155;
+    }
+
+    .insight-item {
+        background: #1e293b;
+    }
+
+    .insight-item.insight-highlight {
+        background: #052e16;
+    }
+
+    .insight-item.insight-info {
+        background: #1e3a5f;
+    }
+
+    .insight-item.insight-tip {
+        background: #422006;
+    }
+
+    .insight-title {
+        color: #f1f5f9;
+    }
+
+    .confidence-disclaimer {
+        background: #1e293b;
+        border-color: #475569;
+    }
+}

@@ -1,0 +1,702 @@
+/**
+ * Loyalty Program Styles
+ * Mobile-first responsive design
+ * 
+ * REQUIREMENTS:
+ * - Mobile-friendly progress indicators
+ * - Tier badges scale cleanly
+ * - Touch-friendly interactions
+ */
+
+/* =============== CSS VARIABLES =============== */
+:root {
+    --loyalty-bronze: #CD7F32;
+    --loyalty-silver: #C0C0C0;
+    --loyalty-gold: #FFD700;
+    --loyalty-platinum: #E5E4E2;
+    --loyalty-diamond: #B9F2FF;
+    
+    --loyalty-card-bg: #ffffff;
+    --loyalty-text: #1f2937;
+    --loyalty-text-muted: #6b7280;
+    --loyalty-border: #e5e7eb;
+    --loyalty-xp-positive: #22c55e;
+    --loyalty-xp-negative: #ef4444;
+}
+
+/* Dark mode */
+@media (prefers-color-scheme: dark) {
+    :root {
+        --loyalty-card-bg: #1f2937;
+        --loyalty-text: #f9fafb;
+        --loyalty-text-muted: #9ca3af;
+        --loyalty-border: #374151;
+    }
+}
+
+/* =============== DASHBOARD LAYOUT =============== */
+.loyalty-dashboard {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    padding: 1rem;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+/* =============== HEADER / TIER DISPLAY =============== */
+.loyalty-header {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 1.5rem;
+    border-radius: 1rem;
+    color: #000;
+    text-shadow: 0 1px 2px rgba(255,255,255,0.3);
+}
+
+.tier-badge-large {
+    width: 64px;
+    height: 64px;
+    min-width: 64px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(255,255,255,0.25);
+    border-radius: 50%;
+    font-size: 1.75rem;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+}
+
+.tier-info {
+    display: flex;
+    flex-direction: column;
+}
+
+.tier-label {
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    opacity: 0.8;
+}
+
+.tier-name {
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin: 0.125rem 0;
+}
+
+.member-since {
+    font-size: 0.8rem;
+    opacity: 0.7;
+}
+
+/* =============== XP PROGRESS =============== */
+.xp-progress-card {
+    background: var(--loyalty-card-bg);
+    border-radius: 0.75rem;
+    padding: 1.25rem;
+    border: 1px solid var(--loyalty-border);
+}
+
+.xp-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 1rem;
+}
+
+.xp-current .xp-value {
+    display: block;
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--loyalty-text);
+    line-height: 1;
+}
+
+.xp-current .xp-label,
+.xp-next .xp-label {
+    font-size: 0.75rem;
+    color: var(--loyalty-text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+}
+
+.xp-next {
+    text-align: right;
+}
+
+.xp-next .xp-needed {
+    display: block;
+    font-size: 1.125rem;
+    font-weight: 600;
+    color: var(--loyalty-text);
+}
+
+.xp-max {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: var(--loyalty-gold);
+    font-weight: 600;
+}
+
+.xp-progress-bar {
+    height: 12px;
+    background: var(--loyalty-border);
+    border-radius: 6px;
+    overflow: hidden;
+}
+
+.xp-progress-fill {
+    height: 100%;
+    border-radius: 6px;
+    transition: width 1s ease-out;
+    background: linear-gradient(90deg, var(--loyalty-gold), var(--loyalty-gold));
+}
+
+.xp-progress-labels {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 0.5rem;
+    font-size: 0.75rem;
+    color: var(--loyalty-text-muted);
+}
+
+/* =============== STATS GRID =============== */
+.loyalty-stats-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.75rem;
+}
+
+.loyalty-stat-card {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    background: var(--loyalty-card-bg);
+    padding: 1rem;
+    border-radius: 0.75rem;
+    border: 1px solid var(--loyalty-border);
+}
+
+.stat-icon {
+    width: 40px;
+    height: 40px;
+    min-width: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    font-size: 1rem;
+}
+
+/* Stat colors */
+.stat-purple .stat-icon { background: #ede9fe; color: #7c3aed; }
+.stat-blue .stat-icon { background: #dbeafe; color: #2563eb; }
+.stat-indigo .stat-icon { background: #e0e7ff; color: #4f46e5; }
+.stat-green .stat-icon { background: #dcfce7; color: #16a34a; }
+
+@media (prefers-color-scheme: dark) {
+    .stat-purple .stat-icon { background: #4c1d95; color: #c4b5fd; }
+    .stat-blue .stat-icon { background: #1e40af; color: #93c5fd; }
+    .stat-indigo .stat-icon { background: #3730a3; color: #a5b4fc; }
+    .stat-green .stat-icon { background: #166534; color: #86efac; }
+}
+
+.stat-content {
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+}
+
+.stat-value {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: var(--loyalty-text);
+    line-height: 1.2;
+}
+
+.stat-label {
+    font-size: 0.7rem;
+    color: var(--loyalty-text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/* =============== SECTIONS =============== */
+.loyalty-section {
+    background: var(--loyalty-card-bg);
+    border-radius: 0.75rem;
+    padding: 1rem;
+    border: 1px solid var(--loyalty-border);
+}
+
+.section-title {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--loyalty-text);
+    margin: 0 0 1rem;
+}
+
+.section-title i {
+    color: var(--loyalty-gold);
+}
+
+.badge-count {
+    margin-left: auto;
+    font-size: 0.75rem;
+    font-weight: normal;
+    color: var(--loyalty-text-muted);
+}
+
+/* =============== BADGES GRID =============== */
+.badges-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+}
+
+.badge-item {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.75rem;
+    border-radius: 0.5rem;
+    background: rgba(0,0,0,0.02);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+@media (prefers-color-scheme: dark) {
+    .badge-item {
+        background: rgba(255,255,255,0.03);
+    }
+}
+
+.badge-item.locked {
+    opacity: 0.6;
+}
+
+.badge-item.animate-in {
+    animation: badgeSlideIn 0.3s ease-out forwards;
+}
+
+@keyframes badgeSlideIn {
+    from {
+        opacity: 0;
+        transform: translateX(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+.badge-icon {
+    position: relative;
+    width: 48px;
+    height: 48px;
+    min-width: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #d1d5db, #9ca3af);
+    color: #fff;
+    font-size: 1.25rem;
+}
+
+.badge-lock {
+    position: absolute;
+    bottom: -2px;
+    right: -2px;
+    width: 20px;
+    height: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #6b7280;
+    border-radius: 50%;
+    font-size: 0.6rem;
+}
+
+.badge-info {
+    flex: 1;
+    min-width: 0;
+}
+
+.badge-name {
+    display: block;
+    font-weight: 600;
+    font-size: 0.9rem;
+    color: var(--loyalty-text);
+}
+
+.badge-desc {
+    display: block;
+    font-size: 0.75rem;
+    color: var(--loyalty-text-muted);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.badge-progress {
+    width: 80px;
+    min-width: 80px;
+}
+
+.badge-progress-bar {
+    height: 6px;
+    background: var(--loyalty-border);
+    border-radius: 3px;
+    overflow: hidden;
+}
+
+.badge-progress-fill {
+    height: 100%;
+    background: var(--loyalty-gold);
+    border-radius: 3px;
+    transition: width 0.5s ease;
+}
+
+.badge-progress-text {
+    display: block;
+    font-size: 0.65rem;
+    color: var(--loyalty-text-muted);
+    text-align: right;
+    margin-top: 2px;
+}
+
+.btn-see-more {
+    display: block;
+    width: 100%;
+    padding: 0.75rem;
+    margin-top: 0.75rem;
+    background: transparent;
+    border: 1px dashed var(--loyalty-border);
+    border-radius: 0.5rem;
+    color: var(--loyalty-text-muted);
+    font-size: 0.85rem;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.btn-see-more:hover {
+    border-color: var(--loyalty-gold);
+    color: var(--loyalty-text);
+}
+
+/* =============== ACTIVITY LIST =============== */
+.activity-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.activity-item {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.5rem 0;
+    border-bottom: 1px solid var(--loyalty-border);
+}
+
+.activity-item:last-child {
+    border-bottom: none;
+}
+
+.activity-icon {
+    width: 36px;
+    height: 36px;
+    min-width: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    font-size: 0.875rem;
+}
+
+.activity-icon.positive {
+    background: #dcfce7;
+    color: #16a34a;
+}
+
+.activity-icon.negative {
+    background: #fee2e2;
+    color: #dc2626;
+}
+
+@media (prefers-color-scheme: dark) {
+    .activity-icon.positive {
+        background: #166534;
+        color: #86efac;
+    }
+    .activity-icon.negative {
+        background: #991b1b;
+        color: #fca5a5;
+    }
+}
+
+.activity-content {
+    flex: 1;
+    min-width: 0;
+}
+
+.activity-desc {
+    display: block;
+    font-size: 0.875rem;
+    color: var(--loyalty-text);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.activity-date {
+    display: block;
+    font-size: 0.7rem;
+    color: var(--loyalty-text-muted);
+}
+
+.activity-xp {
+    font-weight: 600;
+    font-size: 0.9rem;
+    white-space: nowrap;
+}
+
+.activity-xp.positive {
+    color: var(--loyalty-xp-positive);
+}
+
+.activity-xp.negative {
+    color: var(--loyalty-xp-negative);
+}
+
+/* =============== REWARDS GRID =============== */
+.rewards-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 0.75rem;
+}
+
+.reward-card {
+    display: flex;
+    gap: 1rem;
+    padding: 1rem;
+    background: rgba(0,0,0,0.02);
+    border-radius: 0.5rem;
+    border: 1px solid var(--loyalty-border);
+    transition: all 0.2s ease;
+}
+
+.reward-card.locked {
+    opacity: 0.6;
+}
+
+.reward-card.available:hover {
+    border-color: var(--loyalty-gold);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+.reward-image {
+    width: 56px;
+    height: 56px;
+    min-width: 56px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, var(--loyalty-gold), #ffa500);
+    border-radius: 0.5rem;
+    font-size: 1.5rem;
+    color: #000;
+}
+
+.reward-content {
+    flex: 1;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+}
+
+.reward-name {
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: var(--loyalty-text);
+    margin: 0 0 0.25rem;
+}
+
+.reward-desc {
+    font-size: 0.75rem;
+    color: var(--loyalty-text-muted);
+    margin: 0 0 0.5rem;
+    flex: 1;
+}
+
+.reward-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.5rem;
+}
+
+.reward-cost {
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: var(--loyalty-gold);
+}
+
+.btn-redeem {
+    padding: 0.4rem 0.75rem;
+    background: var(--loyalty-gold);
+    border: none;
+    border-radius: 0.375rem;
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: #000;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    white-space: nowrap;
+}
+
+.btn-redeem:hover:not(:disabled) {
+    transform: translateY(-1px);
+    box-shadow: 0 2px 8px rgba(255, 215, 0, 0.4);
+}
+
+.btn-redeem:disabled {
+    background: var(--loyalty-border);
+    color: var(--loyalty-text-muted);
+    cursor: not-allowed;
+}
+
+/* =============== TIER BADGE COMPONENT =============== */
+.tier-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.375rem;
+    padding: 0.25rem 0.75rem;
+    border-radius: 9999px;
+    font-weight: 600;
+    color: #000;
+}
+
+.tier-badge-small {
+    font-size: 0.65rem;
+    padding: 0.125rem 0.5rem;
+}
+
+.tier-badge-small i {
+    font-size: 0.6rem;
+}
+
+.tier-badge-medium {
+    font-size: 0.8rem;
+}
+
+.tier-badge-large {
+    font-size: 1rem;
+    padding: 0.375rem 1rem;
+}
+
+/* =============== TABLET+ RESPONSIVE =============== */
+@media (min-width: 640px) {
+    .loyalty-dashboard {
+        padding: 1.5rem;
+        gap: 1.5rem;
+    }
+    
+    .loyalty-header {
+        padding: 2rem;
+    }
+    
+    .tier-badge-large {
+        width: 80px;
+        height: 80px;
+        font-size: 2rem;
+    }
+    
+    .tier-name {
+        font-size: 2rem;
+    }
+    
+    .xp-progress-card {
+        padding: 1.5rem;
+    }
+    
+    .xp-current .xp-value {
+        font-size: 2.5rem;
+    }
+    
+    .xp-progress-bar {
+        height: 16px;
+        border-radius: 8px;
+    }
+    
+    .loyalty-stats-grid {
+        grid-template-columns: repeat(4, 1fr);
+    }
+    
+    .badges-grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+    }
+    
+    .rewards-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+/* =============== DESKTOP RESPONSIVE =============== */
+@media (min-width: 1024px) {
+    .loyalty-dashboard {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        grid-template-areas:
+            "header header"
+            "xp stats"
+            "badges activity"
+            "rewards rewards";
+        gap: 1.5rem;
+    }
+    
+    .loyalty-header { grid-area: header; }
+    .loyalty-xp-section { grid-area: xp; }
+    .loyalty-stats-grid { 
+        grid-area: stats;
+        grid-template-columns: repeat(2, 1fr);
+    }
+    .loyalty-section:nth-of-type(1) { grid-area: badges; }
+    .loyalty-section:nth-of-type(2) { grid-area: activity; }
+    .loyalty-section:nth-of-type(3) { grid-area: rewards; }
+    
+    .rewards-grid {
+        grid-template-columns: repeat(4, 1fr);
+    }
+}
+
+/* =============== REDUCED MOTION =============== */
+@media (prefers-reduced-motion: reduce) {
+    .xp-progress-fill {
+        transition: none;
+    }
+    
+    .badge-item.animate-in {
+        animation: none;
+        opacity: 1;
+    }
+    
+    .reward-card,
+    .btn-redeem,
+    .badge-item {
+        transition: none;
+    }
+}

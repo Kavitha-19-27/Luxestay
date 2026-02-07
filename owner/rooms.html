@@ -1,0 +1,615 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Manage Your Hotel Rooms - LuxeStay">
+    <title>My Rooms | LuxeStay</title>
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E💎%3C/text%3E%3C/svg%3E">
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    
+    <link rel="stylesheet" href="../assets/css/base.css">
+    <link rel="stylesheet" href="../assets/css/components.css">
+    <link rel="stylesheet" href="../assets/css/layout.css">
+    <link rel="stylesheet" href="../assets/css/pages/admin.css">
+    <link rel="stylesheet" href="../assets/css/pages/owner.css">
+    <link rel="stylesheet" href="../assets/css/premium-enhancements.css">
+</head>
+<body class="admin-body owner-body">
+    <!-- Sidebar -->
+    <aside class="admin-sidebar owner-sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <a href="../index.html" class="sidebar-logo">
+                <span class="brand-icon"><i class="fas fa-gem"></i></span>
+                <span class="brand-text">LuxeStay</span>
+            </a>
+            <span class="owner-badge">Hotel Owner</span>
+        </div>
+        
+        <nav class="sidebar-nav">
+            <a href="dashboard.html" class="sidebar-link">
+                <i class="fas fa-tachometer-alt"></i>
+                <span>Dashboard</span>
+            </a>
+            <a href="rooms.html" class="sidebar-link active">
+                <i class="fas fa-bed"></i>
+                <span>My Rooms</span>
+            </a>
+            <a href="bookings.html" class="sidebar-link">
+                <i class="fas fa-calendar-check"></i>
+                <span>Bookings</span>
+            </a>
+            <a href="reviews.html" class="sidebar-link">
+                <i class="fas fa-star"></i>
+                <span>Reviews</span>
+            </a>
+            <a href="hotel-settings.html" class="sidebar-link">
+                <i class="fas fa-cog"></i>
+                <span>Hotel Settings</span>
+            </a>
+        </nav>
+        
+        <div class="sidebar-footer">
+            <a href="../index.html" class="sidebar-link">
+                <i class="fas fa-arrow-left"></i>
+                <span>Back to Site</span>
+            </a>
+            <button class="sidebar-link" id="logoutBtn">
+                <i class="fas fa-sign-out-alt"></i>
+                <span>Logout</span>
+            </button>
+        </div>
+    </aside>
+
+    <!-- Main Content -->
+    <div class="admin-main">
+        <!-- Top Bar -->
+        <header class="admin-topbar">
+            <button class="sidebar-toggle" id="sidebarToggle">
+                <i class="fas fa-bars"></i>
+            </button>
+            
+            <div class="topbar-hotel-info">
+                <span class="hotel-name" id="hotelName">Loading...</span>
+            </div>
+            
+            <div class="topbar-actions">
+                <button class="topbar-btn" id="refreshBtn" title="Refresh Data">
+                    <i class="fas fa-sync-alt"></i>
+                </button>
+                <div class="topbar-user">
+                    <span class="user-avatar" id="userAvatar">O</span>
+                    <span class="user-name" id="userName">Owner</span>
+                </div>
+            </div>
+        </header>
+
+        <!-- Rooms Content -->
+        <main class="admin-content">
+            <div class="content-header">
+                <div>
+                    <h1>My Rooms</h1>
+                    <p class="content-subtitle">Manage your hotel rooms and availability</p>
+                </div>
+                <div class="content-actions">
+                    <button class="btn btn-primary" onclick="showAddRoomModal()">
+                        <i class="fas fa-plus"></i> Add Room
+                    </button>
+                </div>
+            </div>
+
+            <!-- Filters -->
+            <div class="filters-bar">
+                <div class="filter-group">
+                    <select id="typeFilter" class="form-select" onchange="applyFilters()">
+                        <option value="">All Types</option>
+                        <option value="SINGLE">Single</option>
+                        <option value="DOUBLE">Double</option>
+                        <option value="SUITE">Suite</option>
+                        <option value="DELUXE">Deluxe</option>
+                        <option value="PRESIDENTIAL">Presidential</option>
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <select id="availabilityFilter" class="form-select" onchange="applyFilters()">
+                        <option value="">All Availability</option>
+                        <option value="true">Available</option>
+                        <option value="false">Occupied</option>
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <input type="text" id="searchInput" class="form-input" placeholder="Search rooms..." oninput="applyFilters()">
+                </div>
+            </div>
+
+            <!-- Room Stats -->
+            <div class="room-stats-bar">
+                <div class="stat-item">
+                    <span class="stat-label">Total Rooms</span>
+                    <span class="stat-value" id="totalRoomsCount">0</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-label">Available</span>
+                    <span class="stat-value text-success" id="availableCount">0</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-label">Occupied</span>
+                    <span class="stat-value text-warning" id="occupiedCount">0</span>
+                </div>
+            </div>
+
+            <!-- Rooms Grid -->
+            <div class="rooms-grid-full" id="roomsGrid">
+                <p class="empty-state">Loading rooms...</p>
+            </div>
+        </main>
+    </div>
+
+    <!-- Add/Edit Room Modal -->
+    <div class="modal" id="roomModal">
+        <div class="modal-overlay"></div>
+        <div class="modal-content modal-lg">
+            <div class="modal-header">
+                <h3 id="modalTitle">Add New Room</h3>
+                <button class="modal-close" onclick="closeModal('roomModal')">&times;</button>
+            </div>
+            <form id="roomForm" onsubmit="handleRoomSubmit(event)">
+                <div class="modal-body">
+                    <input type="hidden" id="roomId" name="roomId">
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="roomNumber">Room Number <span class="required">*</span></label>
+                            <input type="text" id="roomNumber" name="roomNumber" required class="form-input" placeholder="e.g., 101">
+                        </div>
+                        <div class="form-group">
+                            <label for="roomName">Room Name</label>
+                            <input type="text" id="roomName" name="roomName" class="form-input" placeholder="e.g., Deluxe Ocean View">
+                        </div>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="roomType">Room Type <span class="required">*</span></label>
+                            <select id="roomType" name="roomType" required class="form-select">
+                                <option value="">Select room type</option>
+                                <option value="SINGLE">Single</option>
+                                <option value="DOUBLE">Double</option>
+                                <option value="SUITE">Suite</option>
+                                <option value="DELUXE">Deluxe</option>
+                                <option value="PRESIDENTIAL">Presidential</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="bedType">Bed Type</label>
+                            <select id="bedType" name="bedType" class="form-select">
+                                <option value="">Select bed type</option>
+                                <option value="SINGLE">Single</option>
+                                <option value="DOUBLE">Double</option>
+                                <option value="QUEEN">Queen</option>
+                                <option value="KING">King</option>
+                                <option value="TWIN">Twin</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="pricePerNight">Price per Night (₹) <span class="required">*</span></label>
+                            <input type="number" id="pricePerNight" name="pricePerNight" required class="form-input" min="100" step="100" placeholder="e.g., 5000">
+                        </div>
+                        <div class="form-group">
+                            <label for="capacity">Max Occupancy <span class="required">*</span></label>
+                            <input type="number" id="capacity" name="capacity" required class="form-input" min="1" max="10" placeholder="e.g., 2">
+                        </div>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="sizeSqm">Size (sq.m)</label>
+                            <input type="number" id="sizeSqm" name="sizeSqm" class="form-input" min="10" placeholder="e.g., 35">
+                        </div>
+                        <div class="form-group">
+                            <label for="imageUrl">Room Image URL</label>
+                            <input type="url" id="imageUrl" name="imageUrl" class="form-input" placeholder="https://example.com/room-image.jpg">
+                        </div>
+                    </div>
+                    
+                    <div class="form-group" id="imagePreviewGroup" style="display: none;">
+                        <label>Image Preview</label>
+                        <div style="border-radius: 12px; overflow: hidden; max-height: 150px; background: rgba(0,0,0,0.3);">
+                            <img id="roomImagePreview" src="" alt="Room Preview" style="width: 100%; height: 150px; object-fit: cover;">
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="amenities">Amenities (comma-separated)</label>
+                        <input type="text" id="amenities" name="amenities" class="form-input" placeholder="e.g., WiFi, AC, TV, Mini Bar">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="checkbox-label">
+                            <input type="checkbox" id="isAvailable" name="isAvailable" checked>
+                            <span class="checkmark"></span>
+                            Room is available for booking
+                        </label>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-ghost" onclick="closeModal('roomModal')">Cancel</button>
+                    <button type="submit" class="btn btn-primary" id="roomSubmitBtn">Save Room</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Delete Confirmation Modal -->
+    <div class="modal" id="deleteModal">
+        <div class="modal-overlay"></div>
+        <div class="modal-content modal-sm">
+            <div class="modal-header">
+                <h3>Confirm Delete</h3>
+                <button class="modal-close" onclick="closeModal('deleteModal')">&times;</button>
+            </div>
+            <div class="modal-body">
+                <p>Are you sure you want to delete room <strong id="deleteRoomNumber"></strong>?</p>
+                <p class="text-warning"><i class="fas fa-exclamation-triangle"></i> This action cannot be undone.</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-ghost" onclick="closeModal('deleteModal')">Cancel</button>
+                <button type="button" class="btn btn-error" id="confirmDeleteBtn" onclick="confirmDelete()">Delete Room</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="toast-container" id="toastContainer"></div>
+
+    <script src="../assets/js/config.js"></script>
+    <script src="../assets/js/auth.js"></script>
+    <script src="../assets/js/api.js"></script>
+    <script src="../assets/js/ui.js"></script>
+    <script>
+        let allRooms = [];
+        let roomToDelete = null;
+
+        document.addEventListener('DOMContentLoaded', () => {
+            // Check hotel owner access
+            if (!requireHotelOwner()) return;
+            
+            // Set user info
+            const user = Auth.getUser();
+            document.getElementById('userAvatar').textContent = Auth.getUserInitials();
+            document.getElementById('userName').textContent = user?.firstName || 'Owner';
+            document.getElementById('hotelName').textContent = user?.hotelName || 'My Hotel';
+            
+            // Sidebar toggle
+            document.getElementById('sidebarToggle').addEventListener('click', () => {
+                document.getElementById('sidebar').classList.toggle('collapsed');
+            });
+            
+            // Logout handler
+            document.getElementById('logoutBtn').addEventListener('click', () => {
+                Auth.logout();
+                window.location.href = '../index.html';
+            });
+            
+            // Refresh button
+            document.getElementById('refreshBtn').addEventListener('click', loadRooms);
+            
+            // Image URL preview
+            document.getElementById('imageUrl').addEventListener('input', function() {
+                const url = this.value.trim();
+                const previewGroup = document.getElementById('imagePreviewGroup');
+                const previewImg = document.getElementById('roomImagePreview');
+                
+                if (url && isValidUrl(url)) {
+                    previewImg.src = url;
+                    previewImg.onload = () => { previewGroup.style.display = 'block'; };
+                    previewImg.onerror = () => { previewGroup.style.display = 'none'; };
+                } else {
+                    previewGroup.style.display = 'none';
+                }
+            });
+            
+            // Check for edit param
+            const params = new URLSearchParams(window.location.search);
+            const editId = params.get('edit');
+            
+            // Load rooms
+            loadRooms().then(() => {
+                if (editId) {
+                    editRoom(parseInt(editId));
+                }
+            });
+        });
+        
+        function isValidUrl(string) {
+            try {
+                new URL(string);
+                return true;
+            } catch (_) {
+                return false;
+            }
+        }
+
+        async function loadRooms() {
+            try {
+                const response = await API.owner.getRooms();
+                allRooms = response.data || response || [];
+                
+                // Update stats
+                document.getElementById('totalRoomsCount').textContent = allRooms.length;
+                document.getElementById('availableCount').textContent = allRooms.filter(r => r.isAvailable).length;
+                document.getElementById('occupiedCount').textContent = allRooms.filter(r => !r.isAvailable).length;
+                
+                applyFilters();
+            } catch (error) {
+                console.error('Failed to load rooms:', error);
+                UI.toast('Failed to load rooms', 'error');
+            }
+        }
+
+        function applyFilters() {
+            const typeFilter = document.getElementById('typeFilter').value;
+            const availabilityFilter = document.getElementById('availabilityFilter').value;
+            const searchTerm = document.getElementById('searchInput').value.toLowerCase();
+            
+            let filtered = allRooms;
+            
+            if (typeFilter) {
+                filtered = filtered.filter(r => r.roomType === typeFilter);
+            }
+            
+            if (availabilityFilter !== '') {
+                const isAvailable = availabilityFilter === 'true';
+                filtered = filtered.filter(r => r.isAvailable === isAvailable);
+            }
+            
+            if (searchTerm) {
+                filtered = filtered.filter(r => 
+                    r.roomNumber?.toLowerCase().includes(searchTerm) ||
+                    r.name?.toLowerCase().includes(searchTerm) ||
+                    r.roomType?.toLowerCase().includes(searchTerm)
+                );
+            }
+            
+            renderRooms(filtered);
+        }
+
+        function renderRooms(rooms) {
+            const grid = document.getElementById('roomsGrid');
+            
+            if (!rooms || rooms.length === 0) {
+                grid.innerHTML = `
+                    <div class="empty-state-container">
+                        <i class="fas fa-bed fa-3x"></i>
+                        <p>No rooms found</p>
+                        <button class="btn btn-primary" onclick="showAddRoomModal()">
+                            <i class="fas fa-plus"></i> Add Your First Room
+                        </button>
+                    </div>
+                `;
+                return;
+            }
+            
+            grid.innerHTML = rooms.map(room => {
+                const statusClass = room.isAvailable ? 'available' : 'occupied';
+                const statusText = room.isAvailable ? 'Available' : 'Occupied';
+                const amenitiesList = room.amenities ? 
+                    (typeof room.amenities === 'string' ? JSON.parse(room.amenities) : room.amenities) : [];
+                
+                return `
+                    <div class="room-card-full room-${statusClass}">
+                        <div class="room-card-image">
+                            <img src="${room.imageUrl || 'https://images.unsplash.com/photo-1566665797739-1674de7a421a?w=400'}" alt="${room.roomNumber}">
+                            <span class="room-status-badge badge badge-${room.isAvailable ? 'success' : 'warning'}">${statusText}</span>
+                        </div>
+                        <div class="room-card-content">
+                            <div class="room-card-header">
+                                <h3 class="room-number">${room.roomNumber}</h3>
+                                <span class="room-type-badge">${formatRoomType(room.roomType)}</span>
+                            </div>
+                            ${room.name ? `<p class="room-name">${room.name}</p>` : ''}
+                            <div class="room-details">
+                                <span><i class="fas fa-rupee-sign"></i> ${parseFloat(room.pricePerNight).toLocaleString('en-IN')}/night</span>
+                                <span><i class="fas fa-users"></i> ${room.capacity} guests</span>
+                                ${room.sizeSqm ? `<span><i class="fas fa-expand"></i> ${room.sizeSqm} m²</span>` : ''}
+                                ${room.bedType ? `<span><i class="fas fa-bed"></i> ${room.bedType}</span>` : ''}
+                            </div>
+                            ${amenitiesList.length > 0 ? `
+                                <div class="room-amenities">
+                                    ${amenitiesList.slice(0, 4).map(a => `<span class="amenity-tag">${a}</span>`).join('')}
+                                    ${amenitiesList.length > 4 ? `<span class="amenity-more">+${amenitiesList.length - 4}</span>` : ''}
+                                </div>
+                            ` : ''}
+                        </div>
+                        <div class="room-card-actions">
+                            <button class="btn btn-sm btn-outline" onclick="toggleAvailability(${room.id})" title="Toggle Availability">
+                                <i class="fas fa-${room.isAvailable ? 'lock' : 'unlock'}"></i>
+                            </button>
+                            <button class="btn btn-sm btn-outline" onclick="editRoom(${room.id})" title="Edit Room">
+                                <i class="fas fa-edit"></i>
+                            </button>
+                            <button class="btn btn-sm btn-outline btn-error-outline" onclick="deleteRoom(${room.id}, '${room.roomNumber}')" title="Delete Room">
+                                <i class="fas fa-trash"></i>
+                            </button>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        function formatRoomType(type) {
+            return type ? type.charAt(0) + type.slice(1).toLowerCase() : '';
+        }
+
+        function showAddRoomModal() {
+            document.getElementById('modalTitle').textContent = 'Add New Room';
+            document.getElementById('roomForm').reset();
+            document.getElementById('roomId').value = '';
+            document.getElementById('isAvailable').checked = true;
+            document.getElementById('roomSubmitBtn').textContent = 'Add Room';
+            document.getElementById('imagePreviewGroup').style.display = 'none';
+            document.getElementById('roomModal').classList.add('active');
+        }
+
+        function editRoom(id) {
+            const room = allRooms.find(r => r.id === id);
+            if (!room) return;
+            
+            document.getElementById('modalTitle').textContent = 'Edit Room';
+            document.getElementById('roomId').value = room.id;
+            document.getElementById('roomNumber').value = room.roomNumber || '';
+            document.getElementById('roomName').value = room.name || '';
+            document.getElementById('roomType').value = room.roomType || '';
+            document.getElementById('bedType').value = room.bedType || '';
+            document.getElementById('pricePerNight').value = room.pricePerNight || '';
+            document.getElementById('capacity').value = room.capacity || '';
+            document.getElementById('sizeSqm').value = room.sizeSqm || '';
+            document.getElementById('imageUrl').value = room.imageUrl || '';
+            
+            // Show image preview if URL exists
+            const previewGroup = document.getElementById('imagePreviewGroup');
+            const previewImg = document.getElementById('roomImagePreview');
+            if (room.imageUrl) {
+                previewImg.src = room.imageUrl;
+                previewGroup.style.display = 'block';
+            } else {
+                previewGroup.style.display = 'none';
+            }
+            
+            const amenities = room.amenities ? 
+                (typeof room.amenities === 'string' ? JSON.parse(room.amenities) : room.amenities) : [];
+            document.getElementById('amenities').value = amenities.join(', ');
+            
+            document.getElementById('isAvailable').checked = room.isAvailable !== false;
+            document.getElementById('roomSubmitBtn').textContent = 'Update Room';
+            document.getElementById('roomModal').classList.add('active');
+        }
+
+        async function handleRoomSubmit(event) {
+            event.preventDefault();
+            
+            const form = event.target;
+            const formData = new FormData(form);
+            const roomId = formData.get('roomId');
+            
+            // Validate required fields
+            const roomNumber = formData.get('roomNumber')?.trim();
+            const roomType = formData.get('roomType');
+            const pricePerNight = parseFloat(formData.get('pricePerNight'));
+            const capacity = parseInt(formData.get('capacity'));
+            
+            if (!roomNumber) {
+                UI.toast('Room number is required', 'error');
+                return;
+            }
+            if (!roomType) {
+                UI.toast('Room type is required', 'error');
+                return;
+            }
+            if (isNaN(pricePerNight) || pricePerNight <= 0) {
+                UI.toast('Valid price per night is required', 'error');
+                return;
+            }
+            if (isNaN(capacity) || capacity < 1 || capacity > 10) {
+                UI.toast('Capacity must be between 1 and 10', 'error');
+                return;
+            }
+            
+            const roomData = {
+                roomNumber: roomNumber,
+                name: formData.get('roomName')?.trim() || null,
+                roomType: roomType,
+                bedType: formData.get('bedType') || null,
+                pricePerNight: pricePerNight,
+                capacity: capacity,
+                sizeSqm: formData.get('sizeSqm') ? parseFloat(formData.get('sizeSqm')) : null,
+                imageUrl: formData.get('imageUrl')?.trim() || null,
+                amenities: formData.get('amenities') ? formData.get('amenities').split(',').map(a => a.trim()).filter(a => a) : [],
+                isAvailable: formData.get('isAvailable') === 'on'
+            };
+            
+            try {
+                if (roomId) {
+                    await API.owner.updateRoom(roomId, roomData);
+                    UI.toast('Room updated successfully', 'success');
+                } else {
+                    await API.owner.createRoom(roomData);
+                    UI.toast('Room added successfully', 'success');
+                }
+                
+                closeModal('roomModal');
+                loadRooms();
+            } catch (error) {
+                console.error('Failed to save room:', error);
+                // Show more detailed error message if available
+                let errorMessage = 'Failed to save room';
+                if (error.errors) {
+                    const firstError = Object.values(error.errors)[0];
+                    errorMessage = firstError || errorMessage;
+                } else if (error.message) {
+                    errorMessage = error.message;
+                }
+                UI.toast(errorMessage, 'error');
+            }
+        }
+
+        async function toggleAvailability(id) {
+            try {
+                await API.owner.toggleRoomAvailability(id);
+                UI.toast('Room availability updated', 'success');
+                loadRooms();
+            } catch (error) {
+                console.error('Failed to toggle availability:', error);
+                UI.toast('Failed to update availability', 'error');
+            }
+        }
+
+        function deleteRoom(id, roomNumber) {
+            roomToDelete = id;
+            document.getElementById('deleteRoomNumber').textContent = roomNumber;
+            document.getElementById('deleteModal').classList.add('active');
+        }
+
+        async function confirmDelete() {
+            if (!roomToDelete) return;
+            
+            try {
+                await API.owner.deleteRoom(roomToDelete);
+                UI.toast('Room deleted successfully', 'success');
+                closeModal('deleteModal');
+                roomToDelete = null;
+                loadRooms();
+            } catch (error) {
+                console.error('Failed to delete room:', error);
+                UI.toast(error.message || 'Failed to delete room', 'error');
+            }
+        }
+
+        function closeModal(modalId) {
+            document.getElementById(modalId).classList.remove('active');
+        }
+
+        // Close modals on overlay click
+        document.addEventListener('click', (e) => {
+            if (e.target.classList.contains('modal-overlay')) {
+                e.target.closest('.modal').classList.remove('active');
+            }
+        });
+
+        // Close modals with Escape key
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') {
+                document.querySelectorAll('.modal.active').forEach(modal => {
+                    modal.classList.remove('active');
+                });
+            }
+        });
+    </script>
+</body>
+</html>

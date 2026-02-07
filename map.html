@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Explore LuxeStay hotels on an interactive map">
+    <title>Hotel Map | LuxeStay</title>
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E💎%3C/text%3E%3C/svg%3E">
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    
+    <!-- Leaflet CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" 
+          integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" 
+          crossorigin="">
+    
+    <link rel="stylesheet" href="assets/css/base.css">
+    <link rel="stylesheet" href="assets/css/components.css">
+    <link rel="stylesheet" href="assets/css/layout.css">
+    <link rel="stylesheet" href="assets/css/pages/map.css">
+    <link rel="stylesheet" href="assets/css/components/chatbot.css">
+    <link rel="stylesheet" href="assets/css/components/voice-assistant.css">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar navbar-dark" id="navbar">
+        <div class="container navbar-container">
+            <a href="index.html" class="navbar-brand">
+                <span class="brand-icon"><i class="fas fa-gem"></i></span>
+                <span class="brand-text">LuxeStay</span>
+            </a>
+            
+            <button class="navbar-toggle" id="navbarToggle" aria-label="Toggle navigation">
+                <span class="hamburger"></span>
+            </button>
+            
+            <div class="navbar-menu" id="navbarMenu">
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a href="index.html" class="nav-link">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="hotels.html" class="nav-link">Hotels</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="map.html" class="nav-link active">Map</a>
+                    </li>
+                    <li class="nav-item nav-item-auth" id="navAuth"></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Map Container -->
+    <main class="map-page">
+        <!-- Map Controls Sidebar -->
+        <div class="map-sidebar">
+            <!-- Header -->
+            <div class="sidebar-header">
+                <h2 class="sidebar-title">
+                    <i class="fas fa-map-marked-alt"></i>
+                    Explore Hotels
+                </h2>
+                <span class="hotel-count" id="hotelCount">0 hotels</span>
+            </div>
+            
+            <!-- Search with Dropdown -->
+            <div class="map-search">
+                <div class="search-input-wrapper">
+                    <span class="search-icon"><i class="fas fa-search"></i></span>
+                    <input type="text" id="mapSearch" class="search-input" 
+                           placeholder="Search hotels or cities..." 
+                           autocomplete="off" spellcheck="false">
+                    <button type="button" class="search-clear" id="searchClear" style="display: none;">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+                <!-- Search Results Dropdown -->
+                <div class="search-dropdown" id="searchDropdown"></div>
+            </div>
+            
+            <!-- Star Filter -->
+            <div class="sidebar-section">
+                <label class="section-label">Star Rating</label>
+                <div class="star-filter">
+                    <button type="button" class="star-btn active" data-stars="all">All</button>
+                    <button type="button" class="star-btn" data-stars="3">3<i class="fas fa-star"></i></button>
+                    <button type="button" class="star-btn" data-stars="4">4<i class="fas fa-star"></i></button>
+                    <button type="button" class="star-btn" data-stars="5">5<i class="fas fa-star"></i></button>
+                </div>
+            </div>
+            
+            <!-- Quick Locations -->
+            <div class="sidebar-section">
+                <label class="section-label">Quick Locations</label>
+                <div class="location-chips">
+                    <button type="button" class="location-chip" data-lat="13.0827" data-lng="80.2707" data-zoom="11">Chennai</button>
+                    <button type="button" class="location-chip" data-lat="11.4102" data-lng="76.6950" data-zoom="13">Ooty</button>
+                    <button type="button" class="location-chip" data-lat="10.2381" data-lng="77.4892" data-zoom="14">Kodaikanal</button>
+                    <button type="button" class="location-chip" data-lat="9.9252" data-lng="78.1198" data-zoom="12">Madurai</button>
+                    <button type="button" class="location-chip" data-lat="11.0168" data-lng="76.9558" data-zoom="12">Coimbatore</button>
+                    <button type="button" class="location-chip" data-lat="11.9416" data-lng="79.8083" data-zoom="13">Pondicherry</button>
+                    <button type="button" class="location-chip" data-lat="40.7128" data-lng="-74.0060" data-zoom="11">New York</button>
+                    <button type="button" class="location-chip" data-lat="25.7617" data-lng="-80.1918" data-zoom="11">Miami</button>
+                </div>
+            </div>
+            
+            <!-- Legend -->
+            <div class="sidebar-section sidebar-legend">
+                <label class="section-label">Legend</label>
+                <div class="legend-items">
+                    <div class="legend-item">
+                        <span class="legend-marker legend-marker-3"></span>
+                        <span>3-Star</span>
+                    </div>
+                    <div class="legend-item">
+                        <span class="legend-marker legend-marker-4"></span>
+                        <span>4-Star</span>
+                    </div>
+                    <div class="legend-item">
+                        <span class="legend-marker legend-marker-5"></span>
+                        <span>5-Star</span>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Hotel List (Synced with Map) -->
+            <div class="sidebar-section hotel-list-section">
+                <label class="section-label">Hotels in View</label>
+                <div class="hotel-list" id="hotelList">
+                    <!-- Hotels dynamically rendered here -->
+                </div>
+                <!-- No Results Message -->
+                <div class="no-results" id="noResults" style="display: none;">
+                    <i class="fas fa-map-marker-alt"></i>
+                    <p>No hotels in this area</p>
+                    <span>Try zooming out or panning the map</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Map -->
+        <div class="map-wrapper">
+            <div id="hotelMap" class="hotel-map"></div>
+            
+            <!-- Loading Indicator -->
+            <div class="map-loading" id="mapLoading">
+                <div class="spinner"></div>
+                <span>Loading hotels...</span>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer map-footer">
+        <div class="container">
+            <p>&copy; 2024 LuxeStay. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <!-- Leaflet JS -->
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" 
+            integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" 
+            crossorigin=""></script>
+    
+    <script src="assets/js/config.js"></script>
+    <script src="assets/js/auth.js"></script>
+    <script src="assets/js/api.js"></script>
+    <script src="assets/js/ui.js"></script>
+    <script src="assets/js/pages/map.js"></script>
+    <!-- Production Chatbot (Backend-Driven) -->
+    <script src="assets/js/chatbot-api.js?v=2"></script>
+    <script src="assets/js/chatbot-ui.js?v=2"></script>
+    <!-- Voice Assistant -->
+    <script src="assets/js/voice-assistant.js?v=1"></script>
+</body>
+</html>

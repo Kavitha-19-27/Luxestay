@@ -1,0 +1,504 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Admin Dashboard - LuxeStay">
+    <title>Admin Dashboard | LuxeStay</title>
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E💎%3C/text%3E%3C/svg%3E">
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    
+    <link rel="stylesheet" href="../assets/css/base.css">
+    <link rel="stylesheet" href="../assets/css/components.css">
+    <link rel="stylesheet" href="../assets/css/layout.css">
+    <link rel="stylesheet" href="../assets/css/pages/admin.css">
+    <link rel="stylesheet" href="../assets/css/premium-enhancements.css">
+</head>
+<body class="admin-body">
+    <!-- Sidebar -->
+    <aside class="admin-sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <a href="../index.html" class="sidebar-logo">
+                <span class="brand-icon"><i class="fas fa-gem"></i></span>
+                <span class="brand-text">LuxeStay</span>
+            </a>
+            <span class="admin-badge">Admin</span>
+        </div>
+        
+        <nav class="sidebar-nav">
+            <a href="dashboard.html" class="sidebar-link active">
+                <i class="fas fa-tachometer-alt"></i>
+                <span>Dashboard</span>
+            </a>
+            <a href="hotels.html" class="sidebar-link">
+                <i class="fas fa-hotel"></i>
+                <span id="hotelsNavText">Hotels</span>
+            </a>
+            <a href="rooms.html" class="sidebar-link">
+                <i class="fas fa-bed"></i>
+                <span>Rooms</span>
+            </a>
+            <a href="bookings.html" class="sidebar-link">
+                <i class="fas fa-calendar-check"></i>
+                <span>Bookings</span>
+            </a>
+            <a href="reviews.html" class="sidebar-link">
+                <i class="fas fa-star"></i>
+                <span>Reviews</span>
+            </a>
+            <a href="destinations.html" class="sidebar-link">
+                <i class="fas fa-map-marker-alt"></i>
+                <span>Destinations</span>
+            </a>
+            <a href="users.html" class="sidebar-link admin-only">
+                <i class="fas fa-users"></i>
+                <span>Users</span>
+            </a>
+        </nav>
+        
+        <div class="sidebar-footer">
+            <a href="../index.html" class="sidebar-link">
+                <i class="fas fa-arrow-left"></i>
+                <span>Back to Site</span>
+            </a>
+            <button class="sidebar-link" id="logoutBtn">
+                <i class="fas fa-sign-out-alt"></i>
+                <span>Logout</span>
+            </button>
+        </div>
+    </aside>
+
+    <!-- Main Content -->
+    <div class="admin-main">
+        <!-- Top Bar -->
+        <header class="admin-topbar">
+            <button class="sidebar-toggle" id="sidebarToggle">
+                <i class="fas fa-bars"></i>
+            </button>
+            
+            <div class="topbar-search">
+                <i class="fas fa-search"></i>
+                <input type="text" placeholder="Search...">
+            </div>
+            
+            <div class="topbar-actions">
+                <button class="topbar-btn">
+                    <i class="fas fa-bell"></i>
+                    <span class="notification-badge">3</span>
+                </button>
+                <div class="topbar-user">
+                    <span class="user-avatar" id="userAvatar">A</span>
+                    <span class="user-name" id="userName">Admin</span>
+                </div>
+            </div>
+        </header>
+
+        <!-- Dashboard Content -->
+        <main class="admin-content">
+            <div class="content-header">
+                <div>
+                    <h1>Dashboard</h1>
+                    <p class="content-subtitle">Welcome back! Here's what's happening today.</p>
+                </div>
+                <div class="content-actions">
+                    <button class="btn btn-primary" onclick="location.href='hotels.html'">
+                        <i class="fas fa-plus"></i>
+                        Add New Hotel
+                    </button>
+                </div>
+            </div>
+
+            <!-- Stats Cards -->
+            <div class="stats-grid" id="statsGrid">
+                <div class="stat-card">
+                    <div class="stat-icon stat-icon-blue">
+                        <i class="fas fa-hotel"></i>
+                    </div>
+                    <div class="stat-info">
+                        <span class="stat-value" id="totalHotels">6</span>
+                        <span class="stat-label">Total Hotels</span>
+                    </div>
+                </div>
+                
+                <div class="stat-card">
+                    <div class="stat-icon stat-icon-green">
+                        <i class="fas fa-bed"></i>
+                    </div>
+                    <div class="stat-info">
+                        <span class="stat-value" id="totalRooms">18</span>
+                        <span class="stat-label">Total Rooms</span>
+                    </div>
+                </div>
+                
+                <div class="stat-card">
+                    <div class="stat-icon stat-icon-gold">
+                        <i class="fas fa-calendar-check"></i>
+                    </div>
+                    <div class="stat-info">
+                        <span class="stat-value" id="totalBookings">156</span>
+                        <span class="stat-label">Total Bookings</span>
+                    </div>
+                </div>
+                
+                <div class="stat-card">
+                    <div class="stat-icon stat-icon-purple">
+                        <i class="fas fa-users"></i>
+                    </div>
+                    <div class="stat-info">
+                        <span class="stat-value" id="totalUsers">1,284</span>
+                        <span class="stat-label">Registered Users</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Charts & Tables -->
+            <div class="dashboard-grid">
+                <!-- Recent Bookings -->
+                <div class="dashboard-card">
+                    <div class="card-header">
+                        <h3>Recent Bookings</h3>
+                        <a href="bookings.html" class="card-link">View All</a>
+                    </div>
+                    <div class="card-body">
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>Reference</th>
+                                    <th>Guest</th>
+                                    <th>Hotel</th>
+                                    <th>Status</th>
+                                    <th>Amount</th>
+                                </tr>
+                            </thead>
+                            <tbody id="recentBookingsTable">
+                                <!-- Dynamically loaded -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Revenue Overview -->
+                <div class="dashboard-card">
+                    <div class="card-header">
+                        <h3>Revenue Overview</h3>
+                        <select class="form-select form-select-sm" id="revenueFilter">
+                            <option value="month">This Month</option>
+                            <option value="lastMonth">Last Month</option>
+                            <option value="year">This Year</option>
+                        </select>
+                    </div>
+                    <div class="card-body">
+                        <div class="revenue-stats">
+                            <div class="revenue-item">
+                                <span class="revenue-label">Total Revenue</span>
+                                <span class="revenue-value" id="totalRevenue">₹0</span>
+                                <span class="revenue-change positive" id="revenueChange">
+                                    <i class="fas fa-arrow-up"></i> 0%
+                                </span>
+                            </div>
+                            <div class="revenue-item">
+                                <span class="revenue-label">Average Booking</span>
+                                <span class="revenue-value" id="avgBooking">₹0</span>
+                                <span class="revenue-change positive" id="avgChange">
+                                    <i class="fas fa-arrow-up"></i> 0%
+                                </span>
+                            </div>
+                            <div class="revenue-item">
+                                <span class="revenue-label">Occupancy Rate</span>
+                                <span class="revenue-value" id="occupancyRate">0%</span>
+                                <span class="revenue-change positive" id="occupancyChange">
+                                    <i class="fas fa-arrow-up"></i> 0%
+                                </span>
+                            </div>
+                        </div>
+                        
+                        <!-- Simple bar chart representation -->
+                        <div class="chart-placeholder">
+                            <div class="chart-bars" id="revenueChart">
+                                <div class="chart-bar" style="height: 10%;" title="Mon"></div>
+                                <div class="chart-bar" style="height: 10%;" title="Tue"></div>
+                                <div class="chart-bar" style="height: 10%;" title="Wed"></div>
+                                <div class="chart-bar" style="height: 10%;" title="Thu"></div>
+                                <div class="chart-bar" style="height: 10%;" title="Fri"></div>
+                                <div class="chart-bar" style="height: 10%;" title="Sat"></div>
+                                <div class="chart-bar" style="height: 10%;" title="Sun"></div>
+                            </div>
+                            <div class="chart-labels">
+                                <span>Mon</span>
+                                <span>Tue</span>
+                                <span>Wed</span>
+                                <span>Thu</span>
+                                <span>Fri</span>
+                                <span>Sat</span>
+                                <span>Sun</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Hotels Overview -->
+            <div class="dashboard-card dashboard-card-full">
+                <div class="card-header">
+                    <h3>Hotels Overview</h3>
+                    <a href="hotels.html" class="card-link">Manage Hotels</a>
+                </div>
+                <div class="card-body">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>Hotel</th>
+                                <th>Location</th>
+                                <th>Rooms</th>
+                                <th>Rating</th>
+                                <th>Bookings</th>
+                                <th>Revenue</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody id="hotelsOverviewTable">
+                            <!-- Dynamically loaded -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <div class="toast-container" id="toastContainer"></div>
+
+    <script src="../assets/js/config.js"></script>
+    <script src="../assets/js/auth.js"></script>
+    <script src="../assets/js/api.js"></script>
+    <script src="../assets/js/ui.js"></script>
+    <script>
+        let allBookings = [];
+        let allHotels = [];
+        
+        document.addEventListener('DOMContentLoaded', () => {
+            // Check admin access
+            if (!Auth.isAuthenticated()) {
+                window.location.href = '../login.html';
+                return;
+            }
+            
+            const isAdmin = Auth.isAdmin();
+            
+            if (!isAdmin) {
+                UI.toast('Access denied. Admin privileges required.', 'error');
+                setTimeout(() => window.location.href = '../index.html', 2000);
+                return;
+            }
+            
+            // Set user info
+            const user = Auth.getUser();
+            document.getElementById('userAvatar').textContent = Auth.getUserInitials();
+            document.getElementById('userName').textContent = user?.firstName || 'Admin';
+            
+            // Sidebar toggle
+            document.getElementById('sidebarToggle').addEventListener('click', () => {
+                document.getElementById('sidebar').classList.toggle('collapsed');
+            });
+            
+            // Logout
+            document.getElementById('logoutBtn').addEventListener('click', () => {
+                Auth.logout();
+                window.location.href = '../index.html';
+            });
+            
+            // Load all dashboard data
+            loadDashboardData();
+        });
+        
+        async function loadDashboardData() {
+            await Promise.all([
+                loadDashboardStats(),
+                loadRecentBookings(),
+                loadHotelsOverview()
+            ]);
+            updateRevenueOverview();
+        }
+        
+        async function loadDashboardStats() {
+            try {
+                const response = await API.admin.getStats();
+                const stats = response.data || response;
+                
+                document.getElementById('totalHotels').textContent = stats.totalHotels || 0;
+                document.getElementById('totalRooms').textContent = stats.totalRooms || 0;
+                document.getElementById('totalBookings').textContent = stats.totalBookings || 0;
+                document.getElementById('totalUsers').textContent = stats.totalUsers?.toLocaleString() || 0;
+            } catch (error) {
+                console.warn('Failed to load stats:', error);
+            }
+        }
+        
+        async function loadRecentBookings() {
+            try {
+                const response = await API.admin.getBookings({ size: 100 });
+                const bookingsData = response.data?.content || response.content || response.data || response || [];
+                
+                allBookings = Array.isArray(bookingsData) ? bookingsData : [];
+                
+                // Display only recent 5
+                const recentBookings = allBookings.slice(0, 5);
+                renderRecentBookings(recentBookings);
+            } catch (error) {
+                console.warn('Failed to load bookings:', error);
+                document.getElementById('recentBookingsTable').innerHTML = 
+                    '<tr><td colspan="5" class="text-center">No bookings found</td></tr>';
+            }
+        }
+        
+        function renderRecentBookings(bookings) {
+            const tableBody = document.getElementById('recentBookingsTable');
+            
+            if (bookings.length === 0) {
+                tableBody.innerHTML = '<tr><td colspan="5" class="text-center">No bookings found</td></tr>';
+                return;
+            }
+            
+            tableBody.innerHTML = bookings.map(booking => {
+                const statusBadges = {
+                    'PENDING': 'badge-warning',
+                    'CONFIRMED': 'badge-success',
+                    'CHECKED_IN': 'badge-info',
+                    'CHECKED_OUT': 'badge-secondary',
+                    'CANCELLED': 'badge-error',
+                    'COMPLETED': 'badge-info'
+                };
+                const badgeClass = statusBadges[booking.status] || 'badge-info';
+                const statusLabel = booking.status.replace('_', ' ').toLowerCase()
+                    .split(' ').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ');
+                
+                return `
+                    <tr>
+                        <td>${booking.bookingReference}</td>
+                        <td>${booking.userFullName || booking.guestName || 'N/A'}</td>
+                        <td>${booking.hotelName}</td>
+                        <td><span class="badge ${badgeClass}">${statusLabel}</span></td>
+                        <td>₹${parseFloat(booking.totalPrice || 0).toLocaleString('en-IN', {minimumFractionDigits: 2})}</td>
+                    </tr>
+                `;
+            }).join('');
+        }
+        
+        async function loadHotelsOverview() {
+            try {
+                const response = await API.admin.getHotels({ size: 100 });
+                allHotels = response.data?.content || response.content || response.data || response || [];
+                
+                // Display top 5 hotels
+                renderHotelsOverview(allHotels.slice(0, 5));
+            } catch (error) {
+                console.warn('Failed to load hotels:', error);
+                document.getElementById('hotelsOverviewTable').innerHTML = 
+                    '<tr><td colspan="7" class="text-center">No hotels found</td></tr>';
+            }
+        }
+        
+        function renderHotelsOverview(hotels) {
+            const tableBody = document.getElementById('hotelsOverviewTable');
+            
+            if (hotels.length === 0) {
+                tableBody.innerHTML = '<tr><td colspan="7" class="text-center">No hotels found</td></tr>';
+                return;
+            }
+            
+            // Calculate bookings and revenue per hotel from allBookings
+            const hotelStats = {};
+            allBookings.forEach(booking => {
+                if (!hotelStats[booking.hotelId]) {
+                    hotelStats[booking.hotelId] = { bookings: 0, revenue: 0 };
+                }
+                hotelStats[booking.hotelId].bookings++;
+                if (booking.status !== 'CANCELLED') {
+                    hotelStats[booking.hotelId].revenue += parseFloat(booking.totalPrice || 0);
+                }
+            });
+            
+            tableBody.innerHTML = hotels.map(hotel => {
+                const stats = hotelStats[hotel.id] || { bookings: 0, revenue: 0 };
+                const imageUrl = UI.getHotelImage(hotel);
+                
+                // Generate stars
+                let starsHtml = '';
+                for (let i = 1; i <= 5; i++) {
+                    starsHtml += i <= hotel.starRating 
+                        ? '<i class="fas fa-star"></i>' 
+                        : '<i class="far fa-star"></i>';
+                }
+                
+                return `
+                    <tr>
+                        <td>
+                            <div class="table-hotel">
+                                <img src="${imageUrl}" alt="${hotel.name}" style="width:40px;height:40px;object-fit:cover;border-radius:4px;">
+                                <span>${hotel.name}</span>
+                            </div>
+                        </td>
+                        <td>${hotel.city}, ${hotel.country}</td>
+                        <td>${hotel.roomCount || hotel.rooms?.length || 0}</td>
+                        <td>
+                            <div class="stars stars-sm">${starsHtml}</div>
+                        </td>
+                        <td>${stats.bookings}</td>
+                        <td>₹${stats.revenue.toLocaleString('en-IN', {minimumFractionDigits: 2})}</td>
+                        <td><span class="badge ${hotel.isActive !== false ? 'badge-success' : 'badge-error'}">${hotel.isActive !== false ? 'Active' : 'Inactive'}</span></td>
+                    </tr>
+                `;
+            }).join('');
+        }
+        
+        function updateRevenueOverview() {
+            // Calculate from real bookings
+            const activeBookings = allBookings.filter(b => b.status !== 'CANCELLED');
+            const totalRevenue = activeBookings.reduce((sum, b) => sum + parseFloat(b.totalPrice || 0), 0);
+            const avgBooking = activeBookings.length > 0 ? totalRevenue / activeBookings.length : 0;
+            
+            // Calculate occupancy rate (booked rooms / total rooms)
+            const totalRooms = parseInt(document.getElementById('totalRooms').textContent) || 1;
+            const confirmedBookings = allBookings.filter(b => 
+                b.status === 'CONFIRMED' || b.status === 'CHECKED_IN'
+            ).length;
+            const occupancyRate = Math.min(100, Math.round((confirmedBookings / totalRooms) * 100));
+            
+            // Update display
+            document.getElementById('totalRevenue').textContent = 
+                '₹' + totalRevenue.toLocaleString('en-IN', {minimumFractionDigits: 2});
+            document.getElementById('avgBooking').textContent = 
+                '₹' + avgBooking.toLocaleString('en-IN', {minimumFractionDigits: 2});
+            document.getElementById('occupancyRate').textContent = occupancyRate + '%';
+            
+            // Update chart bars based on bookings by day of week
+            updateRevenueChart();
+        }
+        
+        function updateRevenueChart() {
+            const dayRevenue = [0, 0, 0, 0, 0, 0, 0]; // Mon to Sun
+            
+            allBookings.forEach(booking => {
+                if (booking.status !== 'CANCELLED' && booking.createdAt) {
+                    const date = new Date(booking.createdAt);
+                    let day = date.getDay() - 1; // getDay returns 0=Sun, we want Mon=0
+                    if (day < 0) day = 6;
+                    dayRevenue[day] += parseFloat(booking.totalPrice || 0);
+                }
+            });
+            
+            const maxRevenue = Math.max(...dayRevenue, 1);
+            const chartBars = document.getElementById('revenueChart').querySelectorAll('.chart-bar');
+            
+            chartBars.forEach((bar, index) => {
+                const percentage = Math.max(10, (dayRevenue[index] / maxRevenue) * 100);
+                bar.style.height = percentage + '%';
+                bar.title = `₹${dayRevenue[index].toLocaleString('en-IN', {minimumFractionDigits: 2})}`;
+            });
+        }
+    </script>
+</body>
+</html>

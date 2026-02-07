@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Manage Rooms - LuxeStay Admin">
+    <title>Manage Rooms | LuxeStay Admin</title>
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E💎%3C/text%3E%3C/svg%3E">
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    
+    <link rel="stylesheet" href="../assets/css/base.css">
+    <link rel="stylesheet" href="../assets/css/components.css">
+    <link rel="stylesheet" href="../assets/css/layout.css">
+    <link rel="stylesheet" href="../assets/css/pages/admin.css">
+    <link rel="stylesheet" href="../assets/css/premium-enhancements.css">
+</head>
+<body class="admin-body">
+    <!-- Sidebar -->
+    <aside class="admin-sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <a href="../index.html" class="sidebar-logo">
+                <span class="brand-icon"><i class="fas fa-gem"></i></span>
+                <span class="brand-text">LuxeStay</span>
+            </a>
+            <span class="admin-badge">Admin</span>
+        </div>
+        
+        <nav class="sidebar-nav">
+            <a href="dashboard.html" class="sidebar-link">
+                <i class="fas fa-tachometer-alt"></i>
+                <span>Dashboard</span>
+            </a>
+            <a href="hotels.html" class="sidebar-link">
+                <i class="fas fa-hotel"></i>
+                <span>Hotels</span>
+            </a>
+            <a href="rooms.html" class="sidebar-link active">
+                <i class="fas fa-bed"></i>
+                <span>Rooms</span>
+            </a>
+            <a href="bookings.html" class="sidebar-link">
+                <i class="fas fa-calendar-check"></i>
+                <span>Bookings</span>
+            </a>
+            <a href="reviews.html" class="sidebar-link">
+                <i class="fas fa-star"></i>
+                <span>Reviews</span>
+            </a>
+            <a href="destinations.html" class="sidebar-link">
+                <i class="fas fa-map-marker-alt"></i>
+                <span>Destinations</span>
+            </a>
+            <a href="users.html" class="sidebar-link admin-only">
+                <i class="fas fa-users"></i>
+                <span>Users</span>
+            </a>
+        </nav>
+        
+        <div class="sidebar-footer">
+            <a href="../index.html" class="sidebar-link">
+                <i class="fas fa-arrow-left"></i>
+                <span>Back to Site</span>
+            </a>
+            <button class="sidebar-link" id="logoutBtn">
+                <i class="fas fa-sign-out-alt"></i>
+                <span>Logout</span>
+            </button>
+        </div>
+    </aside>
+
+    <!-- Main Content -->
+    <div class="admin-main">
+        <header class="admin-topbar">
+            <button class="sidebar-toggle" id="sidebarToggle">
+                <i class="fas fa-bars"></i>
+            </button>
+            
+            <div class="topbar-search">
+                <i class="fas fa-search"></i>
+                <input type="text" placeholder="Search rooms..." id="searchInput">
+            </div>
+            
+            <div class="topbar-actions">
+                <button class="topbar-btn">
+                    <i class="fas fa-bell"></i>
+                    <span class="notification-badge">3</span>
+                </button>
+                <div class="topbar-user">
+                    <span class="user-avatar" id="userAvatar">A</span>
+                    <span class="user-name" id="userName">Admin</span>
+                </div>
+            </div>
+        </header>
+
+        <main class="admin-content">
+            <div class="content-header">
+                <div>
+                    <h1>Rooms</h1>
+                    <p class="content-subtitle">Manage room inventory and pricing</p>
+                </div>
+                <div class="content-actions">
+                    <button class="btn btn-primary" id="addRoomBtn">
+                        <i class="fas fa-plus"></i>
+                        Add New Room
+                    </button>
+                </div>
+            </div>
+
+            <!-- Rooms Table -->
+            <div class="dashboard-card">
+                <div class="card-header">
+                    <h3>All Rooms (<span id="roomCount">0</span>)</h3>
+                    <div class="table-filters">
+                        <select class="form-select-sm" id="hotelFilter">
+                            <option value="">All Hotels</option>
+                        </select>
+                        <select class="form-select-sm" id="statusFilter">
+                            <option value="">All Status</option>
+                            <option value="available">Available</option>
+                            <option value="occupied">Occupied</option>
+                            <option value="maintenance">Maintenance</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>Room</th>
+                                    <th>Hotel</th>
+                                    <th>Type</th>
+                                    <th>Capacity</th>
+                                    <th>Price/Night</th>
+                                    <th>Status</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="roomsTableBody"></tbody>
+                        </table>
+                    </div>
+                    
+                    <div class="loading-state" id="loadingState">
+                        <div class="spinner"></div>
+                        <p>Loading rooms...</p>
+                    </div>
+                    
+                    <div class="empty-state hidden" id="emptyState">
+                        <i class="fas fa-bed"></i>
+                        <h3>No Rooms Found</h3>
+                        <p>Start by adding rooms to your hotels.</p>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Add/Edit Room Modal -->
+    <div class="modal" id="roomModal">
+        <div class="modal-overlay"></div>
+        <div class="modal-container modal-lg">
+            <div class="modal-header">
+                <h3 id="modalTitle">Add New Room</h3>
+                <button class="modal-close" id="closeModal">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <form id="roomForm">
+                <div class="modal-body">
+                    <input type="hidden" id="roomId">
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="hotelId" class="form-label">Hotel *</label>
+                            <select id="hotelId" class="form-select" required>
+                                <option value="">Select hotel</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="roomType" class="form-label">Room Type *</label>
+                            <select id="roomType" class="form-select" required>
+                                <option value="">Select type</option>
+                                <option value="STANDARD">Standard</option>
+                                <option value="DELUXE">Deluxe</option>
+                                <option value="SUITE">Suite</option>
+                                <option value="EXECUTIVE">Executive</option>
+                                <option value="PENTHOUSE">Penthouse</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="roomNumber" class="form-label">Room Number *</label>
+                            <input type="text" id="roomNumber" class="form-input" required
+                                   placeholder="e.g., 101, A-201">
+                        </div>
+                        <div class="form-group">
+                            <label for="roomName" class="form-label">Room Name *</label>
+                            <input type="text" id="roomName" class="form-input" required
+                                   placeholder="e.g., Deluxe Ocean View Suite">
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="roomDescription" class="form-label">Description *</label>
+                        <textarea id="roomDescription" class="form-textarea" rows="3" required
+                                  placeholder="Enter room description..."></textarea>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="roomCapacity" class="form-label">Capacity (Guests) *</label>
+                            <input type="number" id="roomCapacity" class="form-input" required min="1" max="10"
+                                   placeholder="2">
+                        </div>
+                        <div class="form-group">
+                            <label for="roomBeds" class="form-label">Number of Beds *</label>
+                            <input type="number" id="roomBeds" class="form-input" required min="1" max="5"
+                                   placeholder="1">
+                        </div>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="roomPrice" class="form-label">Price per Night ($) *</label>
+                            <input type="number" id="roomPrice" class="form-input" required min="1" step="0.01"
+                                   placeholder="299.00">
+                        </div>
+                        <div class="form-group">
+                            <label for="roomSize" class="form-label">Room Size (sqft)</label>
+                            <input type="number" id="roomSize" class="form-input" min="0"
+                                   placeholder="450">
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label">Room Amenities</label>
+                        <div class="amenities-grid">
+                            <label class="checkbox-label">
+                                <input type="checkbox" name="roomAmenities" value="wifi">
+                                <span><i class="fas fa-wifi"></i> WiFi</span>
+                            </label>
+                            <label class="checkbox-label">
+                                <input type="checkbox" name="roomAmenities" value="tv">
+                                <span><i class="fas fa-tv"></i> Smart TV</span>
+                            </label>
+                            <label class="checkbox-label">
+                                <input type="checkbox" name="roomAmenities" value="ac">
+                                <span><i class="fas fa-snowflake"></i> A/C</span>
+                            </label>
+                            <label class="checkbox-label">
+                                <input type="checkbox" name="roomAmenities" value="minibar">
+                                <span><i class="fas fa-wine-bottle"></i> Mini Bar</span>
+                            </label>
+                            <label class="checkbox-label">
+                                <input type="checkbox" name="roomAmenities" value="safe">
+                                <span><i class="fas fa-lock"></i> Safe</span>
+                            </label>
+                            <label class="checkbox-label">
+                                <input type="checkbox" name="roomAmenities" value="balcony">
+                                <span><i class="fas fa-door-open"></i> Balcony</span>
+                            </label>
+                            <label class="checkbox-label">
+                                <input type="checkbox" name="roomAmenities" value="bathtub">
+                                <span><i class="fas fa-bath"></i> Bathtub</span>
+                            </label>
+                            <label class="checkbox-label">
+                                <input type="checkbox" name="roomAmenities" value="coffee">
+                                <span><i class="fas fa-coffee"></i> Coffee Maker</span>
+                            </label>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="roomImage" class="form-label">Image URL</label>
+                        <input type="url" id="roomImage" class="form-input"
+                               placeholder="https://example.com/room-image.jpg">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-outline" id="cancelBtn">Cancel</button>
+                    <button type="submit" class="btn btn-primary" id="submitBtn">
+                        <span class="btn-text">Save Room</span>
+                        <span class="btn-loading hidden"><i class="fas fa-spinner fa-spin"></i></span>
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Delete Modal -->
+    <div class="modal" id="deleteModal">
+        <div class="modal-overlay"></div>
+        <div class="modal-container modal-sm">
+            <div class="modal-header">
+                <h3>Delete Room</h3>
+                <button class="modal-close" id="closeDeleteModal">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="modal-body text-center">
+                <div class="delete-icon">
+                    <i class="fas fa-trash-alt"></i>
+                </div>
+                <h4>Are you sure?</h4>
+                <p>This will delete the room and all associated bookings.</p>
+                <input type="hidden" id="deleteRoomId">
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-outline" id="cancelDeleteBtn">Cancel</button>
+                <button type="button" class="btn btn-danger" id="confirmDeleteBtn">Delete Room</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="toast-container" id="toastContainer"></div>
+
+    <script src="../assets/js/config.js"></script>
+    <script src="../assets/js/auth.js"></script>
+    <script src="../assets/js/api.js"></script>
+    <script src="../assets/js/ui.js"></script>
+    <script src="../assets/js/pages/admin-rooms.js"></script>
+</body>
+</html>

@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LuxeStay Rewards - Your Loyalty Dashboard</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="assets/css/base.css">
+    <link rel="stylesheet" href="assets/css/components.css">
+    <link rel="stylesheet" href="assets/css/layout.css">
+    <link rel="stylesheet" href="assets/css/pages/loyalty.css">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="index.html" class="logo">
+                <span class="logo-icon">✦</span>
+                LuxeStay
+            </a>
+            <div class="nav-links">
+                <a href="hotels.html">Hotels</a>
+                <a href="map.html">Map</a>
+                <a href="loyalty.html" class="active">Rewards</a>
+                <a href="my-bookings.html">My Bookings</a>
+            </div>
+            <div class="nav-auth" id="navAuthContainer">
+                <a href="profile.html" class="profile-link" id="profileLink" style="display: none;">
+                    <i class="fas fa-user-circle"></i>
+                    <span id="userName">Profile</span>
+                </a>
+                <a href="login.html" class="btn btn-outline" id="loginBtn">Login</a>
+                <a href="signup.html" class="btn btn-primary" id="signupBtn">Sign Up</a>
+                <button class="btn btn-outline logout-btn" id="logoutBtn" style="display: none;">
+                    <i class="fas fa-sign-out-alt"></i>
+                    Logout
+                </button>
+            </div>
+            <button class="mobile-menu-btn">
+                <i class="fas fa-bars"></i>
+            </button>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="loyalty-main">
+        <!-- Hero Section -->
+        <section class="loyalty-hero">
+            <div class="hero-content">
+                <h1>LuxeStay <span class="gradient-text">Rewards</span></h1>
+                <p>Earn XP, unlock badges, and enjoy exclusive benefits with every stay</p>
+            </div>
+            <div class="hero-decoration">
+                <div class="floating-badge"><i class="fas fa-gem"></i></div>
+                <div class="floating-badge"><i class="fas fa-crown"></i></div>
+                <div class="floating-badge"><i class="fas fa-star"></i></div>
+            </div>
+        </section>
+
+        <!-- Login Prompt for non-authenticated users -->
+        <section class="login-prompt" id="loginPrompt" style="display: none;">
+            <div class="prompt-card">
+                <div class="prompt-icon"><i class="fas fa-gift"></i></div>
+                <h2>Join LuxeStay Rewards</h2>
+                <p>Sign up or log in to start earning XP and unlock exclusive rewards</p>
+                <div class="prompt-benefits">
+                    <div class="benefit-item">
+                        <i class="fas fa-percent"></i>
+                        <span>Up to 12% off bookings</span>
+                    </div>
+                    <div class="benefit-item">
+                        <i class="fas fa-coffee"></i>
+                        <span>Free breakfast at Elite+</span>
+                    </div>
+                    <div class="benefit-item">
+                        <i class="fas fa-clock"></i>
+                        <span>Late checkout privileges</span>
+                    </div>
+                    <div class="benefit-item">
+                        <i class="fas fa-arrow-up"></i>
+                        <span>Room upgrades</span>
+                    </div>
+                </div>
+                <div class="prompt-actions">
+                    <a href="signup.html" class="btn btn-primary btn-lg">Join Now</a>
+                    <a href="login.html" class="btn btn-outline btn-lg">Sign In</a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Loyalty Dashboard for authenticated users -->
+        <div class="loyalty-dashboard" id="loyaltyDashboard" style="display: none;">
+            <!-- Level Card -->
+            <section class="level-section">
+                <div class="level-card">
+                    <div class="level-header">
+                        <div class="level-badge" id="levelBadge">
+                            <i class="fas fa-compass"></i>
+                        </div>
+                        <div class="level-info">
+                            <span class="level-label">Current Level</span>
+                            <h2 class="level-name" id="levelName">Explorer</h2>
+                        </div>
+                    </div>
+                    <div class="xp-display">
+                        <div class="xp-current">
+                            <span class="xp-value" id="currentXp">0</span>
+                            <span class="xp-label">XP</span>
+                        </div>
+                        <div class="xp-progress-container">
+                            <div class="xp-progress-bar">
+                                <div class="xp-progress-fill" id="xpProgressFill" style="width: 0%"></div>
+                            </div>
+                            <div class="xp-progress-labels">
+                                <span id="xpProgressText">0 / 1,000 XP</span>
+                                <span id="nextLevelText">Next: Adventurer</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="level-benefits" id="levelBenefits">
+                        <!-- Benefits will be populated dynamically -->
+                    </div>
+                </div>
+
+                <!-- Quick Stats -->
+                <div class="quick-stats">
+                    <div class="stat-card">
+                        <div class="stat-icon"><i class="fas fa-suitcase-rolling"></i></div>
+                        <div class="stat-content">
+                            <div class="stat-value" id="statBookings">0</div>
+                            <div class="stat-label">Bookings</div>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon"><i class="fas fa-moon"></i></div>
+                        <div class="stat-content">
+                            <div class="stat-value" id="statNights">0</div>
+                            <div class="stat-label">Nights</div>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon"><i class="fas fa-award"></i></div>
+                        <div class="stat-content">
+                            <div class="stat-value" id="statBadges">0</div>
+                            <div class="stat-label">Badges</div>
+                        </div>
+                    </div>
+                    <div class="stat-card streak-card">
+                        <div class="stat-icon"><i class="fas fa-fire"></i></div>
+                        <div class="stat-content">
+                            <div class="stat-value" id="statStreak">0</div>
+                            <div class="stat-label">Streak</div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Tabs Navigation -->
+            <section class="loyalty-tabs">
+                <div class="tabs-nav">
+                    <button class="tab-btn active" data-tab="badges">
+                        <i class="fas fa-medal"></i>
+                        <span>Badges</span>
+                    </button>
+                    <button class="tab-btn" data-tab="rewards">
+                        <i class="fas fa-gift"></i>
+                        <span>Rewards</span>
+                    </button>
+                    <button class="tab-btn" data-tab="activity">
+                        <i class="fas fa-history"></i>
+                        <span>Activity</span>
+                    </button>
+                    <button class="tab-btn" data-tab="referrals">
+                        <i class="fas fa-user-plus"></i>
+                        <span>Referrals</span>
+                    </button>
+                    <button class="tab-btn" data-tab="leaderboard">
+                        <i class="fas fa-trophy"></i>
+                        <span>Leaderboard</span>
+                    </button>
+                </div>
+
+                <!-- Badges Tab -->
+                <div class="tab-content active" id="tab-badges">
+                    <div class="tab-header">
+                        <h3>Your Badges</h3>
+                        <div class="badge-filter">
+                            <button class="filter-btn active" data-filter="all">All</button>
+                            <button class="filter-btn" data-filter="unlocked">Unlocked</button>
+                            <button class="filter-btn" data-filter="locked">In Progress</button>
+                        </div>
+                    </div>
+                    <div class="badges-grid" id="badgesGrid">
+                        <!-- Badges will be populated dynamically -->
+                    </div>
+                </div>
+
+                <!-- Rewards Tab -->
+                <div class="tab-content" id="tab-rewards">
+                    <div class="tab-header">
+                        <h3>Redeem Rewards</h3>
+                        <div class="xp-balance">
+                            <i class="fas fa-coins"></i>
+                            <span id="rewardsXpBalance">0 XP Available</span>
+                        </div>
+                    </div>
+                    <div class="rewards-grid" id="rewardsGrid">
+                        <!-- Rewards will be populated dynamically -->
+                    </div>
+                    
+                    <div class="active-redemptions" id="activeRedemptions">
+                        <h4>Your Active Rewards</h4>
+                        <div class="redemptions-list" id="redemptionsList">
+                            <!-- Active redemptions will be populated -->
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Activity Tab -->
+                <div class="tab-content" id="tab-activity">
+                    <div class="tab-header">
+                        <h3>XP Activity</h3>
+                    </div>
+                    <div class="xp-breakdown" id="xpBreakdown">
+                        <!-- XP breakdown chart -->
+                    </div>
+                    <div class="activity-timeline" id="activityTimeline">
+                        <!-- Activity items will be populated -->
+                    </div>
+                </div>
+
+                <!-- Referrals Tab -->
+                <div class="tab-content" id="tab-referrals">
+                    <div class="tab-header">
+                        <h3>Refer Friends, Earn XP</h3>
+                    </div>
+                    <div class="referral-card">
+                        <div class="referral-info">
+                            <h4>Your Referral Code</h4>
+                            <div class="referral-code-display">
+                                <span id="referralCode">Loading...</span>
+                                <button class="copy-btn" onclick="copyReferralCode()">
+                                    <i class="fas fa-copy"></i>
+                                </button>
+                            </div>
+                            <div class="referral-rewards">
+                                <div class="reward-item">
+                                    <i class="fas fa-user-plus"></i>
+                                    <div>
+                                        <strong>+100 XP</strong>
+                                        <span>When friend signs up</span>
+                                    </div>
+                                </div>
+                                <div class="reward-item">
+                                    <i class="fas fa-calendar-check"></i>
+                                    <div>
+                                        <strong>+200 XP</strong>
+                                        <span>When friend completes first booking</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <button class="btn btn-primary share-btn" onclick="shareReferralCode()">
+                                <i class="fas fa-share"></i> Share Link
+                            </button>
+                        </div>
+                        <div class="referral-stats">
+                            <div class="ref-stat">
+                                <span class="ref-stat-value" id="totalReferrals">0</span>
+                                <span class="ref-stat-label">Total Referrals</span>
+                            </div>
+                            <div class="ref-stat">
+                                <span class="ref-stat-value" id="completedReferrals">0</span>
+                                <span class="ref-stat-label">Completed</span>
+                            </div>
+                            <div class="ref-stat">
+                                <span class="ref-stat-value" id="referralXpEarned">0</span>
+                                <span class="ref-stat-label">XP Earned</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="referral-list" id="referralList">
+                        <!-- Referral history -->
+                    </div>
+                </div>
+
+                <!-- Leaderboard Tab -->
+                <div class="tab-content" id="tab-leaderboard">
+                    <div class="tab-header">
+                        <h3>Top Travelers</h3>
+                        <div class="your-rank" id="yourRank">
+                            <i class="fas fa-medal"></i>
+                            <span>Your Rank: #--</span>
+                        </div>
+                    </div>
+                    <div class="leaderboard-list" id="leaderboardList">
+                        <!-- Leaderboard entries -->
+                    </div>
+                </div>
+            </section>
+
+            <!-- Levels Overview -->
+            <section class="levels-overview">
+                <h3>Loyalty Levels</h3>
+                <div class="levels-track" id="levelsTrack">
+                    <!-- Level milestones will be populated -->
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-brand">
+                <span class="logo-icon">✦</span>
+                <span>LuxeStay</span>
+            </div>
+            <p>&copy; 2026 LuxeStay. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <!-- Toast Container -->
+    <div class="toast-container" id="toastContainer"></div>
+
+    <!-- Toast Notification (legacy) -->
+    <div class="toast" id="toast">
+        <div class="toast-content">
+            <i class="toast-icon fas fa-check-circle"></i>
+            <span class="toast-message"></span>
+        </div>
+    </div>
+
+    <script src="assets/js/config.js"></script>
+    <script src="assets/js/api.js"></script>
+    <script src="assets/js/auth.js"></script>
+    <script src="assets/js/ui.js"></script>
+    <script src="assets/js/pages/loyalty.js"></script>
+</body>
+</html>

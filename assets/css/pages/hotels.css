@@ -1,0 +1,304 @@
+/* =====================================================
+   HOTELS PAGE STYLES
+   ===================================================== */
+
+/* Search & Filters */
+.search-filters {
+    background: linear-gradient(135deg, var(--color-white), var(--color-gray-50));
+    border-radius: var(--radius-2xl);
+    box-shadow: var(--shadow-xl);
+    padding: var(--space-6);
+    margin-bottom: var(--space-8);
+    border: 1px solid var(--color-gray-100);
+    transition: all var(--transition-base);
+}
+
+.search-filters:hover {
+    box-shadow: var(--shadow-2xl);
+}
+
+.filter-form {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-5);
+}
+
+.filter-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-4);
+    align-items: flex-end;
+}
+
+.filter-group {
+    flex: 1;
+    min-width: 150px;
+}
+
+.filter-group-search {
+    flex: 2;
+    min-width: 250px;
+}
+
+.filter-group label {
+    display: block;
+    margin-bottom: var(--space-2);
+    font-size: var(--text-sm);
+    font-weight: var(--font-semibold);
+    color: var(--color-gray-700);
+}
+
+.filter-row-secondary {
+    padding-top: var(--space-5);
+    border-top: 2px dashed var(--color-gray-200);
+}
+
+/* Filter Section Styles */
+.filter-section {
+    padding: var(--space-5);
+    background: var(--color-white);
+    border-radius: var(--radius-xl);
+    border: 2px solid var(--color-gray-100);
+    transition: all var(--transition-base);
+}
+
+.filter-section:hover {
+    border-color: var(--color-gold-light);
+    box-shadow: var(--shadow-md);
+}
+
+.filter-section-header {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    margin-bottom: var(--space-4);
+}
+
+.filter-section-header i {
+    color: var(--color-gold);
+    font-size: var(--text-lg);
+}
+
+.filter-section-title {
+    font-size: var(--text-base);
+    font-weight: var(--font-semibold);
+    color: var(--color-gray-800);
+}
+
+/* Filter Chips Container */
+.filter-chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-3);
+}
+
+/* Quick Locations Grid */
+.quick-locations {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(110px, 1fr));
+    gap: var(--space-3);
+}
+
+@media (min-width: 640px) {
+    .quick-locations {
+        grid-template-columns: repeat(4, 1fr);
+    }
+}
+
+@media (min-width: 1024px) {
+    .quick-locations {
+        grid-template-columns: repeat(8, 1fr);
+    }
+}
+
+/* Results Header */
+.results-header {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+    gap: var(--space-4);
+    margin-bottom: var(--space-6);
+    padding: var(--space-4);
+    background: var(--color-gray-50);
+    border-radius: var(--radius-lg);
+}
+
+.results-count {
+    font-size: var(--text-base);
+    color: var(--color-gray-600);
+    margin-bottom: 0;
+}
+
+.results-count strong {
+    color: var(--color-primary);
+    font-weight: var(--font-bold);
+}
+
+/* Pagination */
+.pagination {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: var(--space-2);
+    margin-top: var(--space-12);
+}
+
+.pagination-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 40px;
+    height: 40px;
+    padding: 0 var(--space-3);
+    border-radius: var(--radius-md);
+    font-size: var(--text-sm);
+    font-weight: var(--font-medium);
+    color: var(--color-gray-600);
+    background: var(--color-white);
+    border: 1px solid var(--color-gray-200);
+    transition: all var(--transition-fast);
+}
+
+.pagination-btn:hover:not(:disabled) {
+    border-color: var(--color-gold);
+    color: var(--color-gold);
+}
+
+.pagination-btn.active {
+    background: var(--color-gold);
+    border-color: var(--color-gold);
+    color: var(--color-white);
+}
+
+.pagination-btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.pagination-ellipsis {
+    color: var(--color-gray-400);
+}
+
+/* Room cards on hotel detail */
+.rooms-section {
+    background: var(--color-gray-50);
+}
+
+.room-card {
+    display: flex;
+    flex-direction: column;
+    background: var(--color-white);
+    border-radius: var(--radius-xl);
+    box-shadow: var(--shadow-md);
+    overflow: hidden;
+    transition: all var(--transition-base);
+}
+
+.room-card:hover {
+    box-shadow: var(--shadow-xl);
+}
+
+@media (min-width: 768px) {
+    .room-card {
+        flex-direction: row;
+    }
+}
+
+.room-image {
+    width: 100%;
+    height: 200px;
+    overflow: hidden;
+}
+
+@media (min-width: 768px) {
+    .room-image {
+        width: 300px;
+        height: auto;
+        min-height: 200px;
+    }
+}
+
+.room-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.room-details {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    padding: var(--space-5);
+}
+
+@media (min-width: 768px) {
+    .room-details {
+        flex-direction: row;
+        justify-content: space-between;
+    }
+}
+
+.room-info {
+    flex: 1;
+}
+
+.room-name {
+    font-size: var(--text-xl);
+    margin-bottom: var(--space-2);
+}
+
+.room-type {
+    margin-bottom: var(--space-3);
+}
+
+.room-description {
+    font-size: var(--text-sm);
+    color: var(--color-gray-600);
+    margin-bottom: var(--space-4);
+}
+
+.room-specs {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-4);
+    font-size: var(--text-sm);
+    color: var(--color-gray-500);
+}
+
+.room-specs span {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+}
+
+.room-specs i {
+    color: var(--color-gold);
+}
+
+.room-pricing {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--space-4);
+    margin-top: var(--space-4);
+}
+
+@media (min-width: 768px) {
+    .room-pricing {
+        align-items: flex-end;
+        margin-top: 0;
+    }
+}
+
+.room-price {
+    font-size: var(--text-2xl);
+    font-weight: var(--font-bold);
+    color: var(--color-primary);
+}
+
+.room-price span {
+    font-size: var(--text-sm);
+    font-weight: var(--font-regular);
+    color: var(--color-gray-500);
+}

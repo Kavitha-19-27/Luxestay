@@ -1,0 +1,703 @@
+/**
+ * Price Calendar Component Styles
+ * Mobile: Vertical scroll list
+ * Tablet: Week grid (2 weeks)
+ * Desktop: Full month calendar
+ * Phase 2: Smart Discovery & Responsive Interaction
+ */
+
+/* ==================== CSS VARIABLES ==================== */
+:root {
+    --pc-bg: #fff;
+    --pc-border: #e5e7eb;
+    --pc-text: #1a1a2e;
+    --pc-text-secondary: #64748b;
+    --pc-text-muted: #94a3b8;
+    --pc-accent: #c9a962;
+    --pc-radius: 16px;
+    --pc-radius-sm: 8px;
+    --pc-shadow: 0 4px 24px rgba(0, 0, 0, 0.08);
+    --pc-transition: 0.2s ease;
+    
+    /* Price tier colors */
+    --pc-low: #10b981;
+    --pc-low-bg: #d1fae5;
+    --pc-medium: #f59e0b;
+    --pc-medium-bg: #fef3c7;
+    --pc-high: #ef4444;
+    --pc-high-bg: #fee2e2;
+    --pc-unavailable: #9ca3af;
+    --pc-unavailable-bg: #f3f4f6;
+}
+
+/* ==================== CONTAINER ==================== */
+.price-calendar {
+    background: var(--pc-bg);
+    border-radius: var(--pc-radius);
+    box-shadow: var(--pc-shadow);
+    overflow: hidden;
+}
+
+/* ==================== HEADER ==================== */
+.price-calendar__header {
+    padding: 16px;
+    border-bottom: 1px solid var(--pc-border);
+}
+
+.price-calendar__nav {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 12px;
+}
+
+.price-calendar__nav-btn {
+    width: 36px;
+    height: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #f8f9fa;
+    border: 1px solid var(--pc-border);
+    border-radius: 50%;
+    color: var(--pc-text);
+    font-size: 14px;
+    cursor: pointer;
+    transition: all var(--pc-transition);
+}
+
+.price-calendar__nav-btn:hover {
+    background: var(--pc-accent);
+    border-color: var(--pc-accent);
+    color: #fff;
+}
+
+.price-calendar__nav-btn:active {
+    transform: scale(0.95);
+}
+
+.price-calendar__title {
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--pc-text);
+    margin: 0;
+}
+
+/* Summary Stats */
+.price-calendar__summary {
+    display: flex;
+    justify-content: space-around;
+    background: #f8f9fa;
+    border-radius: var(--pc-radius-sm);
+    padding: 12px;
+}
+
+.price-calendar__stat {
+    text-align: center;
+}
+
+.price-calendar__stat .label {
+    display: block;
+    font-size: 11px;
+    color: var(--pc-text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 4px;
+}
+
+.price-calendar__stat .value {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--pc-text);
+}
+
+.price-calendar__stat .value.lowest {
+    color: var(--pc-low);
+}
+
+.price-calendar__stat .value.highest {
+    color: var(--pc-high);
+}
+
+/* ==================== BODY ==================== */
+.price-calendar__body {
+    padding: 12px;
+    min-height: 200px;
+}
+
+/* Loading */
+.price-calendar__loading {
+    display: none;
+}
+
+.skeleton-grid {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 8px;
+}
+
+.skeleton-cell {
+    aspect-ratio: 1;
+    background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+    background-size: 200% 100%;
+    animation: skeleton-pulse 1.5s infinite;
+    border-radius: var(--pc-radius-sm);
+}
+
+@keyframes skeleton-pulse {
+    0% { background-position: 200% 0; }
+    100% { background-position: -200% 0; }
+}
+
+/* Weekday Headers */
+.price-calendar__weekdays {
+    display: none;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 4px;
+    margin-bottom: 8px;
+    text-align: center;
+}
+
+.price-calendar__weekday {
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--pc-text-muted);
+    text-transform: uppercase;
+    padding: 8px 0;
+}
+
+/* ==================== MONTH VIEW GRID ==================== */
+.price-calendar__grid {
+    display: none;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 4px;
+}
+
+.price-calendar__day {
+    aspect-ratio: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 4px;
+    border-radius: var(--pc-radius-sm);
+    cursor: pointer;
+    transition: all var(--pc-transition);
+    position: relative;
+    background: #fafafa;
+}
+
+.price-calendar__day.empty {
+    background: transparent;
+    cursor: default;
+}
+
+.price-calendar__day:not(.empty):not(.unavailable):hover {
+    transform: scale(1.05);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    z-index: 1;
+}
+
+.price-calendar__day .day-number {
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--pc-text);
+}
+
+.price-calendar__day .day-price {
+    font-size: 10px;
+    font-weight: 600;
+    margin-top: 2px;
+}
+
+/* Price Tiers */
+.price-calendar__day.low {
+    background: var(--pc-low-bg);
+}
+
+.price-calendar__day.low .day-price {
+    color: var(--pc-low);
+}
+
+.price-calendar__day.medium {
+    background: var(--pc-medium-bg);
+}
+
+.price-calendar__day.medium .day-price {
+    color: var(--pc-medium);
+}
+
+.price-calendar__day.high {
+    background: var(--pc-high-bg);
+}
+
+.price-calendar__day.high .day-price {
+    color: var(--pc-high);
+}
+
+.price-calendar__day.unavailable {
+    background: var(--pc-unavailable-bg);
+    cursor: not-allowed;
+}
+
+.price-calendar__day.unavailable .day-number,
+.price-calendar__day.unavailable .day-price {
+    color: var(--pc-unavailable);
+}
+
+.price-calendar__day.unavailable .day-price.soldout {
+    font-size: 9px;
+}
+
+/* Today & Selected */
+.price-calendar__day.today::before {
+    content: '';
+    position: absolute;
+    top: 3px;
+    right: 3px;
+    width: 6px;
+    height: 6px;
+    background: var(--pc-accent);
+    border-radius: 50%;
+}
+
+.price-calendar__day.selected {
+    outline: 2px solid var(--pc-accent);
+    outline-offset: 2px;
+}
+
+.price-calendar__day.past {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.price-calendar__day.weekend .day-number {
+    color: var(--pc-text-secondary);
+}
+
+/* ==================== LIST VIEW (MOBILE) ==================== */
+.price-calendar__list {
+    display: none;
+    flex-direction: column;
+    gap: 8px;
+    max-height: 400px;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+    scroll-snap-type: y mandatory;
+}
+
+.price-calendar__list-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 14px;
+    background: #fafafa;
+    border-radius: var(--pc-radius-sm);
+    cursor: pointer;
+    transition: all var(--pc-transition);
+    scroll-snap-align: start;
+}
+
+.price-calendar__list-item:active {
+    transform: scale(0.98);
+}
+
+.price-calendar__list-item.selected {
+    background: #e8f4fd;
+    border: 2px solid var(--pc-accent);
+}
+
+.price-calendar__list-item.unavailable {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+.list-item__date {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-width: 50px;
+}
+
+.list-item__date .day-name {
+    font-size: 11px;
+    color: var(--pc-text-muted);
+    text-transform: uppercase;
+}
+
+.list-item__date .day-num {
+    font-size: 22px;
+    font-weight: 700;
+    color: var(--pc-text);
+    line-height: 1.2;
+}
+
+.list-item__date .month {
+    font-size: 11px;
+    color: var(--pc-text-secondary);
+    text-transform: uppercase;
+}
+
+.list-item__info {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.list-item__info .price {
+    font-size: 18px;
+    font-weight: 600;
+    color: var(--pc-text);
+}
+
+.list-item__info .rooms {
+    font-size: 12px;
+    color: var(--pc-text-secondary);
+}
+
+.list-item__info .unavailable-text {
+    font-size: 14px;
+    color: var(--pc-unavailable);
+    font-weight: 500;
+}
+
+.list-item__indicator {
+    width: 8px;
+    height: 40px;
+    border-radius: 4px;
+}
+
+.list-item__indicator.low {
+    background: var(--pc-low);
+}
+
+.list-item__indicator.medium {
+    background: var(--pc-medium);
+}
+
+.list-item__indicator.high {
+    background: var(--pc-high);
+}
+
+.list-item__indicator.unavailable {
+    background: var(--pc-unavailable);
+}
+
+/* ==================== LEGEND ==================== */
+.price-calendar__legend {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 12px;
+    padding: 12px;
+    border-top: 1px solid var(--pc-border);
+    background: #fafafa;
+}
+
+.legend-item {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 11px;
+    color: var(--pc-text-secondary);
+}
+
+.legend-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+}
+
+.legend-dot.low {
+    background: var(--pc-low);
+}
+
+.legend-dot.medium {
+    background: var(--pc-medium);
+}
+
+.legend-dot.high {
+    background: var(--pc-high);
+}
+
+.legend-dot.unavailable {
+    background: var(--pc-unavailable);
+}
+
+/* ==================== ERROR STATE ==================== */
+.price-calendar__error {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 48px 24px;
+    text-align: center;
+}
+
+.price-calendar__error i {
+    font-size: 32px;
+    color: var(--pc-high);
+    margin-bottom: 12px;
+}
+
+.price-calendar__error p {
+    color: var(--pc-text-secondary);
+    margin: 0 0 16px 0;
+}
+
+.price-calendar__error button {
+    padding: 10px 24px;
+    background: var(--pc-accent);
+    border: none;
+    border-radius: 20px;
+    color: #fff;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background var(--pc-transition);
+}
+
+.price-calendar__error button:hover {
+    background: #b8963f;
+}
+
+/* ==================== RESPONSIVE: MOBILE ==================== */
+@media (max-width: 767px) {
+    .price-calendar.view-list .price-calendar__weekdays,
+    .price-calendar.view-list .price-calendar__grid {
+        display: none !important;
+    }
+
+    .price-calendar.view-list .price-calendar__list {
+        display: flex !important;
+    }
+
+    .price-calendar__nav-btn {
+        width: 40px;
+        height: 40px;
+    }
+
+    .price-calendar__title {
+        font-size: 15px;
+    }
+
+    .price-calendar__summary {
+        gap: 8px;
+    }
+
+    .price-calendar__stat .value {
+        font-size: 13px;
+    }
+    
+    /* Hide legend on very small screens */
+    @media (max-width: 360px) {
+        .price-calendar__legend {
+            display: none;
+        }
+    }
+}
+
+/* ==================== RESPONSIVE: TABLET ==================== */
+@media (min-width: 768px) and (max-width: 1023px) {
+    .price-calendar.view-week .price-calendar__grid {
+        grid-template-columns: repeat(7, 1fr);
+    }
+
+    .price-calendar__day {
+        aspect-ratio: auto;
+        min-height: 70px;
+        padding: 8px;
+    }
+
+    .price-calendar__day .day-number {
+        font-size: 14px;
+    }
+
+    .price-calendar__day .day-price {
+        font-size: 12px;
+    }
+
+    .price-calendar__header {
+        padding: 20px;
+    }
+
+    .price-calendar__body {
+        padding: 16px;
+    }
+
+    .price-calendar__title {
+        font-size: 18px;
+    }
+}
+
+/* ==================== RESPONSIVE: DESKTOP ==================== */
+@media (min-width: 1024px) {
+    .price-calendar {
+        max-width: 600px;
+    }
+
+    .price-calendar__header {
+        padding: 24px;
+    }
+
+    .price-calendar__nav {
+        margin-bottom: 16px;
+    }
+
+    .price-calendar__nav-btn {
+        width: 40px;
+        height: 40px;
+    }
+
+    .price-calendar__title {
+        font-size: 20px;
+    }
+
+    .price-calendar__summary {
+        padding: 16px 24px;
+    }
+
+    .price-calendar__stat .label {
+        font-size: 12px;
+    }
+
+    .price-calendar__stat .value {
+        font-size: 16px;
+    }
+
+    .price-calendar__body {
+        padding: 20px;
+    }
+
+    .price-calendar__grid {
+        gap: 6px;
+    }
+
+    .price-calendar__day {
+        aspect-ratio: 1;
+        padding: 6px;
+    }
+
+    .price-calendar__day .day-number {
+        font-size: 14px;
+    }
+
+    .price-calendar__day .day-price {
+        font-size: 11px;
+    }
+
+    .price-calendar__weekday {
+        font-size: 12px;
+        padding: 10px 0;
+    }
+
+    .price-calendar__legend {
+        gap: 24px;
+        padding: 16px;
+    }
+
+    .legend-item {
+        font-size: 12px;
+    }
+}
+
+/* ==================== RESPONSIVE: LARGE SCREENS ==================== */
+@media (min-width: 1440px) {
+    .price-calendar {
+        max-width: 700px;
+    }
+
+    .price-calendar__day {
+        padding: 8px;
+    }
+
+    .price-calendar__day .day-number {
+        font-size: 15px;
+    }
+
+    .price-calendar__day .day-price {
+        font-size: 12px;
+        margin-top: 4px;
+    }
+}
+
+/* ==================== DARK MODE ==================== */
+@media (prefers-color-scheme: dark) {
+    :root {
+        --pc-bg: #1e1e2d;
+        --pc-border: #2d2d3d;
+        --pc-text: #f1f5f9;
+        --pc-text-secondary: #94a3b8;
+        --pc-text-muted: #64748b;
+        --pc-shadow: 0 4px 24px rgba(0, 0, 0, 0.3);
+        
+        --pc-low-bg: rgba(16, 185, 129, 0.2);
+        --pc-medium-bg: rgba(245, 158, 11, 0.2);
+        --pc-high-bg: rgba(239, 68, 68, 0.2);
+        --pc-unavailable-bg: #2d2d3d;
+    }
+
+    .price-calendar__nav-btn {
+        background: #2d2d3d;
+        border-color: #3d3d4d;
+    }
+
+    .price-calendar__summary {
+        background: #2d2d3d;
+    }
+
+    .price-calendar__day {
+        background: #2d2d3d;
+    }
+
+    .price-calendar__list-item {
+        background: #2d2d3d;
+    }
+
+    .price-calendar__list-item.selected {
+        background: rgba(201, 169, 98, 0.15);
+    }
+
+    .price-calendar__legend {
+        background: #2d2d3d;
+    }
+
+    .skeleton-cell {
+        background: linear-gradient(90deg, #2d2d3d 25%, #3d3d4d 50%, #2d2d3d 75%);
+        background-size: 200% 100%;
+    }
+}
+
+/* ==================== ACCESSIBILITY ==================== */
+@media (prefers-reduced-motion: reduce) {
+    .price-calendar__day,
+    .price-calendar__list-item,
+    .price-calendar__nav-btn {
+        transition: none;
+    }
+
+    .skeleton-cell {
+        animation: none;
+        background: #e0e0e0;
+    }
+}
+
+.price-calendar__day:focus-visible,
+.price-calendar__list-item:focus-visible,
+.price-calendar__nav-btn:focus-visible {
+    outline: 2px solid var(--pc-accent);
+    outline-offset: 2px;
+}
+
+/* Screen reader only */
+.sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+}

@@ -1,0 +1,757 @@
+/**
+ * Mood-Based Hotel Finder Styles
+ * Premium UI for mood-based hotel discovery
+ */
+
+/* ==================== Toggle Button ==================== */
+.mood-finder-toggle {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.75rem 1.5rem;
+    background: linear-gradient(135deg, #C9A962 0%, #B8943F 100%);
+    color: white;
+    border: none;
+    border-radius: 50px;
+    font-size: 0.95rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(201, 169, 98, 0.3);
+    margin: 1rem 0;
+}
+
+.mood-finder-toggle:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(201, 169, 98, 0.4);
+}
+
+.mood-finder-toggle i {
+    font-size: 1rem;
+}
+
+/* ==================== Overlay ==================== */
+.mood-finder-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.6);
+    backdrop-filter: blur(4px);
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s ease;
+    z-index: 1000;
+}
+
+.mood-finder-overlay.active {
+    opacity: 1;
+    visibility: visible;
+}
+
+/* ==================== Main Panel ==================== */
+.mood-finder-panel {
+    position: fixed;
+    top: 0;
+    right: -100%;
+    width: 100%;
+    max-width: 700px;
+    height: 100vh;
+    background: var(--bg-primary, #fff);
+    box-shadow: -10px 0 40px rgba(0, 0, 0, 0.2);
+    transition: right 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    z-index: 1001;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+.mood-finder-panel.active {
+    right: 0;
+}
+
+/* ==================== Header ==================== */
+.mood-finder-header {
+    padding: 1.5rem 2rem;
+    background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+    color: white;
+    position: relative;
+}
+
+.mood-finder-title {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.mood-finder-title i {
+    font-size: 1.5rem;
+    color: #C9A962;
+}
+
+.mood-finder-title h3 {
+    margin: 0;
+    font-size: 1.5rem;
+    font-weight: 700;
+}
+
+.mood-finder-subtitle {
+    margin: 0.5rem 0 0;
+    font-size: 0.95rem;
+    opacity: 0.8;
+}
+
+.mood-finder-close {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    width: 40px;
+    height: 40px;
+    background: rgba(255, 255, 255, 0.1);
+    border: none;
+    border-radius: 50%;
+    color: white;
+    font-size: 1.2rem;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.mood-finder-close:hover {
+    background: rgba(255, 255, 255, 0.2);
+    transform: rotate(90deg);
+}
+
+/* ==================== Mood Cards Container ==================== */
+.mood-cards-container {
+    flex: 1;
+    padding: 1.5rem;
+    overflow-y: auto;
+    display: grid;
+    gap: 1rem;
+    align-content: start;
+}
+
+/* ==================== Mood Card ==================== */
+.mood-card {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 1.25rem;
+    background: var(--bg-secondary, #f8f9fa);
+    border: 2px solid transparent;
+    border-radius: 16px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.mood-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 5px;
+    height: 100%;
+    background: var(--mood-gradient);
+    transition: width 0.3s ease;
+}
+
+.mood-card:hover {
+    transform: translateX(5px);
+    border-color: var(--mood-color);
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+}
+
+.mood-card:hover::before {
+    width: 8px;
+}
+
+.mood-card-icon {
+    width: 60px;
+    height: 60px;
+    background: var(--mood-gradient);
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.mood-card-icon i {
+    font-size: 1.5rem;
+    color: white;
+}
+
+.mood-card-content {
+    flex: 1;
+    min-width: 0;
+}
+
+.mood-card-title {
+    margin: 0;
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: var(--text-primary, #1a1a2e);
+}
+
+.mood-card-description {
+    margin: 0.25rem 0 0;
+    font-size: 0.85rem;
+    color: var(--text-secondary, #666);
+}
+
+.mood-card-meta {
+    display: flex;
+    gap: 1rem;
+    margin-top: 0.5rem;
+    font-size: 0.8rem;
+}
+
+.mood-hotel-count {
+    color: var(--mood-color);
+    font-weight: 600;
+}
+
+.mood-hotel-count i {
+    margin-right: 0.25rem;
+}
+
+.mood-top-match {
+    color: var(--text-secondary, #666);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.mood-top-match i {
+    color: #ffc107;
+    margin-right: 0.25rem;
+}
+
+.mood-card-arrow {
+    color: var(--mood-color);
+    font-size: 1.2rem;
+    opacity: 0.5;
+    transition: all 0.3s ease;
+}
+
+.mood-card:hover .mood-card-arrow {
+    opacity: 1;
+    transform: translateX(5px);
+}
+
+/* ==================== Results Container ==================== */
+.mood-results-container {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+.mood-results-header {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 1rem 1.5rem;
+    background: var(--bg-secondary, #f8f9fa);
+    border-bottom: 1px solid var(--border-color, #e5e5e5);
+}
+
+.mood-back-btn {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem 1rem;
+    background: transparent;
+    border: 1px solid var(--border-color, #ddd);
+    border-radius: 8px;
+    color: var(--text-secondary, #666);
+    font-size: 0.85rem;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.mood-back-btn:hover {
+    background: var(--bg-primary, #fff);
+    border-color: var(--text-primary, #333);
+    color: var(--text-primary, #333);
+}
+
+.mood-results-title {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    flex: 1;
+}
+
+.mood-results-mood {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.4rem 1rem;
+    background: var(--mood-color);
+    color: white;
+    border-radius: 50px;
+    font-weight: 600;
+    font-size: 0.9rem;
+}
+
+.mood-results-count {
+    color: var(--text-secondary, #666);
+    font-size: 0.9rem;
+}
+
+/* ==================== Filters ==================== */
+.mood-results-filters {
+    display: flex;
+    gap: 1rem;
+    padding: 1rem 1.5rem;
+    background: var(--bg-primary, #fff);
+    border-bottom: 1px solid var(--border-color, #e5e5e5);
+    flex-wrap: wrap;
+}
+
+.mood-filter-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+}
+
+.mood-filter-group label {
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: var(--text-secondary, #666);
+    text-transform: uppercase;
+}
+
+.mood-filter-input,
+.mood-filter-select {
+    padding: 0.5rem 0.75rem;
+    border: 1px solid var(--border-color, #ddd);
+    border-radius: 8px;
+    font-size: 0.9rem;
+    background: var(--bg-secondary, #f8f9fa);
+    color: var(--text-primary, #333);
+    min-width: 140px;
+}
+
+.mood-filter-input:focus,
+.mood-filter-select:focus {
+    outline: none;
+    border-color: #C9A962;
+}
+
+.mood-filter-apply {
+    align-self: flex-end;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem 1rem;
+    background: #C9A962;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.mood-filter-apply:hover {
+    background: #B8943F;
+}
+
+/* ==================== Results List ==================== */
+.mood-results-list {
+    flex: 1;
+    padding: 1rem;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+/* ==================== Hotel Card ==================== */
+.mood-hotel-card {
+    display: flex;
+    background: var(--bg-primary, #fff);
+    border: 1px solid var(--border-color, #e5e5e5);
+    border-radius: 16px;
+    overflow: hidden;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.mood-hotel-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    border-color: #C9A962;
+}
+
+.mood-hotel-image {
+    position: relative;
+    width: 200px;
+    flex-shrink: 0;
+}
+
+.mood-hotel-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.mood-match-badge {
+    position: absolute;
+    top: 0.75rem;
+    left: 0.75rem;
+    background: rgba(0, 0, 0, 0.8);
+    padding: 0.4rem 0.75rem;
+    border-radius: 8px;
+    text-align: center;
+    border-left: 3px solid var(--mood-color);
+}
+
+.mood-match-badge.excellent {
+    background: linear-gradient(135deg, rgba(39, 174, 96, 0.9) 0%, rgba(30, 130, 76, 0.9) 100%);
+    border-left-color: #27ae60;
+}
+
+.mood-match-badge.good {
+    background: linear-gradient(135deg, rgba(52, 152, 219, 0.9) 0%, rgba(41, 128, 185, 0.9) 100%);
+    border-left-color: #3498db;
+}
+
+.mood-match-badge.fair {
+    background: linear-gradient(135deg, rgba(241, 196, 15, 0.9) 0%, rgba(243, 156, 18, 0.9) 100%);
+    border-left-color: #f1c40f;
+}
+
+.match-score {
+    display: block;
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: white;
+}
+
+.match-label {
+    display: block;
+    font-size: 0.7rem;
+    color: rgba(255, 255, 255, 0.9);
+    text-transform: uppercase;
+}
+
+.mood-hotel-content {
+    flex: 1;
+    padding: 1rem 1.25rem;
+    display: flex;
+    flex-direction: column;
+}
+
+.mood-hotel-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 0.5rem;
+}
+
+.mood-hotel-name {
+    margin: 0;
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: var(--text-primary, #1a1a2e);
+}
+
+.mood-hotel-rating {
+    color: #ffc107;
+    font-size: 0.85rem;
+    white-space: nowrap;
+}
+
+.mood-hotel-location {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    margin-top: 0.25rem;
+    font-size: 0.85rem;
+    color: var(--text-secondary, #666);
+}
+
+.mood-hotel-location i {
+    color: #C9A962;
+}
+
+/* ==================== Match Reasons ==================== */
+.mood-hotel-reasons {
+    margin-top: 0.75rem;
+    padding: 0.75rem;
+    background: var(--bg-tertiary, #f0f4f8);
+    border-radius: 8px;
+}
+
+.reasons-title {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: var(--text-secondary, #666);
+    text-transform: uppercase;
+    margin-bottom: 0.5rem;
+}
+
+.reasons-title i {
+    color: #27ae60;
+}
+
+.reasons-list {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.reasons-list li {
+    font-size: 0.85rem;
+    color: var(--text-primary, #333);
+    padding: 0.2rem 0;
+    position: relative;
+    padding-left: 0.75rem;
+}
+
+.reasons-list li::before {
+    content: '•';
+    position: absolute;
+    left: 0;
+    color: #C9A962;
+}
+
+/* ==================== Amenities Tags ==================== */
+.mood-hotel-amenities {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-top: 0.75rem;
+}
+
+.amenity-tag {
+    padding: 0.25rem 0.6rem;
+    background: var(--bg-secondary, #e9ecef);
+    border-radius: 4px;
+    font-size: 0.75rem;
+    color: var(--text-secondary, #666);
+}
+
+/* ==================== Footer ==================== */
+.mood-hotel-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: auto;
+    padding-top: 0.75rem;
+}
+
+.mood-hotel-price {
+    display: flex;
+    align-items: baseline;
+    gap: 0.25rem;
+}
+
+.price-label {
+    font-size: 0.75rem;
+    color: var(--text-secondary, #666);
+}
+
+.price-value {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: #C9A962;
+}
+
+.price-unit {
+    font-size: 0.8rem;
+    color: var(--text-secondary, #666);
+}
+
+.mood-view-btn {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem 1rem;
+    background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.mood-view-btn:hover {
+    background: linear-gradient(135deg, #16213e 0%, #1a1a2e 100%);
+    transform: translateX(3px);
+}
+
+/* ==================== Loading & Empty States ==================== */
+.mood-loading,
+.mood-empty,
+.mood-error,
+.mood-no-results {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 3rem;
+    text-align: center;
+    color: var(--text-secondary, #666);
+}
+
+.mood-loading i,
+.mood-empty i,
+.mood-error i,
+.mood-no-results i {
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+    color: #C9A962;
+}
+
+.mood-error i {
+    color: #e74c3c;
+}
+
+.mood-retry-btn {
+    margin-top: 1rem;
+    padding: 0.5rem 1.5rem;
+    background: #C9A962;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.mood-retry-btn:hover {
+    background: #B8943F;
+}
+
+/* ==================== Dark Mode ==================== */
+[data-theme="dark"] .mood-finder-panel {
+    background: #1a1a2e;
+}
+
+[data-theme="dark"] .mood-card {
+    background: #16213e;
+    border-color: #2d3a5a;
+}
+
+[data-theme="dark"] .mood-card-title,
+[data-theme="dark"] .mood-hotel-name {
+    color: #fff;
+}
+
+[data-theme="dark"] .mood-card-description,
+[data-theme="dark"] .mood-hotel-location,
+[data-theme="dark"] .mood-top-match {
+    color: #a0a0a0;
+}
+
+[data-theme="dark"] .mood-results-header,
+[data-theme="dark"] .mood-results-filters {
+    background: #16213e;
+    border-color: #2d3a5a;
+}
+
+[data-theme="dark"] .mood-hotel-card {
+    background: #16213e;
+    border-color: #2d3a5a;
+}
+
+[data-theme="dark"] .mood-hotel-reasons {
+    background: rgba(201, 169, 98, 0.1);
+}
+
+[data-theme="dark"] .reasons-list li,
+[data-theme="dark"] .mood-hotel-rating {
+    color: #e0e0e0;
+}
+
+[data-theme="dark"] .mood-filter-input,
+[data-theme="dark"] .mood-filter-select {
+    background: #0f0f1a;
+    border-color: #2d3a5a;
+    color: #fff;
+}
+
+[data-theme="dark"] .amenity-tag {
+    background: #2d3a5a;
+    color: #c0c0c0;
+}
+
+/* ==================== Responsive ==================== */
+@media (max-width: 768px) {
+    .mood-finder-panel {
+        max-width: 100%;
+    }
+
+    .mood-hotel-card {
+        flex-direction: column;
+    }
+
+    .mood-hotel-image {
+        width: 100%;
+        height: 180px;
+    }
+
+    .mood-results-filters {
+        flex-direction: column;
+    }
+
+    .mood-filter-group {
+        width: 100%;
+    }
+
+    .mood-filter-input,
+    .mood-filter-select {
+        width: 100%;
+    }
+
+    .mood-filter-apply {
+        width: 100%;
+        justify-content: center;
+    }
+}
+
+@media (max-width: 480px) {
+    .mood-finder-header {
+        padding: 1rem;
+    }
+
+    .mood-finder-title h3 {
+        font-size: 1.2rem;
+    }
+
+    .mood-cards-container {
+        padding: 1rem;
+    }
+
+    .mood-card {
+        padding: 1rem;
+    }
+
+    .mood-card-icon {
+        width: 50px;
+        height: 50px;
+    }
+
+    .mood-hotel-footer {
+        flex-direction: column;
+        gap: 0.75rem;
+        align-items: stretch;
+    }
+
+    .mood-view-btn {
+        justify-content: center;
+    }
+}

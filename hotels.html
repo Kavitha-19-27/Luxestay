@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Browse and book luxury hotels worldwide at LuxeStay">
+    <title>Hotels | LuxeStay</title>
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E💎%3C/text%3E%3C/svg%3E">
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    
+    <link rel="stylesheet" href="assets/css/base.css">
+    <link rel="stylesheet" href="assets/css/components.css">
+    <link rel="stylesheet" href="assets/css/layout.css">
+    <link rel="stylesheet" href="assets/css/pages/hotels.css">
+    <link rel="stylesheet" href="assets/css/components/chatbot.css">
+    <link rel="stylesheet" href="assets/css/components/voice-assistant.css">
+    <link rel="stylesheet" href="assets/css/components/mood-finder.css">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar navbar-dark" id="navbar">
+        <div class="container navbar-container">
+            <a href="index.html" class="navbar-brand">
+                <span class="brand-icon"><i class="fas fa-gem"></i></span>
+                <span class="brand-text">LuxeStay</span>
+            </a>
+            
+            <button class="navbar-toggle" id="navbarToggle" aria-label="Toggle navigation">
+                <span class="hamburger"></span>
+            </button>
+            
+            <div class="navbar-menu" id="navbarMenu">
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a href="index.html" class="nav-link">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="hotels.html" class="nav-link active">Hotels</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="map.html" class="nav-link">Map</a>
+                    </li>
+                    <li class="nav-item nav-item-auth" id="navAuth"></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Page Header -->
+    <header class="page-header">
+        <div class="container">
+            <h1 class="page-header-title">Explore Our <span class="text-gold">Hotels</span></h1>
+            <p class="page-header-subtitle">Find your perfect stay from our curated selection of luxury properties</p>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="section">
+        <div class="container">
+            <!-- Search & Filters -->
+            <div class="search-filters">
+                <form id="filterForm" class="filter-form" autocomplete="off">
+                    <div class="filter-row">
+                        <div class="filter-group filter-group-search">
+                            <div class="input-icon-wrapper">
+                                <span class="input-icon"><i class="fas fa-search"></i></span>
+                                <input type="text" id="searchInput" class="form-input" placeholder="Search by hotel name, city, or country...">
+                            </div>
+                        </div>
+                        
+                        <div class="filter-group">
+                            <label for="filterCheckIn">Check In</label>
+                            <input type="date" id="filterCheckIn" class="form-input">
+                        </div>
+                        
+                        <div class="filter-group">
+                            <label for="filterCheckOut">Check Out</label>
+                            <input type="date" id="filterCheckOut" class="form-input">
+                        </div>
+                        
+                        <div class="filter-group">
+                            <label for="filterGuests">Guests</label>
+                            <select id="filterGuests" class="form-select">
+                                <option value="">Any</option>
+                                <option value="1">1 Guest</option>
+                                <option value="2">2 Guests</option>
+                                <option value="3">3 Guests</option>
+                                <option value="4">4+ Guests</option>
+                            </select>
+                        </div>
+                        
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fas fa-search"></i>
+                            Search
+                        </button>
+                    </div>
+                    
+                    <!-- Star Rating Filter Chips -->
+                    <div class="filter-section">
+                        <div class="filter-section-header">
+                            <i class="fas fa-star"></i>
+                            <span class="filter-section-title">Star Rating</span>
+                        </div>
+                        <div class="filter-chips" id="starRatingChips">
+                            <button type="button" class="filter-chip active" data-stars="all">
+                                <span>All</span>
+                            </button>
+                            <button type="button" class="filter-chip" data-stars="3">
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                            </button>
+                            <button type="button" class="filter-chip" data-stars="4">
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                            </button>
+                            <button type="button" class="filter-chip" data-stars="5">
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Quick Locations -->
+                    <div class="filter-section">
+                        <div class="filter-section-header">
+                            <i class="fas fa-map-marker-alt"></i>
+                            <span class="filter-section-title">Quick Locations</span>
+                        </div>
+                        <div class="quick-locations" id="quickLocations">
+                            <button type="button" class="location-chip" data-location="Chennai">
+                                <i class="fas fa-map-pin"></i>
+                                <span>Chennai</span>
+                            </button>
+                            <button type="button" class="location-chip" data-location="Ooty">
+                                <i class="fas fa-map-pin"></i>
+                                <span>Ooty</span>
+                            </button>
+                            <button type="button" class="location-chip" data-location="Kodaikanal">
+                                <i class="fas fa-map-pin"></i>
+                                <span>Kodaikanal</span>
+                            </button>
+                            <button type="button" class="location-chip" data-location="Madurai">
+                                <i class="fas fa-map-pin"></i>
+                                <span>Madurai</span>
+                            </button>
+                            <button type="button" class="location-chip" data-location="Coimbatore">
+                                <i class="fas fa-map-pin"></i>
+                                <span>Coimbatore</span>
+                            </button>
+                            <button type="button" class="location-chip" data-location="Pondicherry">
+                                <i class="fas fa-map-pin"></i>
+                                <span>Pondicherry</span>
+                            </button>
+                            <button type="button" class="location-chip" data-location="New York">
+                                <i class="fas fa-map-pin"></i>
+                                <span>New York</span>
+                            </button>
+                            <button type="button" class="location-chip" data-location="Miami">
+                                <i class="fas fa-map-pin"></i>
+                                <span>Miami</span>
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="filter-row filter-row-secondary">
+                        <div class="filter-group">
+                            <label for="filterRegion">Region</label>
+                            <select id="filterRegion" class="form-select">
+                                <option value="">All Regions</option>
+                                <option value="tamilnadu">Tamil Nadu</option>
+                                <option value="international">International</option>
+                            </select>
+                        </div>
+                        
+                        <div class="filter-group">
+                            <label for="filterPrice">Max Price</label>
+                            <select id="filterPrice" class="form-select">
+                                <option value="">Any Price</option>
+                                <option value="5000">Up to ₹5,000</option>
+                                <option value="10000">Up to ₹10,000</option>
+                                <option value="20000">Up to ₹20,000</option>
+                                <option value="50000">Up to ₹50,000</option>
+                                <option value="100000">Up to ₹1,00,000</option>
+                            </select>
+                        </div>
+                        
+                        <div class="filter-group">
+                            <label for="filterSort">Sort By</label>
+                            <select id="filterSort" class="form-select">
+                                <option value="name">Name (A-Z)</option>
+                                <option value="price_asc">Price (Low to High)</option>
+                                <option value="price_desc">Price (High to Low)</option>
+                                <option value="rating">Rating</option>
+                            </select>
+                        </div>
+                        
+                        <button type="button" class="btn btn-ghost" id="clearFilters">
+                            <i class="fas fa-times"></i>
+                            Clear All
+                        </button>
+                    </div>
+                </form>
+            </div>
+
+            <!-- Results Header with Legend -->
+            <div class="results-header">
+                <p class="results-count" id="resultsCount">Loading hotels...</p>
+                
+                <div class="rating-legend">
+                    <span class="legend-title">Legend:</span>
+                    <div class="legend-items">
+                        <div class="legend-item">
+                            <span class="legend-dot legend-dot-3star"></span>
+                            <span class="legend-text">3-Star</span>
+                        </div>
+                        <div class="legend-item">
+                            <span class="legend-dot legend-dot-4star"></span>
+                            <span class="legend-text">4-Star</span>
+                        </div>
+                        <div class="legend-item">
+                            <span class="legend-dot legend-dot-5star"></span>
+                            <span class="legend-text">5-Star</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Hotels Grid -->
+            <div class="hotels-grid" id="hotelsGrid">
+                <div class="loading-spinner">
+                    <div class="spinner"></div>
+                    <p>Loading hotels...</p>
+                </div>
+            </div>
+
+            <!-- Pagination -->
+            <div class="pagination" id="pagination"></div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-brand">
+                    <a href="index.html" class="footer-logo">
+                        <span class="brand-icon"><i class="fas fa-gem"></i></span>
+                        <span class="brand-text">LuxeStay</span>
+                    </a>
+                    <p class="footer-tagline">Experience luxury, create memories.</p>
+                </div>
+                
+                <div class="footer-links">
+                    <h4>Quick Links</h4>
+                    <ul>
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="hotels.html">Hotels</a></li>
+                        <li><a href="login.html">Login</a></li>
+                        <li><a href="signup.html">Sign Up</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-links">
+                    <h4>Support</h4>
+                    <ul>
+                        <li><a href="#">Help Center</a></li>
+                        <li><a href="#">Contact Us</a></li>
+                        <li><a href="#">Terms of Service</a></li>
+                        <li><a href="#">Privacy Policy</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-contact">
+                    <h4>Contact Us</h4>
+                    <ul>
+                        <li><i class="fas fa-envelope"></i> support@luxestay.com</li>
+                        <li><i class="fas fa-phone"></i> +91 (044) 1234-5678</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <p>&copy; 2026 LuxeStay. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <div class="toast-container" id="toastContainer"></div>
+
+    <script src="assets/js/config.js?v=3"></script>
+    <script src="assets/js/auth.js?v=3"></script>
+    <script src="assets/js/api.js?v=3"></script>
+    <script src="assets/js/ui.js?v=3"></script>
+    <script src="assets/js/pages/hotels.js?v=3"></script>
+    <script src="assets/js/mood-finder.js?v=1"></script>
+    <!-- Production Chatbot (Backend-Driven) -->
+    <script src="assets/js/chatbot-api.js?v=2"></script>
+    <script src="assets/js/chatbot-ui.js?v=2"></script>
+    <!-- Voice Assistant -->
+    <script src="assets/js/voice-assistant.js?v=1"></script>
+</body>
+</html>

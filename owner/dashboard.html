@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Hotel Owner Dashboard - LuxeStay">
+    <title>Hotel Dashboard | LuxeStay</title>
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E💎%3C/text%3E%3C/svg%3E">
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    
+    <link rel="stylesheet" href="../assets/css/base.css">
+    <link rel="stylesheet" href="../assets/css/components.css">
+    <link rel="stylesheet" href="../assets/css/layout.css">
+    <link rel="stylesheet" href="../assets/css/pages/admin.css">
+    <link rel="stylesheet" href="../assets/css/pages/owner.css">
+    <link rel="stylesheet" href="../assets/css/premium-enhancements.css">
+</head>
+<body class="admin-body owner-body">
+    <!-- Sidebar -->
+    <aside class="admin-sidebar owner-sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <a href="../index.html" class="sidebar-logo">
+                <span class="brand-icon"><i class="fas fa-gem"></i></span>
+                <span class="brand-text">LuxeStay</span>
+            </a>
+            <span class="owner-badge">Hotel Owner</span>
+        </div>
+        
+        <nav class="sidebar-nav">
+            <a href="dashboard.html" class="sidebar-link active">
+                <i class="fas fa-tachometer-alt"></i>
+                <span>Dashboard</span>
+            </a>
+            <a href="rooms.html" class="sidebar-link">
+                <i class="fas fa-bed"></i>
+                <span>My Rooms</span>
+            </a>
+            <a href="bookings.html" class="sidebar-link">
+                <i class="fas fa-calendar-check"></i>
+                <span>Bookings</span>
+            </a>
+            <a href="reviews.html" class="sidebar-link">
+                <i class="fas fa-star"></i>
+                <span>Reviews</span>
+            </a>
+            <a href="hotel-settings.html" class="sidebar-link">
+                <i class="fas fa-cog"></i>
+                <span>Hotel Settings</span>
+            </a>
+        </nav>
+        
+        <div class="sidebar-footer">
+            <a href="../index.html" class="sidebar-link">
+                <i class="fas fa-arrow-left"></i>
+                <span>Back to Site</span>
+            </a>
+            <button class="sidebar-link" id="logoutBtn">
+                <i class="fas fa-sign-out-alt"></i>
+                <span>Logout</span>
+            </button>
+        </div>
+    </aside>
+
+    <!-- Main Content -->
+    <div class="admin-main">
+        <!-- Top Bar -->
+        <header class="admin-topbar">
+            <button class="sidebar-toggle" id="sidebarToggle">
+                <i class="fas fa-bars"></i>
+            </button>
+            
+            <div class="topbar-hotel-info">
+                <span class="hotel-name" id="hotelName">Loading...</span>
+            </div>
+            
+            <div class="topbar-actions">
+                <button class="topbar-btn" id="refreshBtn" title="Refresh Data">
+                    <i class="fas fa-sync-alt"></i>
+                </button>
+                <div class="topbar-user">
+                    <span class="user-avatar" id="userAvatar">O</span>
+                    <span class="user-name" id="userName">Owner</span>
+                </div>
+            </div>
+        </header>
+
+        <!-- Dashboard Content -->
+        <main class="admin-content">
+            <!-- Password Change Alert -->
+            <div class="alert alert-warning password-change-alert" id="passwordChangeAlert" style="display: none;">
+                <i class="fas fa-exclamation-triangle"></i>
+                <span>You need to change your password for security. <a href="change-password.html">Change now</a></span>
+            </div>
+
+            <div class="content-header">
+                <div>
+                    <h1>Dashboard</h1>
+                    <p class="content-subtitle">Manage your hotel and track performance</p>
+                </div>
+                <div class="content-actions">
+                    <button class="btn btn-outline" onclick="location.href='hotel-settings.html'">
+                        <i class="fas fa-cog"></i>
+                        Hotel Settings
+                    </button>
+                    <button class="btn btn-primary" onclick="showAddRoomModal()">
+                        <i class="fas fa-plus"></i>
+                        Add Room
+                    </button>
+                </div>
+            </div>
+
+            <!-- Stats Cards -->
+            <div class="stats-grid" id="statsGrid">
+                <div class="stat-card">
+                    <div class="stat-icon stat-icon-blue">
+                        <i class="fas fa-bed"></i>
+                    </div>
+                    <div class="stat-info">
+                        <span class="stat-value" id="totalRooms">0</span>
+                        <span class="stat-label">Total Rooms</span>
+                    </div>
+                </div>
+                
+                <div class="stat-card">
+                    <div class="stat-icon stat-icon-green">
+                        <i class="fas fa-check-circle"></i>
+                    </div>
+                    <div class="stat-info">
+                        <span class="stat-value" id="availableRooms">0</span>
+                        <span class="stat-label">Available Rooms</span>
+                    </div>
+                </div>
+                
+                <div class="stat-card">
+                    <div class="stat-icon stat-icon-gold">
+                        <i class="fas fa-calendar-check"></i>
+                    </div>
+                    <div class="stat-info">
+                        <span class="stat-value" id="totalBookings">0</span>
+                        <span class="stat-label">Total Bookings</span>
+                    </div>
+                </div>
+                
+                <div class="stat-card">
+                    <div class="stat-icon stat-icon-purple">
+                        <i class="fas fa-rupee-sign"></i>
+                    </div>
+                    <div class="stat-info">
+                        <span class="stat-value" id="totalRevenue">₹0</span>
+                        <span class="stat-label">Total Revenue</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Today's Activity -->
+            <div class="dashboard-grid">
+                <!-- Today's Check-ins -->
+                <div class="dashboard-card">
+                    <div class="card-header">
+                        <h3><i class="fas fa-sign-in-alt"></i> Today's Check-ins</h3>
+                        <span class="badge badge-info" id="checkinCount">0</span>
+                    </div>
+                    <div class="card-body">
+                        <div class="checkins-list" id="todayCheckins">
+                            <p class="empty-state">No check-ins scheduled for today</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Today's Check-outs -->
+                <div class="dashboard-card">
+                    <div class="card-header">
+                        <h3><i class="fas fa-sign-out-alt"></i> Today's Check-outs</h3>
+                        <span class="badge badge-warning" id="checkoutCount">0</span>
+                    </div>
+                    <div class="card-body">
+                        <div class="checkouts-list" id="todayCheckouts">
+                            <p class="empty-state">No check-outs scheduled for today</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Performance Overview -->
+            <div class="dashboard-card dashboard-card-full">
+                <div class="card-header">
+                    <h3>Performance Overview</h3>
+                    <select class="form-select form-select-sm" id="periodFilter">
+                        <option value="week">This Week</option>
+                        <option value="month" selected>This Month</option>
+                        <option value="year">This Year</option>
+                    </select>
+                </div>
+                <div class="card-body">
+                    <div class="performance-stats">
+                        <div class="performance-item">
+                            <span class="performance-label">Occupancy Rate</span>
+                            <div class="performance-bar">
+                                <div class="performance-fill" id="occupancyBar" style="width: 0%;"></div>
+                            </div>
+                            <span class="performance-value" id="occupancyRate">0%</span>
+                        </div>
+                        <div class="performance-item">
+                            <span class="performance-label">Confirmed Bookings</span>
+                            <div class="performance-bar">
+                                <div class="performance-fill bg-success" id="confirmedBar" style="width: 0%;"></div>
+                            </div>
+                            <span class="performance-value" id="confirmedCount">0</span>
+                        </div>
+                        <div class="performance-item">
+                            <span class="performance-label">Pending Bookings</span>
+                            <div class="performance-bar">
+                                <div class="performance-fill bg-warning" id="pendingBar" style="width: 0%;"></div>
+                            </div>
+                            <span class="performance-value" id="pendingCount">0</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Recent Bookings -->
+            <div class="dashboard-card dashboard-card-full">
+                <div class="card-header">
+                    <h3>Recent Bookings</h3>
+                    <a href="bookings.html" class="card-link">View All</a>
+                </div>
+                <div class="card-body">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>Reference</th>
+                                <th>Guest</th>
+                                <th>Room</th>
+                                <th>Check-in</th>
+                                <th>Check-out</th>
+                                <th>Status</th>
+                                <th>Amount</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="recentBookingsTable">
+                            <tr>
+                                <td colspan="8" class="text-center">Loading bookings...</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Room Overview -->
+            <div class="dashboard-card dashboard-card-full">
+                <div class="card-header">
+                    <h3>Room Overview</h3>
+                    <a href="rooms.html" class="card-link">Manage Rooms</a>
+                </div>
+                <div class="card-body">
+                    <div class="rooms-grid" id="roomsGrid">
+                        <p class="empty-state">Loading rooms...</p>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Add Room Modal -->
+    <div class="modal" id="addRoomModal">
+        <div class="modal-overlay"></div>
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Add New Room</h3>
+                <button class="modal-close" onclick="closeModal('addRoomModal')">&times;</button>
+            </div>
+            <form id="addRoomForm" onsubmit="handleAddRoom(event)">
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label for="roomType">Room Type</label>
+                        <select id="roomType" name="roomType" required class="form-select">
+                            <option value="">Select room type</option>
+                            <option value="SINGLE">Single</option>
+                            <option value="DOUBLE">Double</option>
+                            <option value="SUITE">Suite</option>
+                            <option value="DELUXE">Deluxe</option>
+                            <option value="PRESIDENTIAL">Presidential</option>
+                        </select>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="roomNumber">Room Number</label>
+                            <input type="text" id="roomNumber" name="roomNumber" required class="form-input" placeholder="e.g., 101">
+                        </div>
+                        <div class="form-group">
+                            <label for="roomName">Room Name</label>
+                            <input type="text" id="roomName" name="roomName" class="form-input" placeholder="e.g., Deluxe Ocean View">
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="pricePerNight">Price per Night (₹)</label>
+                            <input type="number" id="pricePerNight" name="pricePerNight" required class="form-input" min="100" step="100" placeholder="e.g., 5000">
+                        </div>
+                        <div class="form-group">
+                            <label for="maxOccupancy">Max Occupancy</label>
+                            <input type="number" id="maxOccupancy" name="maxOccupancy" required class="form-input" min="1" max="10" placeholder="e.g., 2">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="description">Description</label>
+                        <textarea id="description" name="description" class="form-textarea" rows="3" placeholder="Room description..."></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="amenities">Amenities (comma-separated)</label>
+                        <input type="text" id="amenities" name="amenities" class="form-input" placeholder="e.g., WiFi, AC, TV, Mini Bar">
+                    </div>
+                    <div class="form-group">
+                        <label for="roomImageUrl">Room Image URL</label>
+                        <input type="url" id="roomImageUrl" name="imageUrl" class="form-input" placeholder="https://example.com/room-image.jpg">
+                        <small style="color: rgba(255,255,255,0.4); font-size: 0.8rem; margin-top: 0.25rem; display: block;">Add a URL for the room image (optional)</small>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-ghost" onclick="closeModal('addRoomModal')">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Add Room</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Update Booking Status Modal -->
+    <div class="modal" id="updateStatusModal">
+        <div class="modal-overlay"></div>
+        <div class="modal-content modal-sm">
+            <div class="modal-header">
+                <h3>Update Booking Status</h3>
+                <button class="modal-close" onclick="closeModal('updateStatusModal')">&times;</button>
+            </div>
+            <form id="updateStatusForm" onsubmit="handleUpdateStatus(event)">
+                <div class="modal-body">
+                    <input type="hidden" id="statusBookingId" name="bookingId">
+                    <div class="form-group">
+                        <label for="newStatus">New Status</label>
+                        <select id="newStatus" name="status" required class="form-select">
+                            <option value="CONFIRMED">Confirmed</option>
+                            <option value="CHECKED_IN">Checked In</option>
+                            <option value="CHECKED_OUT">Checked Out</option>
+                            <option value="CANCELLED">Cancelled</option>
+                        </select>
+                    </div>
+                    <div class="form-group" id="reasonGroup" style="display: none;">
+                        <label for="statusReason">Reason (for cancellation)</label>
+                        <textarea id="statusReason" name="reason" class="form-textarea" rows="2" placeholder="Reason for cancellation..."></textarea>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-ghost" onclick="closeModal('updateStatusModal')">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Update Status</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div class="toast-container" id="toastContainer"></div>
+
+    <script src="../assets/js/config.js"></script>
+    <script src="../assets/js/auth.js"></script>
+    <script src="../assets/js/api.js"></script>
+    <script src="../assets/js/ui.js"></script>
+    <script src="../assets/js/pages/owner-dashboard.js"></script>
+</body>
+</html>

@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Manage Hotels - LuxeStay Admin">
+    <title>Manage Hotels | LuxeStay Admin</title>
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E💎%3C/text%3E%3C/svg%3E">
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    
+    <link rel="stylesheet" href="../assets/css/base.css">
+    <link rel="stylesheet" href="../assets/css/components.css">
+    <link rel="stylesheet" href="../assets/css/layout.css">
+    <link rel="stylesheet" href="../assets/css/pages/admin.css">
+    <link rel="stylesheet" href="../assets/css/pages/admin-hotels.css">
+    <link rel="stylesheet" href="../assets/css/premium-enhancements.css">
+</head>
+<body class="admin-body">
+    <!-- Sidebar -->
+    <aside class="admin-sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <a href="../index.html" class="sidebar-logo">
+                <span class="brand-icon"><i class="fas fa-gem"></i></span>
+                <span class="brand-text">LuxeStay</span>
+            </a>
+            <span class="admin-badge">Admin</span>
+        </div>
+        
+        <nav class="sidebar-nav">
+            <a href="dashboard.html" class="sidebar-link">
+                <i class="fas fa-tachometer-alt"></i>
+                <span>Dashboard</span>
+            </a>
+            <a href="hotels.html" class="sidebar-link active">
+                <i class="fas fa-hotel"></i>
+                <span>Hotels</span>
+            </a>
+            <a href="rooms.html" class="sidebar-link">
+                <i class="fas fa-bed"></i>
+                <span>Rooms</span>
+            </a>
+            <a href="bookings.html" class="sidebar-link">
+                <i class="fas fa-calendar-check"></i>
+                <span>Bookings</span>
+            </a>
+            <a href="reviews.html" class="sidebar-link">
+                <i class="fas fa-star"></i>
+                <span>Reviews</span>
+            </a>
+            <a href="destinations.html" class="sidebar-link">
+                <i class="fas fa-map-marker-alt"></i>
+                <span>Destinations</span>
+            </a>
+            <a href="users.html" class="sidebar-link admin-only">
+                <i class="fas fa-users"></i>
+                <span>Users</span>
+            </a>
+        </nav>
+        
+        <div class="sidebar-footer">
+            <a href="../index.html" class="sidebar-link">
+                <i class="fas fa-arrow-left"></i>
+                <span>Back to Site</span>
+            </a>
+            <button class="sidebar-link" id="logoutBtn">
+                <i class="fas fa-sign-out-alt"></i>
+                <span>Logout</span>
+            </button>
+        </div>
+    </aside>
+
+    <!-- Main Content -->
+    <div class="admin-main">
+        <!-- Top Bar -->
+        <header class="admin-topbar">
+            <button class="sidebar-toggle" id="sidebarToggle">
+                <i class="fas fa-bars"></i>
+            </button>
+            
+            <div class="topbar-search">
+                <i class="fas fa-search"></i>
+                <input type="text" placeholder="Search hotels..." id="searchInput">
+            </div>
+            
+            <div class="topbar-actions">
+                <button class="topbar-btn">
+                    <i class="fas fa-bell"></i>
+                    <span class="notification-badge">3</span>
+                </button>
+                <div class="topbar-user">
+                    <span class="user-avatar" id="userAvatar">A</span>
+                    <span class="user-name" id="userName">Admin</span>
+                </div>
+            </div>
+        </header>
+
+        <!-- Content -->
+        <main class="admin-content">
+            <div class="content-header">
+                <div>
+                    <h1>Hotels</h1>
+                    <p class="content-subtitle">Manage your hotel properties</p>
+                </div>
+                <div class="content-actions">
+                    <button class="btn btn-primary" id="addHotelBtn">
+                        <i class="fas fa-plus"></i>
+                        Add New Hotel
+                    </button>
+                </div>
+            </div>
+
+            <!-- Pending Approvals Section -->
+            <div class="dashboard-card pending-approvals-card" id="pendingApprovalsCard" style="display: none;">
+                <div class="card-header">
+                    <h3><i class="fas fa-clock text-warning"></i> Pending Hotel Registrations (<span id="pendingCount">0</span>)</h3>
+                </div>
+                <div class="card-body">
+                    <div class="pending-registrations-list" id="pendingList">
+                        <!-- Pending hotels loaded dynamically -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- Hotels Table -->
+            <div class="dashboard-card hotels-table-card">
+                <div class="card-header">
+                    <h3>All Hotels (<span id="hotelCount">0</span>)</h3>
+                    <div class="table-filters">
+                        <select class="form-select-sm" id="statusFilter">
+                            <option value="">All Status</option>
+                            <option value="active">Active</option>
+                            <option value="inactive">Inactive</option>
+                            <option value="PENDING">Pending Approval</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>Hotel</th>
+                                    <th>Location</th>
+                                    <th>Rooms</th>
+                                    <th>Rating</th>
+                                    <th>Min Price</th>
+                                    <th>Status</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="hotelsTableBody">
+                                <!-- Hotels loaded dynamically -->
+                            </tbody>
+                        </table>
+                    </div>
+                    
+                    <div class="loading-state" id="loadingState">
+                        <div class="spinner"></div>
+                        <p>Loading hotels...</p>
+                    </div>
+                    
+                    <div class="empty-state hidden" id="emptyState">
+                        <i class="fas fa-hotel"></i>
+                        <h3>No Hotels Found</h3>
+                        <p>Start by adding your first hotel property.</p>
+                        <button class="btn btn-primary" onclick="document.getElementById('addHotelBtn').click()">
+                            Add Hotel
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Add/Edit Hotel Modal -->
+    <div class="modal" id="hotelModal">
+        <div class="modal-overlay"></div>
+        <div class="modal-container modal-lg">
+            <div class="modal-header">
+                <h3 id="modalTitle">Add New Hotel</h3>
+                <button class="modal-close" id="closeModal">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <form id="hotelForm">
+                <div class="modal-body">
+                    <input type="hidden" id="hotelId">
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="hotelName" class="form-label">Hotel Name *</label>
+                            <input type="text" id="hotelName" class="form-input" required 
+                                   placeholder="e.g., Grand Luxury Hotel">
+                        </div>
+                        <div class="form-group">
+                            <label for="hotelRating" class="form-label">Star Rating *</label>
+                            <select id="hotelRating" class="form-select" required>
+                                <option value="">Select rating</option>
+                                <option value="5">5 Stars</option>
+                                <option value="4">4 Stars</option>
+                                <option value="3">3 Stars</option>
+                                <option value="2">2 Stars</option>
+                                <option value="1">1 Star</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="hotelDescription" class="form-label">Description *</label>
+                        <textarea id="hotelDescription" class="form-textarea" rows="4" required
+                                  placeholder="Enter hotel description..."></textarea>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="hotelCity" class="form-label">City *</label>
+                            <input type="text" id="hotelCity" class="form-input" required
+                                   placeholder="e.g., New York">
+                        </div>
+                        <div class="form-group">
+                            <label for="hotelCountry" class="form-label">Country *</label>
+                            <input type="text" id="hotelCountry" class="form-input" required
+                                   placeholder="e.g., United States">
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="hotelAddress" class="form-label">Address *</label>
+                        <input type="text" id="hotelAddress" class="form-input" required
+                               placeholder="Full street address">
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="hotelPhone" class="form-label">Phone Number</label>
+                            <input type="tel" id="hotelPhone" class="form-input"
+                                   placeholder="+1 234 567 8900">
+                        </div>
+                        <div class="form-group">
+                            <label for="hotelEmail" class="form-label">Email</label>
+                            <input type="email" id="hotelEmail" class="form-input"
+                                   placeholder="hotel@example.com">
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="hotelAmenities" class="form-label">Amenities</label>
+                        <div class="amenities-grid" id="amenitiesGrid">
+                            <label class="checkbox-label">
+                                <input type="checkbox" name="amenities" value="wifi">
+                                <span><i class="fas fa-wifi"></i> Free WiFi</span>
+                            </label>
+                            <label class="checkbox-label">
+                                <input type="checkbox" name="amenities" value="pool">
+                                <span><i class="fas fa-swimming-pool"></i> Pool</span>
+                            </label>
+                            <label class="checkbox-label">
+                                <input type="checkbox" name="amenities" value="spa">
+                                <span><i class="fas fa-spa"></i> Spa</span>
+                            </label>
+                            <label class="checkbox-label">
+                                <input type="checkbox" name="amenities" value="gym">
+                                <span><i class="fas fa-dumbbell"></i> Gym</span>
+                            </label>
+                            <label class="checkbox-label">
+                                <input type="checkbox" name="amenities" value="restaurant">
+                                <span><i class="fas fa-utensils"></i> Restaurant</span>
+                            </label>
+                            <label class="checkbox-label">
+                                <input type="checkbox" name="amenities" value="parking">
+                                <span><i class="fas fa-parking"></i> Parking</span>
+                            </label>
+                            <label class="checkbox-label">
+                                <input type="checkbox" name="amenities" value="bar">
+                                <span><i class="fas fa-cocktail"></i> Bar</span>
+                            </label>
+                            <label class="checkbox-label">
+                                <input type="checkbox" name="amenities" value="concierge">
+                                <span><i class="fas fa-concierge-bell"></i> Concierge</span>
+                            </label>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="hotelImage" class="form-label">Image URL</label>
+                        <input type="url" id="hotelImage" class="form-input"
+                               placeholder="https://example.com/hotel-image.jpg">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-outline" id="cancelBtn">Cancel</button>
+                    <button type="submit" class="btn btn-primary" id="submitBtn">
+                        <span class="btn-text">Save Hotel</span>
+                        <span class="btn-loading hidden"><i class="fas fa-spinner fa-spin"></i></span>
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Delete Confirmation Modal -->
+    <div class="modal" id="deleteModal">
+        <div class="modal-overlay"></div>
+        <div class="modal-container modal-sm">
+            <div class="modal-header">
+                <h3>Delete Hotel</h3>
+                <button class="modal-close" id="closeDeleteModal">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="modal-body text-center">
+                <div class="delete-icon">
+                    <i class="fas fa-trash-alt"></i>
+                </div>
+                <h4>Are you sure?</h4>
+                <p>This action cannot be undone. All rooms and bookings associated with this hotel will also be deleted.</p>
+                <input type="hidden" id="deleteHotelId">
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-outline" id="cancelDeleteBtn">Cancel</button>
+                <button type="button" class="btn btn-danger" id="confirmDeleteBtn">
+                    Delete Hotel
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Approval Modal -->
+    <div class="modal" id="approvalModal">
+        <div class="modal-overlay"></div>
+        <div class="modal-container modal-md">
+            <div class="modal-header">
+                <h3 id="approvalModalTitle">Review Registration</h3>
+                <button class="modal-close" onclick="closeApprovalModal()">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div id="approvalDetails"></div>
+                <div class="form-group" id="rejectionReasonGroup" style="display: none;">
+                    <label for="rejectionReason" class="form-label">Rejection Reason</label>
+                    <textarea id="rejectionReason" class="form-textarea" rows="3" placeholder="Explain why this registration is being rejected..."></textarea>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-outline" onclick="closeApprovalModal()">Cancel</button>
+                <button type="button" class="btn btn-danger" id="rejectBtn" onclick="handleReject()">
+                    <i class="fas fa-times"></i> Reject
+                </button>
+                <button type="button" class="btn btn-success" id="approveBtn" onclick="handleApprove()">
+                    <i class="fas fa-check"></i> Approve
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Premium styles in admin-hotels.css -->
+
+    <div class="toast-container" id="toastContainer"></div>
+
+    <script src="../assets/js/config.js"></script>
+    <script src="../assets/js/auth.js"></script>
+    <script src="../assets/js/api.js"></script>
+    <script src="../assets/js/ui.js"></script>
+    <script src="../assets/js/pages/admin-hotels.js"></script>
+</body>
+</html>
