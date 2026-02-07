@@ -13,7 +13,7 @@ const CONFIG = {
     // Production URL points to Render backend
     API_BASE_URL: isLocalhost 
         ? 'http://localhost:8080/api' 
-        : 'https://luxestay-backend-l.onrender.com/api',
+        : 'https://luxestay-backend-1.onrender.com/api',
     
     // Environment flag
     IS_PRODUCTION: !isLocalhost,
