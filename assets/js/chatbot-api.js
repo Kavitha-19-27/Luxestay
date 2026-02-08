@@ -9,12 +9,12 @@
  */
 
 const ChatbotAPI = {
-    // Base URL for API - uses CONFIG if available, otherwise relative path
+    // Base URL for API - uses CONFIG if available, otherwise production URL
     get BASE_URL() {
         if (typeof CONFIG !== 'undefined' && CONFIG.API_BASE_URL) {
             return CONFIG.API_BASE_URL + '/chatbot';
         }
-        return '/api/chatbot';
+        return 'https://luxestay-backend-1.onrender.com/api/chatbot';
     },
     
     // Cache for frequently used data

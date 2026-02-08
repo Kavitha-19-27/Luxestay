@@ -26,8 +26,8 @@
     'use strict';
 
     // ==================== CONFIGURATION ====================
-    const CONFIG = {
-        API_BASE: window.CONFIG?.API_BASE_URL || 'http://localhost:8080/api',
+    const MAP_CONFIG = {
+        API_BASE: (typeof CONFIG !== 'undefined' && CONFIG.API_BASE_URL) ? CONFIG.API_BASE_URL : 'https://luxestay-backend-1.onrender.com/api',
         
         // Map settings
         INITIAL_CENTER: [20.5937, 78.9629],  // India center - most hotels are here
@@ -126,10 +126,10 @@
         if (state.map) return;
 
         state.map = L.map('hotelMap', {
-            center: CONFIG.INITIAL_CENTER,
-            zoom: CONFIG.INITIAL_ZOOM,
-            minZoom: CONFIG.MIN_ZOOM,
-            maxZoom: CONFIG.MAX_ZOOM,
+            center: MAP_CONFIG.INITIAL_CENTER,
+            zoom: MAP_CONFIG.INITIAL_ZOOM,
+            minZoom: MAP_CONFIG.MIN_ZOOM,
+            maxZoom: MAP_CONFIG.MAX_ZOOM,
             zoomControl: true,
             scrollWheelZoom: true,
             doubleClickZoom: true,
@@ -141,9 +141,9 @@
         });
 
         // Add tile layer
-        L.tileLayer(CONFIG.TILE_URL, {
-            attribution: CONFIG.TILE_ATTRIBUTION,
-            maxZoom: CONFIG.MAX_ZOOM
+        L.tileLayer(MAP_CONFIG.TILE_URL, {
+            attribution: MAP_CONFIG.TILE_ATTRIBUTION,
+            maxZoom: MAP_CONFIG.MAX_ZOOM
         }).addTo(state.map);
 
         // Create single LayerGroup for all markers - efficient add/remove
@@ -157,11 +157,11 @@
     function bindEvents() {
         // MAP EVENTS - Single source of truth
         // All map movements trigger hotel fetch via moveend
-        state.map.on('moveend', debounce(handleMapMoveEnd, CONFIG.BOUNDS_FETCH_DELAY));
+        state.map.on('moveend', debounce(handleMapMoveEnd, MAP_CONFIG.BOUNDS_FETCH_DELAY));
 
         // SEARCH EVENTS
         if (dom.searchInput) {
-            dom.searchInput.addEventListener('input', debounce(handleSearchInput, CONFIG.SEARCH_INPUT_DELAY));
+            dom.searchInput.addEventListener('input', debounce(handleSearchInput, MAP_CONFIG.SEARCH_INPUT_DELAY));
             dom.searchInput.addEventListener('focus', handleSearchFocus);
             dom.searchInput.addEventListener('keydown', handleSearchKeydown);
         }
@@ -238,7 +238,7 @@
 
         // Fetch from API
         try {
-            const response = await fetch(`${CONFIG.API_BASE}/hotels/search?q=${encodeURIComponent(query)}`);
+            const response = await fetch(`${MAP_CONFIG.API_BASE}/hotels/search?q=${encodeURIComponent(query)}`);
             if (!response.ok) throw new Error('Search failed');
             
             const data = await response.json();
@@ -570,7 +570,7 @@
         
         // Perform smooth navigation
         state.map.flyTo([lat, lng], zoom, {
-            duration: CONFIG.FLY_DURATION,
+            duration: MAP_CONFIG.FLY_DURATION,
             easeLinearity: 0.25
         });
         
@@ -604,7 +604,7 @@
 
         try {
             const queryString = new URLSearchParams(params).toString();
-            const response = await fetch(`${CONFIG.API_BASE}/hotels/map/bounds?${queryString}`);
+            const response = await fetch(`${MAP_CONFIG.API_BASE}/hotels/map/bounds?${queryString}`);
             
             if (!response.ok) throw new Error('Failed to fetch hotels');
             
@@ -850,7 +850,7 @@
         const key = query.toLowerCase();
         const cached = state.searchCache.get(key);
         
-        if (cached && Date.now() - cached.timestamp < CONFIG.CACHE_TTL) {
+        if (cached && Date.now() - cached.timestamp < MAP_CONFIG.CACHE_TTL) {
             return cached.results;
         }
         
@@ -875,14 +875,14 @@
 
     function getBoundsCache(key) {
         try {
-            const cached = sessionStorage.getItem(CONFIG.CACHE_KEY_PREFIX + key);
+            const cached = sessionStorage.getItem(MAP_CONFIG.CACHE_KEY_PREFIX + key);
             if (cached) {
                 const data = JSON.parse(cached);
-                if (Date.now() - data.timestamp < CONFIG.CACHE_TTL) {
+                if (Date.now() - data.timestamp < MAP_CONFIG.CACHE_TTL) {
                     return data.hotels;
                 }
                 // Expired - remove
-                sessionStorage.removeItem(CONFIG.CACHE_KEY_PREFIX + key);
+                sessionStorage.removeItem(MAP_CONFIG.CACHE_KEY_PREFIX + key);
             }
         } catch (e) {
             // sessionStorage might be unavailable
@@ -896,10 +896,10 @@
                 hotels,
                 timestamp: Date.now()
             };
-            sessionStorage.setItem(CONFIG.CACHE_KEY_PREFIX + key, JSON.stringify(data));
+            sessionStorage.setItem(MAP_CONFIG.CACHE_KEY_PREFIX + key, JSON.stringify(data));
             
             // Clean up old entries (simple strategy - limit to 20 entries)
-            const keys = Object.keys(sessionStorage).filter(k => k.startsWith(CONFIG.CACHE_KEY_PREFIX));
+            const keys = Object.keys(sessionStorage).filter(k => k.startsWith(MAP_CONFIG.CACHE_KEY_PREFIX));
             if (keys.length > 20) {
                 sessionStorage.removeItem(keys[0]);
             }

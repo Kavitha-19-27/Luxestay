@@ -8,7 +8,8 @@ const isLocalhost = window.location.hostname === 'localhost' ||
                     window.location.hostname === '127.0.0.1' ||
                     window.location.hostname.includes('192.168.');
 
-const CONFIG = {
+// Make CONFIG globally accessible via window object
+window.CONFIG = {
     // API Configuration - automatically switches based on environment
     // Production URL points to Render backend
     API_BASE_URL: isLocalhost 
@@ -191,7 +192,10 @@ const CONFIG = {
 };
 
 // Freeze config to prevent modifications
-Object.freeze(CONFIG);
+Object.freeze(window.CONFIG);
+
+// Also expose as const CONFIG for backward compatibility
+const CONFIG = window.CONFIG;
 
 // Production-safe debug logging
 // Wraps console methods and only outputs in development

@@ -237,7 +237,7 @@ class LuxeStayVoiceAssistant {
                     </div>
                     
                     <div class="voice-suggestions" id="voiceSuggestions">
-                        <div class="suggestions-label">Try saying:</div>
+                        <div class="suggestions-label">TRY SAYING:</div>
                         <div class="suggestions-list" id="suggestionsList">
                             <button class="suggestion-chip" data-command="Hotels in Chennai">
                                 <i class="fas fa-search"></i> Hotels in Chennai
@@ -250,6 +250,16 @@ class LuxeStayVoiceAssistant {
                             </button>
                             <button class="suggestion-chip" data-command="Help">
                                 <i class="fas fa-question-circle"></i> Help
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="voice-text-fallback" id="voiceTextFallback">
+                        <div class="text-fallback-divider"><span>or type your request</span></div>
+                        <div class="text-input-wrapper">
+                            <input type="text" id="voiceTextInput" placeholder="Type here..." class="voice-text-input">
+                            <button type="button" id="voiceTextSubmit" class="voice-text-submit">
+                                <i class="fas fa-paper-plane"></i>
                             </button>
                         </div>
                     </div>
@@ -290,7 +300,9 @@ class LuxeStayVoiceAssistant {
             suggestions: document.getElementById('voiceSuggestions'),
             suggestionsList: document.getElementById('suggestionsList'),
             micBtn: document.getElementById('voiceMicBtn'),
-            stopBtn: document.getElementById('voiceStopBtn')
+            stopBtn: document.getElementById('voiceStopBtn'),
+            textInput: document.getElementById('voiceTextInput'),
+            textSubmit: document.getElementById('voiceTextSubmit')
         };
     }
     
@@ -317,6 +329,17 @@ class LuxeStayVoiceAssistant {
                 this.processTranscript(command);
             }
         });
+        
+        // Text input fallback
+        if (this.elements.textInput && this.elements.textSubmit) {
+            this.elements.textSubmit.addEventListener('click', () => this.submitTextInput());
+            this.elements.textInput.addEventListener('keydown', (e) => {
+                if (e.key === 'Enter') {
+                    e.preventDefault();
+                    this.submitTextInput();
+                }
+            });
+        }
         
         // Keyboard shortcuts
         document.addEventListener('keydown', (e) => {
@@ -390,6 +413,20 @@ class LuxeStayVoiceAssistant {
             this.stopListening();
         } else {
             this.startListening();
+        }
+    }
+    
+    /**
+     * Submit text input as voice command
+     */
+    submitTextInput() {
+        if (!this.elements.textInput) return;
+        
+        const text = this.elements.textInput.value.trim();
+        if (text) {
+            this.elements.transcriptText.textContent = text;
+            this.elements.textInput.value = '';
+            this.processTranscript(text);
         }
     }
     
@@ -479,7 +516,7 @@ class LuxeStayVoiceAssistant {
                 shouldShowError = false;
                 break;
             case 'network':
-                message = 'Network error. Please check your internet connection.';
+                message = 'Voice recognition service unavailable. Please use text input or click the suggestions below.';
                 break;
             case 'audio-capture':
                 message = 'No microphone found. Please connect a microphone.';
@@ -1180,7 +1217,7 @@ class LuxeStayVoiceAssistant {
         if (typeof CONFIG !== 'undefined' && CONFIG.API_BASE_URL) {
             return CONFIG.API_BASE_URL;
         }
-        return 'http://localhost:8080/api';
+        return 'https://luxestay-backend-1.onrender.com/api';
     }
     
     /**

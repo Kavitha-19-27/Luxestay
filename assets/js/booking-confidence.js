@@ -53,7 +53,7 @@ async function fetchBookingConfidence(roomId, checkInDate, checkOutDate) {
         // Use CONFIG.API_BASE_URL for proper backend URL
         const baseUrl = (typeof CONFIG !== 'undefined' && CONFIG.API_BASE_URL) 
             ? CONFIG.API_BASE_URL 
-            : 'http://localhost:8080/api';
+            : 'https://luxestay-backend-1.onrender.com/api';
 
         const response = await fetch(`${baseUrl}/bookings/confidence?${params}`, {
             method: 'GET',
