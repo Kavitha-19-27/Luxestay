@@ -122,15 +122,17 @@ const UI = {
      */
     getHotelImage(hotel) {
         let imageUrl;
-        if (hotel.images && hotel.images.length > 0) {
+        if (hotel.heroImageUrl) {
+            imageUrl = hotel.heroImageUrl;
+        } else if (hotel.images && hotel.images.length > 0) {
             const primaryImage = hotel.images.find(img => img.isPrimary);
             imageUrl = primaryImage ? primaryImage.imageUrl : hotel.images[0].imageUrl;
         } else {
             imageUrl = CONFIG.HOTEL_IMAGES[hotel.name] || CONFIG.PLACEHOLDER_HOTEL;
         }
-        // Add cache-busting parameter based on updatedAt timestamp
-        if (imageUrl && hotel.updatedAt) {
-            const cacheBuster = new Date(hotel.updatedAt).getTime();
+        // Add cache-busting parameter based on updatedAt timestamp (or current time as fallback)
+        if (imageUrl) {
+            const cacheBuster = hotel.updatedAt ? new Date(hotel.updatedAt).getTime() : Date.now();
             imageUrl += (imageUrl.includes('?') ? '&' : '?') + 'v=' + cacheBuster;
         }
         return imageUrl;
@@ -146,9 +148,9 @@ const UI = {
         } else {
             imageUrl = CONFIG.ROOM_IMAGES[room.roomType] || CONFIG.PLACEHOLDER_ROOM;
         }
-        // Add cache-busting parameter
-        if (imageUrl && room.updatedAt) {
-            const cacheBuster = new Date(room.updatedAt).getTime();
+        // Add cache-busting parameter (use updatedAt or current time as fallback)
+        if (imageUrl) {
+            const cacheBuster = room.updatedAt ? new Date(room.updatedAt).getTime() : Date.now();
             imageUrl += (imageUrl.includes('?') ? '&' : '?') + 'v=' + cacheBuster;
         }
         return imageUrl;
