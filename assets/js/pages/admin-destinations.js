@@ -1,52 +1,13 @@
 /**
  * Admin Destinations Management
- * CRUD operations for destination images
+ * CRUD operations for destination images via Backend API
+ * Now uses database storage instead of localStorage for proper data persistence
  */
 
-// Store destinations in localStorage (simulating database)
-const DESTINATIONS_KEY = 'luxestay_destinations';
-
-// Default destinations from CONFIG
-const DEFAULT_DESTINATIONS = {
-    // Tamil Nadu
-    'Chennai': { imageUrl: 'https://images.unsplash.com/photo-1582510003544-4d00b7f74220?w=600', region: 'tamilnadu' },
-    'Coimbatore': { imageUrl: 'https://images.unsplash.com/photo-1590077428593-a55bb07c4665?w=600', region: 'tamilnadu' },
-    'Madurai': { imageUrl: 'https://images.unsplash.com/photo-1548013146-72479768bada?w=600', region: 'tamilnadu' },
-    'Ooty': { imageUrl: 'https://images.unsplash.com/photo-1544735716-392fe2489ffa?w=600', region: 'tamilnadu' },
-    'Kodaikanal': { imageUrl: 'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=600', region: 'tamilnadu' },
-    'Pondicherry': { imageUrl: 'https://images.unsplash.com/photo-1582510003544-4d00b7f74220?w=600', region: 'tamilnadu' },
-    'Kanyakumari': { imageUrl: 'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=600', region: 'tamilnadu' },
-    'Mahabalipuram': { imageUrl: 'https://images.unsplash.com/photo-1544735716-392fe2489ffa?w=600', region: 'tamilnadu' },
-    'Coonoor': { imageUrl: 'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=600', region: 'tamilnadu' },
-    
-    // USA
-    'New York': { imageUrl: 'https://images.unsplash.com/photo-1496442226666-8d4d0e62e6e9?w=600', region: 'usa' },
-    'Miami': { imageUrl: 'https://images.unsplash.com/photo-1533106497176-45ae19e68ba2?w=600', region: 'usa' },
-    'Chicago': { imageUrl: 'https://images.unsplash.com/photo-1494522855154-9297ac14b55f?w=600', region: 'usa' },
-    'Los Angeles': { imageUrl: 'https://images.unsplash.com/photo-1534190760961-74e8c1c5c3da?w=600', region: 'usa' },
-    'Las Vegas': { imageUrl: 'https://images.unsplash.com/photo-1605833556294-ea5c7a74f57d?w=600', region: 'usa' },
-    'Aspen': { imageUrl: 'https://images.unsplash.com/photo-1544735716-392fe2489ffa?w=600', region: 'usa' },
-    
-    // Europe
-    'Paris': { imageUrl: 'https://images.unsplash.com/photo-1502602898657-3e91760cbb34?w=600', region: 'europe' },
-    'London': { imageUrl: 'https://images.unsplash.com/photo-1513635269975-59663e0ac1ad?w=600', region: 'europe' },
-    'Rome': { imageUrl: 'https://images.unsplash.com/photo-1552832230-c0197dd311b5?w=600', region: 'europe' },
-    'Barcelona': { imageUrl: 'https://images.unsplash.com/photo-1539037116277-4db20889f2d4?w=600', region: 'europe' },
-    
-    // Asia
-    'Tokyo': { imageUrl: 'https://images.unsplash.com/photo-1540959733332-eab4deabeeaf?w=600', region: 'asia' },
-    'Singapore': { imageUrl: 'https://images.unsplash.com/photo-1525625293386-3f8f99389edd?w=600', region: 'asia' },
-    'Dubai': { imageUrl: 'https://images.unsplash.com/photo-1512453979798-5ea266f8880c?w=600', region: 'asia' },
-    
-    // Other
-    'Sydney': { imageUrl: 'https://images.unsplash.com/photo-1506973035872-a4ec16b8e8d9?w=600', region: 'other' },
-    'Maldives': { imageUrl: 'https://images.unsplash.com/photo-1514282401047-d79a71a590e8?w=600', region: 'other' }
-};
-
-let destinations = {};
+let destinations = [];
 let currentFilter = 'all';
-let editingCity = null;
-let deletingCity = null;
+let editingDestination = null;
+let deletingDestination = null;
 
 /**
  * Initialize the page
@@ -58,11 +19,8 @@ document.addEventListener('DOMContentLoaded', () => {
     // Initialize user info
     initUserInfo();
     
-    // Load destinations
+    // Load destinations from API
     loadDestinations();
-    
-    // Render destinations
-    renderDestinations();
     
     // Setup event listeners
     setupEventListeners();
@@ -83,23 +41,66 @@ function initUserInfo() {
 }
 
 /**
- * Load destinations from localStorage or use defaults
+ * Load destinations from API
  */
-function loadDestinations() {
-    const stored = localStorage.getItem(DESTINATIONS_KEY);
-    if (stored) {
-        destinations = JSON.parse(stored);
-    } else {
-        destinations = { ...DEFAULT_DESTINATIONS };
-        saveToStorage();
+async function loadDestinations() {
+    const grid = document.getElementById('destinationsGrid');
+    
+    // Show loading state
+    grid.innerHTML = '<div class="loading-state"><div class="spinner"></div><p>Loading destinations...</p></div>';
+    
+    try {
+        const response = await API.admin.getDestinations();
+        
+        if (response.success && response.data) {
+            destinations = response.data;
+            
+            // If no destinations exist, seed defaults
+            if (destinations.length === 0) {
+                await seedDestinations();
+                return; // seedDestinations will call loadDestinations again
+            }
+            
+            renderDestinations();
+        } else {
+            throw new Error('Failed to load destinations');
+        }
+    } catch (error) {
+        console.error('Error loading destinations:', error);
+        
+        // If API fails (possibly first time), try to seed
+        if (error.status === 404 || destinations.length === 0) {
+            await seedDestinations();
+        } else {
+            grid.innerHTML = `
+                <div class="error-state">
+                    <i class="fas fa-exclamation-triangle"></i>
+                    <h3>Failed to load destinations</h3>
+                    <p>${error.message || 'Please try again later'}</p>
+                    <button class="btn btn-primary" onclick="loadDestinations()">Retry</button>
+                </div>
+            `;
+        }
     }
 }
 
 /**
- * Save destinations to localStorage
+ * Seed default destinations to database
  */
-function saveToStorage() {
-    localStorage.setItem(DESTINATIONS_KEY, JSON.stringify(destinations));
+async function seedDestinations() {
+    try {
+        UI.toast('Initializing destinations...', 'info');
+        const response = await API.admin.seedDestinations();
+        
+        if (response.success && response.data) {
+            destinations = response.data;
+            renderDestinations();
+            UI.toast('Destinations initialized successfully', 'success');
+        }
+    } catch (error) {
+        console.error('Error seeding destinations:', error);
+        UI.toast('Failed to initialize destinations', 'error');
+    }
 }
 
 /**
@@ -110,17 +111,17 @@ function renderDestinations() {
     const emptyState = document.getElementById('emptyState');
     
     // Filter destinations
-    let filtered = Object.entries(destinations);
+    let filtered = [...destinations];
     
     if (currentFilter !== 'all') {
-        filtered = filtered.filter(([city, data]) => data.region === currentFilter);
+        filtered = filtered.filter(dest => dest.region === currentFilter);
     }
     
     // Search filter
     const searchInput = document.getElementById('searchInput');
     if (searchInput && searchInput.value.trim()) {
         const search = searchInput.value.toLowerCase();
-        filtered = filtered.filter(([city]) => city.toLowerCase().includes(search));
+        filtered = filtered.filter(dest => dest.city.toLowerCase().includes(search));
     }
     
     if (filtered.length === 0) {
@@ -131,27 +132,34 @@ function renderDestinations() {
     
     emptyState.style.display = 'none';
     
-    grid.innerHTML = filtered.map(([city, data]) => `
-        <div class="destination-admin-card" data-city="${city}">
-            <div class="destination-image">
-                <img src="${data.imageUrl}" alt="${city}" onerror="this.src='https://images.unsplash.com/photo-1449824913935-59a10b8d2000?w=600'">
-                <div class="destination-overlay">
-                    <div class="destination-actions">
-                        <button class="action-btn" onclick="editDestination('${city}')" title="Edit">
-                            <i class="fas fa-edit"></i>
-                        </button>
-                        <button class="action-btn action-btn-danger" onclick="deleteDestination('${city}')" title="Delete">
-                            <i class="fas fa-trash"></i>
-                        </button>
+    grid.innerHTML = filtered.map(dest => {
+        // Add cache-busting parameter to image URL
+        const imageUrl = dest.updatedAt 
+            ? `${dest.imageUrl}${dest.imageUrl.includes('?') ? '&' : '?'}v=${new Date(dest.updatedAt).getTime()}`
+            : dest.imageUrl;
+        
+        return `
+            <div class="destination-admin-card" data-id="${dest.id}" data-city="${dest.city}">
+                <div class="destination-image">
+                    <img src="${imageUrl}" alt="${dest.city}" onerror="this.src='https://images.unsplash.com/photo-1449824913935-59a10b8d2000?w=600'">
+                    <div class="destination-overlay">
+                        <div class="destination-actions">
+                            <button class="action-btn" onclick="editDestination(${dest.id})" title="Edit">
+                                <i class="fas fa-edit"></i>
+                            </button>
+                            <button class="action-btn action-btn-danger" onclick="deleteDestination(${dest.id}, '${dest.city}')" title="Delete">
+                                <i class="fas fa-trash"></i>
+                            </button>
+                        </div>
                     </div>
                 </div>
+                <div class="destination-info">
+                    <h3 class="destination-name">${dest.city}</h3>
+                    <span class="destination-region">${getRegionLabel(dest.region)}</span>
+                </div>
             </div>
-            <div class="destination-info">
-                <h3 class="destination-name">${city}</h3>
-                <span class="destination-region">${getRegionLabel(data.region)}</span>
-            </div>
-        </div>
-    `).join('');
+        `;
+    }).join('');
 }
 
 /**
@@ -165,7 +173,7 @@ function getRegionLabel(region) {
         'asia': 'Asia',
         'other': 'Other'
     };
-    return labels[region] || region;
+    return labels[region] || region || 'Other';
 }
 
 /**
@@ -221,7 +229,7 @@ function setupSidebar() {
  * Open add destination modal
  */
 function openAddModal() {
-    editingCity = null;
+    editingDestination = null;
     document.getElementById('modalTitle').textContent = 'Add Destination';
     document.getElementById('destinationForm').reset();
     document.getElementById('cityName').disabled = false;
@@ -232,26 +240,26 @@ function openAddModal() {
 /**
  * Edit destination
  */
-function editDestination(city) {
-    editingCity = city;
-    const data = destinations[city];
+function editDestination(id) {
+    editingDestination = destinations.find(d => d.id === id);
+    if (!editingDestination) return;
     
     document.getElementById('modalTitle').textContent = 'Edit Destination';
-    document.getElementById('cityName').value = city;
+    document.getElementById('cityName').value = editingDestination.city;
     document.getElementById('cityName').disabled = true; // Can't change city name
-    document.getElementById('imageUrl').value = data.imageUrl;
-    document.getElementById('region').value = data.region;
+    document.getElementById('imageUrl').value = editingDestination.imageUrl;
+    document.getElementById('region').value = editingDestination.region || 'other';
     
     // Show preview
-    showPreview(data.imageUrl);
+    showPreview(editingDestination.imageUrl);
     
     document.getElementById('destinationModal').classList.add('active');
 }
 
 /**
- * Save destination
+ * Save destination (create or update via API)
  */
-function saveDestination(event) {
+async function saveDestination(event) {
     event.preventDefault();
     
     const cityName = document.getElementById('cityName').value.trim();
@@ -263,44 +271,82 @@ function saveDestination(event) {
         return;
     }
     
-    // Check for duplicate (only for new destinations)
-    if (!editingCity && destinations[cityName]) {
-        UI.toast('A destination with this name already exists', 'error');
-        return;
-    }
-    
-    // Save destination
-    destinations[editingCity || cityName] = {
+    const destinationData = {
+        city: cityName,
         imageUrl: imageUrl,
-        region: region
+        region: region || 'other',
+        isActive: true
     };
     
-    saveToStorage();
-    renderDestinations();
-    closeModal();
+    // Disable form while saving
+    const submitBtn = document.querySelector('#destinationForm button[type="submit"]');
+    const originalText = submitBtn.innerHTML;
+    submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Saving...';
+    submitBtn.disabled = true;
     
-    UI.toast(editingCity ? 'Destination updated successfully' : 'Destination added successfully', 'success');
+    try {
+        let response;
+        
+        if (editingDestination) {
+            // Update existing destination
+            response = await API.admin.updateDestination(editingDestination.id, destinationData);
+        } else {
+            // Create new destination
+            response = await API.admin.createDestination(destinationData);
+        }
+        
+        if (response.success) {
+            closeModal();
+            await loadDestinations(); // Reload from server to get fresh data
+            UI.toast(editingDestination ? 'Destination updated successfully' : 'Destination added successfully', 'success');
+        } else {
+            throw new Error(response.message || 'Failed to save destination');
+        }
+    } catch (error) {
+        console.error('Error saving destination:', error);
+        UI.toast(error.message || 'Failed to save destination', 'error');
+    } finally {
+        submitBtn.innerHTML = originalText;
+        submitBtn.disabled = false;
+    }
 }
 
 /**
  * Delete destination
  */
-function deleteDestination(city) {
-    deletingCity = city;
+function deleteDestination(id, city) {
+    deletingDestination = { id, city };
     document.getElementById('deleteCityName').textContent = city;
     document.getElementById('deleteModal').classList.add('active');
 }
 
 /**
- * Confirm delete
+ * Confirm delete (via API)
  */
-function confirmDelete() {
-    if (deletingCity && destinations[deletingCity]) {
-        delete destinations[deletingCity];
-        saveToStorage();
-        renderDestinations();
-        closeDeleteModal();
-        UI.toast('Destination deleted successfully', 'success');
+async function confirmDelete() {
+    if (!deletingDestination) return;
+    
+    const deleteBtn = document.querySelector('#deleteModal .btn-danger');
+    const originalText = deleteBtn.innerHTML;
+    deleteBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Deleting...';
+    deleteBtn.disabled = true;
+    
+    try {
+        const response = await API.admin.deleteDestination(deletingDestination.id);
+        
+        if (response.success) {
+            closeDeleteModal();
+            await loadDestinations(); // Reload from server
+            UI.toast('Destination deleted successfully', 'success');
+        } else {
+            throw new Error(response.message || 'Failed to delete destination');
+        }
+    } catch (error) {
+        console.error('Error deleting destination:', error);
+        UI.toast(error.message || 'Failed to delete destination', 'error');
+    } finally {
+        deleteBtn.innerHTML = originalText;
+        deleteBtn.disabled = false;
     }
 }
 
@@ -309,7 +355,7 @@ function confirmDelete() {
  */
 function closeModal() {
     document.getElementById('destinationModal').classList.remove('active');
-    editingCity = null;
+    editingDestination = null;
 }
 
 /**
@@ -317,7 +363,7 @@ function closeModal() {
  */
 function closeDeleteModal() {
     document.getElementById('deleteModal').classList.remove('active');
-    deletingCity = null;
+    deletingDestination = null;
 }
 
 /**
@@ -379,14 +425,16 @@ function debounce(func, wait) {
 }
 
 /**
- * Reset destinations to defaults
+ * Reset destinations to defaults (via API seed)
  */
-function resetToDefaults() {
-    if (confirm('Are you sure you want to reset all destinations to defaults? This cannot be undone.')) {
-        destinations = { ...DEFAULT_DESTINATIONS };
-        saveToStorage();
-        renderDestinations();
-        UI.toast('Destinations reset to defaults', 'success');
+async function resetToDefaults() {
+    if (confirm('Are you sure you want to reset all destinations to defaults? This will re-seed the default destinations.')) {
+        try {
+            await seedDestinations();
+        } catch (error) {
+            console.error('Error resetting destinations:', error);
+            UI.toast('Failed to reset destinations', 'error');
+        }
     }
 }
 

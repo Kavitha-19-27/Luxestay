@@ -95,86 +95,51 @@ async function loadFeaturedHotels() {
 // No fallback hotels - database is the single source of truth
 
 /**
- * Get destination image URL (from localStorage or CONFIG fallback)
- */
-function getDestinationImage(city) {
-    // Check localStorage first (admin-managed destinations)
-    const storedDestinations = localStorage.getItem('luxestay_destinations');
-    if (storedDestinations) {
-        const destinations = JSON.parse(storedDestinations);
-        if (destinations[city] && destinations[city].imageUrl) {
-            return destinations[city].imageUrl;
-        }
-    }
-    // Fallback to CONFIG
-    return CONFIG.CITY_IMAGES[city] || 'https://images.unsplash.com/photo-1449824913935-59a10b8d2000?w=600';
-}
-
-/**
- * Get all admin-added destinations from localStorage
- */
-function getAdminDestinations() {
-    const storedDestinations = localStorage.getItem('luxestay_destinations');
-    if (storedDestinations) {
-        return Object.keys(JSON.parse(storedDestinations));
-    }
-    return [];
-}
-
-/**
- * Load popular destinations
+ * Load popular destinations from API (database as single source of truth)
  */
 async function loadDestinations() {
     const container = document.getElementById('destinationsGrid');
     
     try {
-        const response = await API.hotels.getCities();
-        let cities = [];
+        // Fetch destinations from the backend API
+        const response = await API.destinations.getAll();
         
         if (response.success && response.data && response.data.length > 0) {
-            cities = [...response.data];
-        }
-        
-        // Merge with admin-added destinations
-        const adminDestinations = getAdminDestinations();
-        adminDestinations.forEach(city => {
-            if (!cities.includes(city)) {
-                cities.push(city);
-            }
-        });
-        
-        if (cities.length > 0) {
-            // Sort alphabetically and show up to 12 cities
-            cities.sort();
-            container.innerHTML = cities.slice(0, 12).map(city => renderDestinationCard(city)).join('');
+            // Sort by sortOrder, then alphabetically
+            const destinations = response.data.sort((a, b) => {
+                if (a.sortOrder !== b.sortOrder) {
+                    return a.sortOrder - b.sortOrder;
+                }
+                return a.city.localeCompare(b.city);
+            });
+            
+            // Show up to 12 destinations
+            container.innerHTML = destinations.slice(0, 12).map(dest => renderDestinationCard(dest)).join('');
         } else {
             // Show empty state - no fake data
             UI.showEmpty(container, 'No Destinations', 'Check back soon for new destinations', 'fa-map-marker-alt');
         }
     } catch (error) {
         console.error('Error loading destinations:', error);
-        // On error, try to show admin destinations at least
-        const adminDestinations = getAdminDestinations();
-        if (adminDestinations.length > 0) {
-            container.innerHTML = adminDestinations.slice(0, 12).map(city => renderDestinationCard(city)).join('');
-        } else {
-            // Show error state - no fake data
-            UI.showEmpty(container, 'Unable to Load Destinations', 'Please try again later', 'fa-map-marker-alt');
-        }
+        // Show error state - no fake data
+        UI.showEmpty(container, 'Unable to Load Destinations', 'Please try again later', 'fa-map-marker-alt');
     }
 }
 
 /**
- * Render destination card
+ * Render destination card with cache-busting
  */
-function renderDestinationCard(city) {
-    const imageUrl = getDestinationImage(city);
+function renderDestinationCard(dest) {
+    // Add cache-busting parameter to ensure fresh images after admin updates
+    const imageUrl = dest.updatedAt 
+        ? `${dest.imageUrl}${dest.imageUrl.includes('?') ? '&' : '?'}v=${new Date(dest.updatedAt).getTime()}`
+        : dest.imageUrl;
     
     return `
-        <a href="hotels.html?search=${encodeURIComponent(city)}" class="destination-card">
-            <img src="${imageUrl}" alt="${city}" onerror="this.src='https://images.unsplash.com/photo-1449824913935-59a10b8d2000?w=600'">
+        <a href="hotels.html?search=${encodeURIComponent(dest.city)}" class="destination-card">
+            <img src="${imageUrl}" alt="${dest.city}" onerror="this.src='https://images.unsplash.com/photo-1449824913935-59a10b8d2000?w=600'">
             <div class="destination-card-overlay">
-                <h3 class="destination-card-title">${city}</h3>
+                <h3 class="destination-card-title">${dest.city}</h3>
                 <p class="destination-card-count">Explore hotels</p>
             </div>
         </a>

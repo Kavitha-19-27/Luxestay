@@ -186,6 +186,40 @@ const API = {
     },
     
     // =====================================================
+    // DESTINATIONS ENDPOINTS (PUBLIC)
+    // =====================================================
+    
+    destinations: {
+        /**
+         * Get all active destinations for homepage display
+         */
+        getAll() {
+            return API.get('/destinations');
+        },
+        
+        /**
+         * Get destinations by region
+         */
+        getByRegion(region) {
+            return API.get(`/destinations/region/${encodeURIComponent(region)}`);
+        },
+        
+        /**
+         * Get destination by city name
+         */
+        getByCity(city) {
+            return API.get(`/destinations/city/${encodeURIComponent(city)}`);
+        },
+        
+        /**
+         * Search destinations
+         */
+        search(query) {
+            return API.get(`/destinations/search?q=${encodeURIComponent(query)}`);
+        }
+    },
+    
+    // =====================================================
     // SMART SEARCH ENDPOINTS
     // =====================================================
     
@@ -388,6 +422,39 @@ const API = {
             return API.request(`/admin/reviews/${reviewId}?reason=${encodeURIComponent(reason)}`, {
                 method: 'DELETE'
             });
+        },
+        
+        // Destinations Management
+        getDestinations() {
+            return API.get('/admin/destinations');
+        },
+        
+        getDestinationById(id) {
+            return API.get(`/admin/destinations/${id}`);
+        },
+        
+        createDestination(data) {
+            return API.post('/admin/destinations', data);
+        },
+        
+        updateDestination(id, data) {
+            return API.put(`/admin/destinations/${id}`, data);
+        },
+        
+        updateDestinationByCity(city, data) {
+            return API.put(`/admin/destinations/city/${encodeURIComponent(city)}`, data);
+        },
+        
+        deleteDestination(id) {
+            return API.delete(`/admin/destinations/${id}`);
+        },
+        
+        deleteDestinationByCity(city) {
+            return API.delete(`/admin/destinations/city/${encodeURIComponent(city)}`);
+        },
+        
+        seedDestinations() {
+            return API.post('/admin/destinations/seed', {});
         }
     },
     
