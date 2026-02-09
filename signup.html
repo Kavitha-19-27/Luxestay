@@ -17,6 +17,141 @@
     <link rel="stylesheet" href="assets/css/layout.css">
     <link rel="stylesheet" href="assets/css/pages/auth.css">
     <link rel="stylesheet" href="assets/css/premium-enhancements.css">
+    
+    <style>
+        /* Password Strength Meter */
+        .password-strength {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            margin-top: 0.5rem;
+        }
+        
+        .strength-bar {
+            flex: 1;
+            height: 6px;
+            background: var(--color-gray-200);
+            border-radius: 3px;
+            overflow: hidden;
+        }
+        
+        .strength-fill {
+            height: 100%;
+            width: 0%;
+            border-radius: 3px;
+            transition: all 0.3s ease;
+        }
+        
+        .strength-fill.weak { width: 25%; background: #ef4444; }
+        .strength-fill.fair { width: 50%; background: #f59e0b; }
+        .strength-fill.good { width: 75%; background: #10b981; }
+        .strength-fill.strong { width: 100%; background: linear-gradient(90deg, #10b981, #059669); }
+        
+        .strength-text {
+            font-size: 0.75rem;
+            font-weight: 500;
+            min-width: 50px;
+            text-align: right;
+        }
+        
+        .strength-text.weak { color: #ef4444; }
+        .strength-text.fair { color: #f59e0b; }
+        .strength-text.good { color: #10b981; }
+        .strength-text.strong { color: #059669; }
+        
+        /* Password Requirements */
+        .password-requirements {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem 1rem;
+            margin-top: 0.75rem;
+            padding: 0.75rem;
+            background: var(--color-gray-50);
+            border-radius: var(--radius-md);
+        }
+        
+        .req-item {
+            display: flex;
+            align-items: center;
+            gap: 0.375rem;
+            font-size: 0.75rem;
+            color: var(--color-gray-500);
+            transition: all 0.2s ease;
+        }
+        
+        .req-item i {
+            font-size: 0.5rem;
+            transition: all 0.2s ease;
+        }
+        
+        .req-item.valid {
+            color: #10b981;
+        }
+        
+        .req-item.valid i {
+            font-size: 0.75rem;
+        }
+        
+        .req-item.valid i::before {
+            content: "\f00c";
+        }
+        
+        /* Password Match Indicator */
+        .password-match-icon {
+            position: absolute;
+            right: 3rem;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 1rem;
+            opacity: 0;
+            transition: all 0.2s ease;
+        }
+        
+        .password-match-icon.show { opacity: 1; }
+        .password-match-icon.match { color: #10b981; }
+        .password-match-icon.no-match { color: #ef4444; }
+        
+        /* Form Progress */
+        .form-progress {
+            display: flex;
+            gap: 0.25rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        .progress-step {
+            flex: 1;
+            height: 4px;
+            background: var(--color-gray-200);
+            border-radius: 2px;
+            transition: all 0.3s ease;
+        }
+        
+        .progress-step.completed {
+            background: var(--color-gold);
+        }
+        
+        /* Input valid state */
+        .form-input.valid {
+            border-color: #10b981;
+        }
+        
+        .form-input.valid + .password-toggle + .password-match-icon,
+        .form-input.invalid + .password-toggle + .password-match-icon {
+            right: 3rem;
+        }
+        
+        /* Mobile optimizations */
+        @media (max-width: 480px) {
+            .password-requirements {
+                flex-direction: column;
+                gap: 0.375rem;
+            }
+            
+            .strength-text {
+                font-size: 0.6875rem;
+            }
+        }
+    </style>
 </head>
 <body class="auth-page">
     <div class="auth-container">
@@ -28,6 +163,15 @@
                 </a>
                 <h1 class="auth-title">Create Account</h1>
                 <p class="auth-subtitle">Join LuxeStay for exclusive deals and rewards</p>
+            </div>
+            
+            <!-- Form Progress Bar -->
+            <div class="form-progress" id="formProgress">
+                <div class="progress-step" data-field="name"></div>
+                <div class="progress-step" data-field="email"></div>
+                <div class="progress-step" data-field="password"></div>
+                <div class="progress-step" data-field="confirm"></div>
+                <div class="progress-step" data-field="terms"></div>
             </div>
             
             <form class="auth-form" id="signupForm">
@@ -70,7 +214,18 @@
                             <i class="fas fa-eye"></i>
                         </button>
                     </div>
-                    <span class="form-hint">Must be at least 6 characters</span>
+                    <!-- Password Strength Meter -->
+                    <div class="password-strength">
+                        <div class="strength-bar">
+                            <div class="strength-fill" id="strengthFill"></div>
+                        </div>
+                        <span class="strength-text" id="strengthText"></span>
+                    </div>
+                    <div class="password-requirements" id="passwordRequirements">
+                        <div class="req-item" data-req="length"><i class="fas fa-circle"></i> At least 6 characters</div>
+                        <div class="req-item" data-req="upper"><i class="fas fa-circle"></i> One uppercase letter</div>
+                        <div class="req-item" data-req="number"><i class="fas fa-circle"></i> One number</div>
+                    </div>
                     <span class="form-error"></span>
                 </div>
                 
@@ -82,6 +237,7 @@
                         <button type="button" class="password-toggle">
                             <i class="fas fa-eye"></i>
                         </button>
+                        <span class="password-match-icon" id="matchIcon"></span>
                     </div>
                     <span class="form-error"></span>
                 </div>
@@ -139,53 +295,173 @@
             const form = document.getElementById('signupForm');
             const signupBtn = document.getElementById('signupBtn');
             
+            // Form elements
+            const firstName = document.getElementById('firstName');
+            const lastName = document.getElementById('lastName');
+            const email = document.getElementById('email');
+            const phone = document.getElementById('phone');
+            const password = document.getElementById('password');
+            const confirmPassword = document.getElementById('confirmPassword');
+            const agreeTerms = document.getElementById('agreeTerms');
+            
+            // Password strength elements
+            const strengthFill = document.getElementById('strengthFill');
+            const strengthText = document.getElementById('strengthText');
+            const matchIcon = document.getElementById('matchIcon');
+            
+            // Progress steps
+            const progressSteps = document.querySelectorAll('.progress-step');
+            
+            // Update form progress
+            function updateProgress() {
+                const steps = [
+                    firstName.value.trim() && lastName.value.trim(),
+                    email.value.trim() && /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.value),
+                    password.value.length >= 6,
+                    confirmPassword.value === password.value && confirmPassword.value.length > 0,
+                    agreeTerms.checked
+                ];
+                
+                progressSteps.forEach((step, index) => {
+                    step.classList.toggle('completed', steps[index]);
+                });
+            }
+            
+            // Password strength checker
+            function checkPasswordStrength(pwd) {
+                let score = 0;
+                const requirements = {
+                    length: pwd.length >= 6,
+                    upper: /[A-Z]/.test(pwd),
+                    number: /[0-9]/.test(pwd)
+                };
+                
+                // Update requirement indicators
+                document.querySelectorAll('.req-item').forEach(item => {
+                    const req = item.dataset.req;
+                    item.classList.toggle('valid', requirements[req]);
+                });
+                
+                // Calculate score
+                if (pwd.length >= 6) score++;
+                if (pwd.length >= 8) score++;
+                if (/[A-Z]/.test(pwd)) score++;
+                if (/[0-9]/.test(pwd)) score++;
+                if (/[^A-Za-z0-9]/.test(pwd)) score++;
+                
+                // Update strength meter
+                strengthFill.className = 'strength-fill';
+                strengthText.className = 'strength-text';
+                
+                if (pwd.length === 0) {
+                    strengthText.textContent = '';
+                } else if (score <= 1) {
+                    strengthFill.classList.add('weak');
+                    strengthText.classList.add('weak');
+                    strengthText.textContent = 'Weak';
+                } else if (score === 2) {
+                    strengthFill.classList.add('fair');
+                    strengthText.classList.add('fair');
+                    strengthText.textContent = 'Fair';
+                } else if (score === 3) {
+                    strengthFill.classList.add('good');
+                    strengthText.classList.add('good');
+                    strengthText.textContent = 'Good';
+                } else {
+                    strengthFill.classList.add('strong');
+                    strengthText.classList.add('strong');
+                    strengthText.textContent = 'Strong';
+                }
+                
+                return requirements.length;
+            }
+            
+            // Check password match
+            function checkPasswordMatch() {
+                if (confirmPassword.value.length === 0) {
+                    matchIcon.className = 'password-match-icon';
+                    matchIcon.innerHTML = '';
+                    return;
+                }
+                
+                matchIcon.classList.add('show');
+                if (password.value === confirmPassword.value) {
+                    matchIcon.className = 'password-match-icon show match';
+                    matchIcon.innerHTML = '<i class="fas fa-check-circle"></i>';
+                    confirmPassword.classList.add('valid');
+                    confirmPassword.classList.remove('invalid');
+                } else {
+                    matchIcon.className = 'password-match-icon show no-match';
+                    matchIcon.innerHTML = '<i class="fas fa-times-circle"></i>';
+                    confirmPassword.classList.remove('valid');
+                    confirmPassword.classList.add('invalid');
+                }
+            }
+            
+            // Event listeners for real-time validation
+            password.addEventListener('input', () => {
+                checkPasswordStrength(password.value);
+                checkPasswordMatch();
+                updateProgress();
+            });
+            
+            confirmPassword.addEventListener('input', () => {
+                checkPasswordMatch();
+                updateProgress();
+            });
+            
+            [firstName, lastName, email, phone].forEach(input => {
+                input.addEventListener('input', updateProgress);
+            });
+            
+            agreeTerms.addEventListener('change', updateProgress);
+            
+            // Form submit
             form.addEventListener('submit', async (e) => {
                 e.preventDefault();
                 
-                const firstName = document.getElementById('firstName').value.trim();
-                const lastName = document.getElementById('lastName').value.trim();
-                const email = document.getElementById('email').value.trim();
-                const phone = document.getElementById('phone').value.trim();
-                const password = document.getElementById('password').value;
-                const confirmPassword = document.getElementById('confirmPassword').value;
-                const agreeTerms = document.getElementById('agreeTerms').checked;
+                const firstNameVal = firstName.value.trim();
+                const lastNameVal = lastName.value.trim();
+                const emailVal = email.value.trim();
+                const phoneVal = phone.value.trim();
+                const passwordVal = password.value;
+                const confirmPasswordVal = confirmPassword.value;
                 
                 // Validation
-                if (!firstName || !lastName || !email || !password) {
+                if (!firstNameVal || !lastNameVal || !emailVal || !passwordVal) {
                     UI.toast('Please fill in all required fields', 'error');
                     return;
                 }
                 
-                if (password.length < 6) {
+                if (passwordVal.length < 6) {
                     UI.toast('Password must be at least 6 characters', 'error');
                     return;
                 }
                 
-                if (password !== confirmPassword) {
+                if (passwordVal !== confirmPasswordVal) {
                     UI.toast('Passwords do not match', 'error');
                     return;
                 }
                 
-                if (!agreeTerms) {
+                if (!agreeTerms.checked) {
                     UI.toast('Please agree to the Terms of Service', 'error');
                     return;
                 }
                 
-                // Show loading with premium button state
+                // Show loading
                 UI.setButtonLoading(signupBtn, true);
                 
                 try {
                     const response = await Auth.signup({
-                        firstName,
-                        lastName,
-                        email,
-                        phone: phone || null,
-                        password
+                        firstName: firstNameVal,
+                        lastName: lastNameVal,
+                        email: emailVal,
+                        phone: phoneVal || null,
+                        password: passwordVal
                     });
                     
                     if (response.success) {
-                        UI.toast('Account created successfully! Redirecting to login...', 'success');
-                        
+                        UI.toast('Account created successfully! Redirecting...', 'success');
                         setTimeout(() => {
                             window.location.href = 'login.html';
                         }, 1500);
@@ -195,12 +471,13 @@
                 } catch (error) {
                     UI.toast(error.message || 'Failed to create account', 'error');
                     UI.setButtonLoading(signupBtn, false);
-                    
-                    // Add shake animation to form on error
                     form.classList.add('error-shake');
                     setTimeout(() => form.classList.remove('error-shake'), 500);
                 }
             });
+            
+            // Initialize progress
+            updateProgress();
         });
     </script>
 </body>
