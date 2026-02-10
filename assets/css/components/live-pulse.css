@@ -1,0 +1,467 @@
+/**
+ * Live Pulse Component Styles
+ * 
+ * Design Philosophy:
+ * - Calm and honest, not pushy
+ * - Subtle animations that don't distract
+ * - Clear visual hierarchy
+ * - Mobile-first, responsive
+ */
+
+/* =====================================================
+   LIVE PULSE BADGE (Compact - for Hotel Cards)
+   ===================================================== */
+
+.live-pulse-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-1);
+    padding: var(--space-1) var(--space-2);
+    border-radius: var(--radius-full);
+    font-size: var(--text-xs);
+    font-weight: 500;
+    background: var(--color-gray-100);
+    color: var(--color-gray-600);
+    transition: all 0.3s ease;
+}
+
+.pulse-dot {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 8px;
+    height: 8px;
+}
+
+.pulse-dot i {
+    font-size: 8px;
+}
+
+.pulse-label {
+    text-transform: capitalize;
+}
+
+.pulse-count {
+    padding-left: var(--space-1);
+    border-left: 1px solid rgba(0, 0, 0, 0.1);
+    margin-left: var(--space-1);
+    font-size: 10px;
+    opacity: 0.8;
+}
+
+/* Pulse level color variants */
+.live-pulse-badge.pulse-quiet {
+    background: var(--color-gray-100);
+    color: var(--color-gray-500);
+}
+
+.live-pulse-badge.pulse-quiet .pulse-dot i {
+    color: var(--color-gray-400);
+}
+
+.live-pulse-badge.pulse-steady {
+    background: rgba(59, 130, 246, 0.1);
+    color: #2563EB;
+}
+
+.live-pulse-badge.pulse-steady .pulse-dot i {
+    color: #3B82F6;
+}
+
+.live-pulse-badge.pulse-active {
+    background: rgba(16, 185, 129, 0.1);
+    color: #059669;
+}
+
+.live-pulse-badge.pulse-active .pulse-dot i {
+    color: #10B981;
+}
+
+.live-pulse-badge.pulse-popular {
+    background: rgba(245, 158, 11, 0.1);
+    color: #D97706;
+}
+
+.live-pulse-badge.pulse-popular .pulse-dot i {
+    color: #F59E0B;
+}
+
+.live-pulse-badge.pulse-trending {
+    background: rgba(239, 68, 68, 0.1);
+    color: #DC2626;
+}
+
+.live-pulse-badge.pulse-trending .pulse-dot i {
+    color: #EF4444;
+}
+
+/* Pulse animation */
+.pulse-animated {
+    animation: pulse-glow 2s ease-in-out infinite;
+}
+
+@keyframes pulse-glow {
+    0%, 100% {
+        opacity: 1;
+        transform: scale(1);
+    }
+    50% {
+        opacity: 0.6;
+        transform: scale(1.1);
+    }
+}
+
+/* =====================================================
+   LIVE PULSE CARD (Full - for Hotel Detail Page)
+   ===================================================== */
+
+.live-pulse-card {
+    background: var(--color-white);
+    border-radius: var(--radius-xl);
+    padding: var(--space-4);
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.04);
+    border: 1px solid var(--color-gray-100);
+    margin-bottom: var(--space-4);
+}
+
+/* Header */
+.live-pulse-card .pulse-header {
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+    margin-bottom: var(--space-4);
+}
+
+.pulse-indicator {
+    width: 40px;
+    height: 40px;
+    border-radius: var(--radius-lg);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.pulse-indicator i {
+    font-size: var(--text-lg);
+}
+
+/* Pulse level card colors */
+.live-pulse-card.pulse-quiet .pulse-indicator {
+    background: var(--color-gray-100);
+    color: var(--color-gray-500);
+}
+
+.live-pulse-card.pulse-steady .pulse-indicator {
+    background: rgba(59, 130, 246, 0.1);
+    color: #3B82F6;
+}
+
+.live-pulse-card.pulse-active .pulse-indicator {
+    background: rgba(16, 185, 129, 0.1);
+    color: #10B981;
+}
+
+.live-pulse-card.pulse-popular .pulse-indicator {
+    background: rgba(245, 158, 11, 0.1);
+    color: #F59E0B;
+}
+
+.live-pulse-card.pulse-trending .pulse-indicator {
+    background: rgba(239, 68, 68, 0.1);
+    color: #EF4444;
+}
+
+.pulse-title h4 {
+    font-size: var(--text-base);
+    font-weight: 600;
+    color: var(--color-gray-900);
+    margin: 0 0 2px 0;
+}
+
+.pulse-level-label {
+    font-size: var(--text-sm);
+    color: var(--color-gray-500);
+    margin: 0;
+    text-transform: capitalize;
+}
+
+/* Stats Section */
+.pulse-stats {
+    display: flex;
+    gap: var(--space-3);
+    margin-bottom: var(--space-4);
+    flex-wrap: wrap;
+}
+
+.pulse-stat {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    padding: var(--space-2) var(--space-3);
+    background: var(--color-gray-50);
+    border-radius: var(--radius-md);
+    font-size: var(--text-sm);
+}
+
+.pulse-stat i {
+    color: var(--color-gray-400);
+    font-size: var(--text-sm);
+}
+
+.stat-value {
+    font-weight: 600;
+    color: var(--color-gray-800);
+}
+
+.stat-label {
+    color: var(--color-gray-500);
+}
+
+/* Availability variants */
+.pulse-availability.available {
+    background: rgba(16, 185, 129, 0.05);
+}
+
+.pulse-availability.available i,
+.pulse-availability.available .stat-value {
+    color: #059669;
+}
+
+.pulse-availability.limited {
+    background: rgba(245, 158, 11, 0.05);
+}
+
+.pulse-availability.limited i,
+.pulse-availability.limited .stat-value {
+    color: #D97706;
+}
+
+.pulse-availability.sold-out {
+    background: rgba(239, 68, 68, 0.05);
+}
+
+.pulse-availability.sold-out i,
+.pulse-availability.sold-out .stat-value {
+    color: #DC2626;
+}
+
+/* Activity Feed */
+.pulse-activity {
+    border-top: 1px solid var(--color-gray-100);
+    padding-top: var(--space-3);
+    margin-bottom: var(--space-3);
+}
+
+.pulse-activity h5 {
+    font-size: var(--text-xs);
+    font-weight: 600;
+    color: var(--color-gray-500);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin: 0 0 var(--space-2) 0;
+}
+
+.activity-feed {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+}
+
+.activity-item {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    font-size: var(--text-sm);
+}
+
+.activity-icon {
+    width: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.activity-icon i {
+    font-size: 12px;
+    color: #10B981;
+}
+
+.activity-message {
+    flex: 1;
+    color: var(--color-gray-600);
+}
+
+.activity-time {
+    font-size: var(--text-xs);
+    color: var(--color-gray-400);
+}
+
+/* Popular Reason */
+.pulse-popular-reason {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    padding: var(--space-2) var(--space-3);
+    background: rgba(245, 158, 11, 0.05);
+    border-radius: var(--radius-md);
+    font-size: var(--text-sm);
+    color: #D97706;
+    margin-bottom: var(--space-3);
+}
+
+.pulse-popular-reason i {
+    font-size: 12px;
+}
+
+/* Footer */
+.pulse-footer {
+    display: flex;
+    justify-content: flex-end;
+    border-top: 1px solid var(--color-gray-100);
+    padding-top: var(--space-2);
+}
+
+.pulse-updated {
+    display: flex;
+    align-items: center;
+    gap: var(--space-1);
+    font-size: var(--text-xs);
+    color: var(--color-gray-400);
+}
+
+.pulse-updated i {
+    font-size: 10px;
+}
+
+/* =====================================================
+   EMPTY & ERROR STATES
+   ===================================================== */
+
+.live-pulse-card.pulse-empty,
+.live-pulse-card.pulse-error {
+    padding: var(--space-4);
+    text-align: center;
+}
+
+.pulse-empty-message,
+.pulse-error-message {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--space-2);
+    color: var(--color-gray-400);
+    font-size: var(--text-sm);
+}
+
+.pulse-empty-message i,
+.pulse-error-message i {
+    font-size: var(--text-base);
+}
+
+/* =====================================================
+   SKELETON LOADING
+   ===================================================== */
+
+.live-pulse-badge.skeleton {
+    background: var(--color-gray-100);
+    min-width: 80px;
+}
+
+.skeleton-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--color-gray-200);
+    animation: skeleton-pulse 1.5s ease-in-out infinite;
+}
+
+.skeleton-text {
+    width: 50px;
+    height: 12px;
+    border-radius: var(--radius-sm);
+    background: var(--color-gray-200);
+    animation: skeleton-pulse 1.5s ease-in-out infinite;
+}
+
+.live-pulse-card.skeleton {
+    animation: none;
+}
+
+.skeleton-circle {
+    width: 40px;
+    height: 40px;
+    border-radius: var(--radius-lg);
+    background: var(--color-gray-200);
+    animation: skeleton-pulse 1.5s ease-in-out infinite;
+}
+
+.skeleton-text-group {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+}
+
+.skeleton-line {
+    height: 14px;
+    border-radius: var(--radius-sm);
+    background: var(--color-gray-200);
+    animation: skeleton-pulse 1.5s ease-in-out infinite;
+}
+
+.skeleton-line.short {
+    width: 60%;
+}
+
+.skeleton-stat {
+    width: 100px;
+    height: 40px;
+    border-radius: var(--radius-md);
+    background: var(--color-gray-200);
+    animation: skeleton-pulse 1.5s ease-in-out infinite;
+}
+
+@keyframes skeleton-pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.5; }
+}
+
+/* =====================================================
+   HOTEL CARD INTEGRATION
+   ===================================================== */
+
+.hotel-card .live-pulse-badge {
+    position: absolute;
+    top: var(--space-2);
+    left: var(--space-2);
+    z-index: 10;
+}
+
+/* =====================================================
+   RESPONSIVE ADJUSTMENTS
+   ===================================================== */
+
+@media (max-width: 640px) {
+    .live-pulse-card {
+        padding: var(--space-3);
+    }
+    
+    .pulse-stats {
+        flex-direction: column;
+        gap: var(--space-2);
+    }
+    
+    .pulse-stat {
+        justify-content: flex-start;
+    }
+    
+    .activity-item {
+        flex-wrap: wrap;
+    }
+    
+    .activity-time {
+        width: 100%;
+        margin-left: 28px;
+    }
+}

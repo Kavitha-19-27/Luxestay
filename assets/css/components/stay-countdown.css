@@ -1,0 +1,696 @@
+/**
+ * Stay Countdown Styles
+ * Journey progress tracking and milestone visualization
+ */
+
+/* ==========================================
+   Main Widget
+   ========================================== */
+
+.stay-countdown-widget {
+    background: #fff;
+    border-radius: 1rem;
+    overflow: hidden;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+}
+
+.stay-countdown-widget .countdown-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1.5rem;
+    color: #fff;
+}
+
+.stay-countdown-widget .countdown-destination {
+    flex: 1;
+}
+
+.stay-countdown-widget .hotel-name {
+    margin: 0 0 0.25rem 0;
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: #fff;
+}
+
+.stay-countdown-widget .hotel-city {
+    font-size: 0.875rem;
+    opacity: 0.9;
+}
+
+/* ==========================================
+   Countdown Number
+   ========================================== */
+
+.countdown-number {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.2);
+    backdrop-filter: blur(8px);
+    border: 2px solid rgba(255, 255, 255, 0.3);
+}
+
+.countdown-number .countdown-value {
+    font-size: 2rem;
+    font-weight: 800;
+    line-height: 1;
+    color: #fff;
+}
+
+.countdown-number .countdown-unit {
+    font-size: 0.625rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    opacity: 0.9;
+    color: #fff;
+}
+
+/* ==========================================
+   Countdown Body
+   ========================================== */
+
+.stay-countdown-widget .countdown-body {
+    padding: 1.5rem;
+}
+
+.stay-countdown-widget .excitement-message {
+    margin: 0 0 1.25rem 0;
+    padding: 1rem;
+    background: linear-gradient(135deg, #FEF3C7 0%, #FDE68A 100%);
+    border-radius: 0.5rem;
+    font-size: 0.9375rem;
+    font-weight: 500;
+    color: #92400E;
+    text-align: center;
+}
+
+/* ==========================================
+   Countdown Dates
+   ========================================== */
+
+.countdown-dates {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+    padding: 1rem;
+    background: #F9FAFB;
+    border-radius: 0.5rem;
+    margin-bottom: 1.5rem;
+}
+
+.countdown-dates .date-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+}
+
+.countdown-dates .date-label {
+    font-size: 0.75rem;
+    color: #6B7280;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-bottom: 0.25rem;
+}
+
+.countdown-dates .date-value {
+    font-size: 0.9375rem;
+    font-weight: 600;
+    color: #111827;
+}
+
+.countdown-dates .date-separator {
+    font-size: 1.25rem;
+    color: #D1D5DB;
+}
+
+/* ==========================================
+   Milestones
+   ========================================== */
+
+.countdown-milestones {
+    margin-bottom: 1.5rem;
+}
+
+.countdown-milestones .milestones-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 0.5rem;
+}
+
+.countdown-milestones .milestones-title {
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: #374151;
+}
+
+.countdown-milestones .milestones-progress {
+    font-size: 0.8125rem;
+    color: #6B7280;
+}
+
+.milestones-bar {
+    height: 6px;
+    background: #E5E7EB;
+    border-radius: 9999px;
+    overflow: hidden;
+    margin-bottom: 1rem;
+}
+
+.milestones-bar-fill {
+    height: 100%;
+    background: linear-gradient(90deg, #10B981 0%, #059669 100%);
+    border-radius: 9999px;
+    transition: width 0.5s ease-out;
+}
+
+.milestones-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+}
+
+.milestone-item {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.75rem;
+    background: #F9FAFB;
+    border-radius: 0.5rem;
+    border-left: 3px solid #E5E7EB;
+    transition: all 0.2s ease;
+}
+
+.milestone-item.completed {
+    background: #ECFDF5;
+    border-left-color: #10B981;
+}
+
+.milestone-item .milestone-icon {
+    font-size: 1.25rem;
+    line-height: 1;
+}
+
+.milestone-item .milestone-info {
+    flex: 1;
+}
+
+.milestone-item .milestone-title {
+    display: block;
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: #111827;
+    margin-bottom: 0.125rem;
+}
+
+.milestone-item .milestone-desc {
+    font-size: 0.8125rem;
+    color: #6B7280;
+}
+
+.milestone-item .milestone-check {
+    width: 20px;
+    height: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #10B981;
+    color: #fff;
+    border-radius: 50%;
+    font-size: 0.75rem;
+    font-weight: bold;
+}
+
+/* ==========================================
+   Extras Section
+   ========================================== */
+
+.countdown-extras {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1rem;
+}
+
+@media (min-width: 640px) {
+    .countdown-extras {
+        grid-template-columns: 1fr 1fr;
+    }
+}
+
+/* ==========================================
+   Weather Preview
+   ========================================== */
+
+.countdown-weather {
+    padding: 1rem;
+    background: linear-gradient(135deg, #EFF6FF 0%, #DBEAFE 100%);
+    border-radius: 0.5rem;
+}
+
+.countdown-weather .weather-header {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-bottom: 0.5rem;
+}
+
+.countdown-weather .weather-icon {
+    font-size: 1.5rem;
+}
+
+.countdown-weather .weather-condition {
+    font-size: 1rem;
+    font-weight: 600;
+    color: #1E40AF;
+}
+
+.countdown-weather .weather-temps {
+    margin-bottom: 0.5rem;
+}
+
+.countdown-weather .temp-high {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: #1E40AF;
+}
+
+.countdown-weather .temp-separator {
+    margin: 0 0.25rem;
+    color: #93C5FD;
+}
+
+.countdown-weather .temp-low {
+    font-size: 1rem;
+    color: #3B82F6;
+}
+
+.countdown-weather .weather-recommendation {
+    margin: 0;
+    font-size: 0.8125rem;
+    color: #1E3A8A;
+}
+
+/* ==========================================
+   Packing Suggestions
+   ========================================== */
+
+.countdown-packing {
+    padding: 1rem;
+    background: #F9FAFB;
+    border-radius: 0.5rem;
+}
+
+.countdown-packing .packing-title {
+    margin: 0 0 0.75rem 0;
+    font-size: 0.9375rem;
+    font-weight: 600;
+    color: #111827;
+}
+
+.countdown-packing .packing-category {
+    margin-bottom: 0.75rem;
+}
+
+.countdown-packing .packing-category:last-child {
+    margin-bottom: 0;
+}
+
+.countdown-packing .category-name {
+    display: block;
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: #6B7280;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-bottom: 0.25rem;
+}
+
+.countdown-packing .packing-list {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.countdown-packing .packing-item {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.25rem 0;
+    font-size: 0.875rem;
+    color: #374151;
+}
+
+.countdown-packing .packing-item::before {
+    content: '○';
+    color: #9CA3AF;
+    font-size: 0.625rem;
+}
+
+.countdown-packing .packing-item.essential::before {
+    content: '●';
+    color: #10B981;
+}
+
+.countdown-packing .essential-badge {
+    font-size: 0.625rem;
+    padding: 0.125rem 0.375rem;
+    background: #D1FAE5;
+    color: #065F46;
+    border-radius: 9999px;
+    font-weight: 600;
+    text-transform: uppercase;
+}
+
+/* ==========================================
+   Compact Card (for lists)
+   ========================================== */
+
+.countdown-compact-card {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 1rem;
+    background: #fff;
+    border: 1px solid #E5E7EB;
+    border-radius: 0.75rem;
+    transition: all 0.2s ease;
+}
+
+.countdown-compact-card:hover {
+    border-color: #D1D5DB;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+.countdown-compact-card .compact-badge {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 56px;
+    height: 56px;
+    border-radius: 0.5rem;
+    color: #fff;
+    flex-shrink: 0;
+}
+
+.countdown-compact-card .compact-days {
+    font-size: 1.5rem;
+    font-weight: 800;
+    line-height: 1;
+}
+
+.countdown-compact-card .compact-unit {
+    font-size: 0.5rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-top: 0.125rem;
+}
+
+.countdown-compact-card .compact-info {
+    flex: 1;
+    min-width: 0;
+}
+
+.countdown-compact-card .compact-hotel {
+    margin: 0 0 0.25rem 0;
+    font-size: 0.9375rem;
+    font-weight: 600;
+    color: #111827;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.countdown-compact-card .compact-dates {
+    margin: 0;
+    font-size: 0.8125rem;
+    color: #6B7280;
+}
+
+.countdown-compact-card .compact-link {
+    font-size: 0.8125rem;
+    font-weight: 500;
+    color: #3B82F6;
+    text-decoration: none;
+    white-space: nowrap;
+}
+
+.countdown-compact-card .compact-link:hover {
+    color: #2563EB;
+}
+
+/* ==========================================
+   Empty State
+   ========================================== */
+
+.countdown-empty {
+    padding: 2rem;
+    text-align: center;
+    background: #F9FAFB;
+    border-radius: 0.75rem;
+}
+
+.countdown-empty .empty-icon {
+    font-size: 2.5rem;
+    margin-bottom: 0.5rem;
+    display: block;
+}
+
+.countdown-empty p {
+    margin: 0 0 1rem 0;
+    color: #6B7280;
+    font-size: 0.9375rem;
+}
+
+/* ==========================================
+   Responsive
+   ========================================== */
+
+@media (max-width: 480px) {
+    .stay-countdown-widget .countdown-header {
+        flex-direction: column;
+        text-align: center;
+        gap: 1rem;
+    }
+    
+    .countdown-number {
+        width: 70px;
+        height: 70px;
+    }
+    
+    .countdown-number .countdown-value {
+        font-size: 1.75rem;
+    }
+    
+    .countdown-dates {
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+    
+    .countdown-dates .date-separator {
+        transform: rotate(90deg);
+    }
+}
+
+/* ==========================================
+   Dark Mode
+   ========================================== */
+
+@media (prefers-color-scheme: dark) {
+    .stay-countdown-widget {
+        background: #1F2937;
+    }
+    
+    .stay-countdown-widget .countdown-body {
+        background: #1F2937;
+    }
+    
+    .stay-countdown-widget .excitement-message {
+        background: linear-gradient(135deg, #78350F 0%, #92400E 100%);
+        color: #FEF3C7;
+    }
+    
+    .countdown-dates {
+        background: #374151;
+    }
+    
+    .countdown-dates .date-value {
+        color: #F9FAFB;
+    }
+    
+    .milestone-item {
+        background: #374151;
+        border-left-color: #4B5563;
+    }
+    
+    .milestone-item.completed {
+        background: #064E3B;
+        border-left-color: #10B981;
+    }
+    
+    .milestone-item .milestone-title {
+        color: #F9FAFB;
+    }
+    
+    .milestone-item .milestone-desc {
+        color: #9CA3AF;
+    }
+    
+    .countdown-weather {
+        background: linear-gradient(135deg, #1E3A8A 0%, #1E40AF 100%);
+    }
+    
+    .countdown-weather .weather-condition {
+        color: #BFDBFE;
+    }
+    
+    .countdown-weather .weather-recommendation {
+        color: #93C5FD;
+    }
+    
+    .countdown-packing {
+        background: #374151;
+    }
+    
+    .countdown-packing .packing-title {
+        color: #F9FAFB;
+    }
+    
+    .countdown-packing .packing-item {
+        color: #E5E7EB;
+    }
+    
+    .countdown-compact-card {
+        background: #1F2937;
+        border-color: #374151;
+    }
+    
+    .countdown-compact-card .compact-hotel {
+        color: #F9FAFB;
+    }
+    
+    .countdown-empty {
+        background: #374151;
+    }
+}
+
+/* ==========================================
+   Animation
+   ========================================== */
+
+@keyframes pulse {
+    0%, 100% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.05);
+    }
+}
+
+.countdown-number {
+    animation: pulse 2s ease-in-out infinite;
+}
+
+.milestone-item.completed .milestone-check {
+    animation: pop 0.3s ease-out;
+}
+
+@keyframes pop {
+    0% {
+        transform: scale(0);
+    }
+    70% {
+        transform: scale(1.2);
+    }
+    100% {
+        transform: scale(1);
+    }
+}
+
+/* ==========================================
+   Inline Countdown (for booking cards)
+   ========================================== */
+
+.stay-countdown-inline {
+    padding: 1rem;
+    margin-bottom: 1rem;
+    background: linear-gradient(135deg, #EFF6FF 0%, #DBEAFE 100%);
+    border-radius: 0.5rem;
+    border-left: 4px solid #3B82F6;
+}
+
+.countdown-inline-badge {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-bottom: 0.5rem;
+}
+
+.countdown-inline-badge .countdown-inline-number {
+    font-size: 1.125rem;
+    font-weight: 700;
+    color: #1E40AF;
+}
+
+.countdown-inline-badge .countdown-inline-label {
+    font-size: 0.8125rem;
+    color: #3B82F6;
+}
+
+.countdown-inline-badge.countdown-today {
+    background: linear-gradient(135deg, #FEF2F2 0%, #FEE2E2 100%);
+}
+
+.countdown-inline-badge.countdown-today .countdown-inline-number {
+    color: #B91C1C;
+}
+
+.countdown-inline-badge.countdown-tomorrow {
+    background: linear-gradient(135deg, #FFFBEB 0%, #FEF3C7 100%);
+}
+
+.countdown-inline-badge.countdown-tomorrow .countdown-inline-number {
+    color: #B45309;
+}
+
+.countdown-inline-badge.countdown-soon {
+    background: linear-gradient(135deg, #ECFDF5 0%, #D1FAE5 100%);
+}
+
+.countdown-inline-badge.countdown-soon .countdown-inline-number {
+    color: #047857;
+}
+
+.countdown-inline-message {
+    margin: 0;
+    font-size: 0.875rem;
+    color: #1E3A8A;
+    line-height: 1.4;
+}
+
+/* Dark mode for inline countdown */
+@media (prefers-color-scheme: dark) {
+    .stay-countdown-inline {
+        background: linear-gradient(135deg, #1E3A8A 0%, #1E40AF 100%);
+        border-left-color: #60A5FA;
+    }
+    
+    .countdown-inline-badge .countdown-inline-number {
+        color: #BFDBFE;
+    }
+    
+    .countdown-inline-badge .countdown-inline-label {
+        color: #93C5FD;
+    }
+    
+    .countdown-inline-message {
+        color: #BFDBFE;
+    }
+}

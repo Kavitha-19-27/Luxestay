@@ -20,6 +20,16 @@ function initProfilePage() {
     
     // Setup event listeners
     setupEventListeners();
+    
+    // Initialize Memory Lane
+    if (window.MemoryLane) {
+        window.MemoryLane.initOnProfilePage('memoryLaneContainer');
+    }
+    
+    // Initialize VIP Concierge
+    if (window.VIPConcierge) {
+        window.VIPConcierge.initOnProfilePage('vipConciergeContainer');
+    }
 }
 
 function loadUserProfile() {

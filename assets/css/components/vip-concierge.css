@@ -1,0 +1,653 @@
+/**
+ * VIP Concierge Styles
+ * Premium support and elevated service experience
+ */
+
+/* ==========================================
+   Main Section
+   ========================================== */
+
+.vip-concierge-section {
+    margin: 2rem 0;
+    padding: 1.5rem;
+    background: linear-gradient(135deg, var(--tier-bg, #F3F4F6) 0%, #fff 100%);
+    border-radius: 1rem;
+    border: 2px solid var(--tier-color, #6B7280);
+    animation: fadeInUp 0.4s ease-out;
+}
+
+.vip-header {
+    margin-bottom: 1.5rem;
+}
+
+/* ==========================================
+   Tier Badge
+   ========================================== */
+
+.tier-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.75rem 1.25rem;
+    background: rgba(255, 255, 255, 0.9);
+    border-radius: 1rem;
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+}
+
+.tier-badge .tier-icon {
+    font-size: 2rem;
+}
+
+.tier-badge .tier-info {
+    display: flex;
+    flex-direction: column;
+}
+
+.tier-badge .tier-name {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: var(--tier-color, #1F2937);
+}
+
+.tier-badge .tier-desc {
+    font-size: 0.8125rem;
+    color: #6B7280;
+}
+
+/* Tier-specific colors */
+.tier-badge.tier-silver .tier-name { color: #71717A; }
+.tier-badge.tier-gold .tier-name { color: #D97706; }
+.tier-badge.tier-platinum .tier-name { color: #7C3AED; }
+.tier-badge.tier-diamond .tier-name { color: #0EA5E9; }
+
+.vip-greeting {
+    margin: 1rem 0 0;
+    padding: 0.75rem 1rem;
+    background: rgba(255, 255, 255, 0.7);
+    border-left: 3px solid var(--tier-color, #6B7280);
+    border-radius: 0 0.5rem 0.5rem 0;
+    font-size: 0.9375rem;
+    color: #374151;
+    font-style: italic;
+}
+
+/* ==========================================
+   VIP Stats
+   ========================================== */
+
+.vip-stats {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+    flex-wrap: wrap;
+}
+
+.vip-stats .stat-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 0.75rem 1.25rem;
+    background: #fff;
+    border-radius: 0.75rem;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+    min-width: 80px;
+}
+
+.vip-stats .stat-value {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--tier-color, #1F2937);
+}
+
+.vip-stats .stat-label {
+    font-size: 0.75rem;
+    color: #6B7280;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+/* ==========================================
+   Section Titles
+   ========================================== */
+
+.vip-concierge-section .section-title {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin: 0 0 1rem;
+    font-size: 1rem;
+    font-weight: 600;
+    color: #1F2937;
+}
+
+.vip-concierge-section .section-title i {
+    color: var(--tier-color, #6B7280);
+}
+
+/* ==========================================
+   Benefits
+   ========================================== */
+
+.vip-benefits {
+    margin-bottom: 1.5rem;
+}
+
+.benefits-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 0.75rem;
+}
+
+.benefit-card {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.875rem 1rem;
+    background: #fff;
+    border-radius: 0.75rem;
+    border: 1px solid #E5E7EB;
+    transition: all 0.2s ease;
+}
+
+.benefit-card.unlocked {
+    border-color: var(--tier-color, #10B981);
+}
+
+.benefit-card.unlocked:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+.benefit-card.locked {
+    opacity: 0.6;
+}
+
+.benefit-card .benefit-icon {
+    font-size: 1.5rem;
+    flex-shrink: 0;
+}
+
+.benefit-card .benefit-content {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    min-width: 0;
+}
+
+.benefit-card .benefit-title {
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: #1F2937;
+}
+
+.benefit-card .benefit-desc {
+    font-size: 0.75rem;
+    color: #6B7280;
+}
+
+.benefit-card .benefit-tier {
+    font-size: 0.75rem;
+    color: #9CA3AF;
+}
+
+.benefit-card .benefit-status {
+    flex-shrink: 0;
+}
+
+.benefit-card.unlocked .benefit-status i {
+    color: #10B981;
+}
+
+.benefit-card.locked .benefit-status i {
+    color: #9CA3AF;
+}
+
+.locked-benefits {
+    margin-top: 1rem;
+    padding-top: 1rem;
+    border-top: 1px dashed #E5E7EB;
+}
+
+.locked-benefits h5 {
+    margin: 0 0 0.75rem;
+    font-size: 0.8125rem;
+    color: #6B7280;
+    font-weight: 500;
+}
+
+/* ==========================================
+   Services
+   ========================================== */
+
+.vip-services {
+    margin-bottom: 1.5rem;
+}
+
+.services-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+    gap: 0.75rem;
+}
+
+.service-card {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 1rem;
+    background: #fff;
+    border-radius: 0.75rem;
+    border: 1px solid #E5E7EB;
+}
+
+.service-card .service-icon {
+    font-size: 1.5rem;
+    flex-shrink: 0;
+}
+
+.service-card .service-content {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+}
+
+.service-card .service-name {
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: #1F2937;
+}
+
+.service-card .service-desc {
+    font-size: 0.75rem;
+    color: #6B7280;
+}
+
+.service-card .service-action {
+    padding: 0.375rem 0.75rem;
+    background: var(--tier-color, #3B82F6);
+    color: #fff;
+    border: none;
+    border-radius: 0.375rem;
+    font-size: 0.75rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.service-card .service-action:hover {
+    opacity: 0.9;
+    transform: translateY(-1px);
+}
+
+/* ==========================================
+   Concierge Contact
+   ========================================== */
+
+.vip-contact {
+    margin-bottom: 1.5rem;
+}
+
+.contact-card {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 1.25rem;
+    background: #fff;
+    border-radius: 0.75rem;
+    border: 1px solid #E5E7EB;
+    flex-wrap: wrap;
+}
+
+.contact-avatar {
+    width: 60px;
+    height: 60px;
+    background: linear-gradient(135deg, var(--tier-bg, #F3F4F6) 0%, var(--tier-color, #6B7280) 100%);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.contact-avatar i {
+    font-size: 1.5rem;
+    color: #fff;
+}
+
+.contact-info {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    min-width: 150px;
+}
+
+.contact-info .contact-name {
+    font-size: 1rem;
+    font-weight: 600;
+    color: #1F2937;
+}
+
+.contact-info .contact-title {
+    font-size: 0.8125rem;
+    color: #6B7280;
+    margin-bottom: 0.375rem;
+}
+
+.contact-info .contact-availability,
+.contact-info .contact-response {
+    font-size: 0.75rem;
+    color: #4B5563;
+    display: flex;
+    align-items: center;
+    gap: 0.375rem;
+}
+
+.contact-info .contact-availability i,
+.contact-info .contact-response i {
+    color: var(--tier-color, #6B7280);
+    font-size: 0.625rem;
+}
+
+.contact-actions {
+    display: flex;
+    gap: 0.5rem;
+}
+
+.contact-btn {
+    display: flex;
+    align-items: center;
+    gap: 0.375rem;
+    padding: 0.5rem 1rem;
+    border: 1px solid #E5E7EB;
+    border-radius: 0.5rem;
+    font-size: 0.8125rem;
+    font-weight: 500;
+    color: #374151;
+    text-decoration: none;
+    transition: all 0.2s ease;
+}
+
+.contact-btn:hover {
+    border-color: var(--tier-color, #6B7280);
+    background: var(--tier-bg, #F3F4F6);
+}
+
+.contact-btn.primary {
+    background: var(--tier-color, #3B82F6);
+    color: #fff;
+    border-color: var(--tier-color, #3B82F6);
+}
+
+.contact-btn.primary:hover {
+    opacity: 0.9;
+}
+
+/* ==========================================
+   Progress
+   ========================================== */
+
+.vip-progress {
+    margin-bottom: 1rem;
+}
+
+.progress-container {
+    margin-bottom: 0.75rem;
+}
+
+.progress-bar {
+    height: 10px;
+    background: #E5E7EB;
+    border-radius: 9999px;
+    overflow: hidden;
+}
+
+.progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--tier-color, #6B7280) 0%, var(--tier-color, #6B7280) 100%);
+    border-radius: 9999px;
+    transition: width 0.5s ease;
+}
+
+.progress-labels {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 0.5rem;
+    font-size: 0.75rem;
+}
+
+.progress-labels .current-tier {
+    color: #6B7280;
+}
+
+.progress-labels .progress-percent {
+    font-weight: 600;
+    color: var(--tier-color, #1F2937);
+}
+
+.progress-labels .next-tier {
+    color: #6B7280;
+}
+
+.progress-requirements {
+    display: flex;
+    gap: 1.5rem;
+    flex-wrap: wrap;
+}
+
+.progress-requirements .requirement {
+    display: flex;
+    align-items: center;
+    gap: 0.375rem;
+    font-size: 0.8125rem;
+    color: #6B7280;
+}
+
+.progress-requirements .requirement i {
+    font-size: 0.75rem;
+}
+
+.progress-requirements .requirement.met {
+    color: #10B981;
+}
+
+.progress-requirements .requirement.met i {
+    color: #10B981;
+}
+
+/* ==========================================
+   Achievement Badge (Diamond)
+   ========================================== */
+
+.vip-achievement {
+    text-align: center;
+    padding: 1.5rem;
+    background: linear-gradient(135deg, #E0F2FE 0%, #DBEAFE 100%);
+    border-radius: 0.75rem;
+}
+
+.vip-achievement .achievement-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem 1rem;
+    background: #fff;
+    border-radius: 9999px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    margin-bottom: 0.75rem;
+}
+
+.vip-achievement .badge-icon {
+    font-size: 1.5rem;
+}
+
+.vip-achievement .badge-text {
+    font-size: 1rem;
+    font-weight: 700;
+    color: #0EA5E9;
+}
+
+.vip-achievement .achievement-message {
+    margin: 0;
+    font-size: 0.875rem;
+    color: #374151;
+}
+
+/* ==========================================
+   Compact Badge
+   ========================================== */
+
+.vip-compact-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.375rem;
+    padding: 0.25rem 0.625rem;
+    background: #fff;
+    border-radius: 9999px;
+    text-decoration: none;
+    font-size: 0.75rem;
+    font-weight: 600;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    transition: all 0.2s ease;
+}
+
+.vip-compact-badge:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+}
+
+.vip-compact-badge .badge-icon {
+    font-size: 0.875rem;
+}
+
+.vip-compact-badge.tier-silver .badge-tier { color: #71717A; }
+.vip-compact-badge.tier-gold .badge-tier { color: #D97706; }
+.vip-compact-badge.tier-platinum .badge-tier { color: #7C3AED; }
+.vip-compact-badge.tier-diamond .badge-tier { color: #0EA5E9; }
+
+/* ==========================================
+   Loading State
+   ========================================== */
+
+.vip-loading {
+    text-align: center;
+    padding: 2rem;
+}
+
+.vip-loading .loading-spinner {
+    width: 40px;
+    height: 40px;
+    border: 3px solid #E5E7EB;
+    border-top-color: var(--tier-color, #6B7280);
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+    margin: 0 auto 1rem;
+}
+
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}
+
+/* ==========================================
+   Responsive
+   ========================================== */
+
+@media (max-width: 768px) {
+    .vip-concierge-section {
+        padding: 1rem;
+    }
+    
+    .tier-badge {
+        padding: 0.5rem 1rem;
+    }
+    
+    .tier-badge .tier-icon {
+        font-size: 1.5rem;
+    }
+    
+    .tier-badge .tier-name {
+        font-size: 1rem;
+    }
+    
+    .vip-stats {
+        justify-content: center;
+    }
+    
+    .benefits-grid,
+    .services-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .contact-card {
+        flex-direction: column;
+        text-align: center;
+    }
+    
+    .contact-info {
+        align-items: center;
+    }
+}
+
+/* ==========================================
+   Dark Mode
+   ========================================== */
+
+@media (prefers-color-scheme: dark) {
+    .vip-concierge-section {
+        background: linear-gradient(135deg, #1F2937 0%, #111827 100%);
+        border-color: #374151;
+    }
+    
+    .tier-badge,
+    .vip-stats .stat-item,
+    .benefit-card,
+    .service-card,
+    .contact-card {
+        background: #374151;
+    }
+    
+    .tier-badge .tier-desc,
+    .vip-stats .stat-label,
+    .benefit-card .benefit-desc,
+    .service-card .service-desc {
+        color: #9CA3AF;
+    }
+    
+    .tier-badge .tier-name,
+    .vip-stats .stat-value,
+    .benefit-card .benefit-title,
+    .service-card .service-name,
+    .contact-info .contact-name,
+    .vip-concierge-section .section-title {
+        color: #F9FAFB;
+    }
+    
+    .vip-greeting {
+        background: rgba(55, 65, 81, 0.7);
+        color: #D1D5DB;
+    }
+    
+    .progress-bar {
+        background: #374151;
+    }
+    
+    .contact-btn {
+        background: #374151;
+        border-color: #4B5563;
+        color: #D1D5DB;
+    }
+}
+
+/* ==========================================
+   Animations
+   ========================================== */
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}

@@ -1,0 +1,460 @@
+/**
+ * Guest Match Styles
+ * Personalized recommendations visualization
+ */
+
+/* ==========================================
+   Main Section
+   ========================================== */
+
+.guest-match-section {
+    margin: 2rem 0;
+    padding: 1.5rem;
+    background: linear-gradient(135deg, #F5F3FF 0%, #EDE9FE 100%);
+    border-radius: 1rem;
+}
+
+.guest-match-section .section-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 1rem;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+}
+
+.guest-match-section .header-title {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.guest-match-section .header-icon {
+    font-size: 1.5rem;
+}
+
+.guest-match-section .header-title h3 {
+    margin: 0;
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: #1F2937;
+}
+
+.guest-match-section .guest-profile {
+    margin: 0 0 1rem 0;
+    font-size: 0.875rem;
+    color: #6B7280;
+}
+
+/* ==========================================
+   Confidence Badge
+   ========================================== */
+
+.confidence-badge {
+    display: inline-flex;
+    align-items: center;
+    padding: 0.25rem 0.75rem;
+    border-radius: 9999px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.confidence-badge.confidence-high {
+    background: #D1FAE5;
+    color: #065F46;
+}
+
+.confidence-badge.confidence-medium {
+    background: #DBEAFE;
+    color: #1E40AF;
+}
+
+.confidence-badge.confidence-low {
+    background: #FEF3C7;
+    color: #92400E;
+}
+
+/* ==========================================
+   Match Factors
+   ========================================== */
+
+.match-factors {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-bottom: 1.25rem;
+}
+
+.match-factors .factor-tag {
+    display: inline-block;
+    padding: 0.375rem 0.75rem;
+    background: #fff;
+    border: 1px solid #E5E7EB;
+    border-radius: 9999px;
+    font-size: 0.8125rem;
+    color: #4B5563;
+}
+
+/* ==========================================
+   Recommendations Grid
+   ========================================== */
+
+.recommendations-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 1rem;
+}
+
+/* ==========================================
+   Hotel Card
+   ========================================== */
+
+.guest-match-card {
+    background: #fff;
+    border-radius: 0.75rem;
+    overflow: hidden;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+    transition: all 0.2s ease;
+    cursor: pointer;
+    position: relative;
+}
+
+.guest-match-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+}
+
+.guest-match-card .card-image {
+    position: relative;
+    height: 160px;
+    overflow: hidden;
+}
+
+.guest-match-card .card-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+}
+
+.guest-match-card:hover .card-image img {
+    transform: scale(1.05);
+}
+
+.guest-match-card .card-content {
+    padding: 1rem;
+}
+
+.guest-match-card .hotel-name {
+    margin: 0 0 0.25rem 0;
+    font-size: 1rem;
+    font-weight: 600;
+    color: #111827;
+    line-height: 1.3;
+}
+
+.guest-match-card .hotel-city {
+    margin: 0 0 0.5rem 0;
+    font-size: 0.8125rem;
+    color: #6B7280;
+}
+
+.guest-match-card .hotel-meta {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin-bottom: 0.5rem;
+}
+
+.guest-match-card .hotel-rating {
+    font-size: 0.8125rem;
+    font-weight: 500;
+    color: #374151;
+}
+
+.guest-match-card .hotel-price {
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: #059669;
+}
+
+.guest-match-card .match-reasons {
+    margin: 0;
+    padding: 0.5rem;
+    background: #F3F4F6;
+    border-radius: 0.375rem;
+    font-size: 0.75rem;
+    color: #4B5563;
+    line-height: 1.4;
+}
+
+.guest-match-card .card-link {
+    display: block;
+    padding: 0.75rem 1rem;
+    background: #F9FAFB;
+    border-top: 1px solid #E5E7EB;
+    font-size: 0.8125rem;
+    font-weight: 500;
+    color: #3B82F6;
+    text-decoration: none;
+    text-align: center;
+    transition: background 0.2s ease;
+}
+
+.guest-match-card .card-link:hover {
+    background: #EFF6FF;
+}
+
+/* ==========================================
+   Match Score Badge
+   ========================================== */
+
+.guest-match-score {
+    position: absolute;
+    top: 0.75rem;
+    right: 0.75rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 0.5rem 0.75rem;
+    background: rgba(255, 255, 255, 0.95);
+    border-radius: 0.5rem;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.guest-match-score .score-value {
+    font-size: 1rem;
+    font-weight: 700;
+    line-height: 1;
+}
+
+.guest-match-score .score-label {
+    font-size: 0.625rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    opacity: 0.8;
+}
+
+.guest-match-score.score-high .score-value {
+    color: #059669;
+}
+
+.guest-match-score.score-good .score-value {
+    color: #3B82F6;
+}
+
+.guest-match-score.score-medium .score-value {
+    color: #F59E0B;
+}
+
+.guest-match-score.score-low .score-value {
+    color: #6B7280;
+}
+
+/* ==========================================
+   Compact Version
+   ========================================== */
+
+.guest-match-compact {
+    padding: 1rem;
+    background: #F9FAFB;
+    border-radius: 0.75rem;
+    border: 1px solid #E5E7EB;
+}
+
+.guest-match-compact .compact-title {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin: 0 0 1rem 0;
+    font-size: 0.9375rem;
+    font-weight: 600;
+    color: #111827;
+}
+
+.guest-match-compact .title-icon {
+    font-size: 1rem;
+}
+
+.guest-match-compact .compact-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+}
+
+.guest-match-compact .compact-item {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.5rem;
+    background: #fff;
+    border-radius: 0.5rem;
+    text-decoration: none;
+    transition: all 0.2s ease;
+}
+
+.guest-match-compact .compact-item:hover {
+    background: #EFF6FF;
+    transform: translateX(4px);
+}
+
+.guest-match-compact .compact-image {
+    width: 48px;
+    height: 48px;
+    border-radius: 0.375rem;
+    object-fit: cover;
+    flex-shrink: 0;
+}
+
+.guest-match-compact .compact-info {
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+}
+
+.guest-match-compact .compact-name {
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: #111827;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.guest-match-compact .compact-match {
+    font-size: 0.75rem;
+    color: #059669;
+    font-weight: 500;
+}
+
+/* ==========================================
+   Responsive
+   ========================================== */
+
+@media (max-width: 640px) {
+    .guest-match-section {
+        padding: 1rem;
+        margin: 1rem 0;
+    }
+    
+    .guest-match-section .section-header {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    
+    .recommendations-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .guest-match-card .card-image {
+        height: 140px;
+    }
+}
+
+/* ==========================================
+   Dark Mode
+   ========================================== */
+
+@media (prefers-color-scheme: dark) {
+    .guest-match-section {
+        background: linear-gradient(135deg, #1F2937 0%, #111827 100%);
+    }
+    
+    .guest-match-section .header-title h3 {
+        color: #F9FAFB;
+    }
+    
+    .guest-match-section .guest-profile {
+        color: #9CA3AF;
+    }
+    
+    .match-factors .factor-tag {
+        background: #374151;
+        border-color: #4B5563;
+        color: #D1D5DB;
+    }
+    
+    .guest-match-card {
+        background: #1F2937;
+    }
+    
+    .guest-match-card .hotel-name {
+        color: #F9FAFB;
+    }
+    
+    .guest-match-card .match-reasons {
+        background: #374151;
+        color: #D1D5DB;
+    }
+    
+    .guest-match-card .card-link {
+        background: #111827;
+        border-color: #374151;
+    }
+    
+    .guest-match-card .card-link:hover {
+        background: #1E40AF;
+    }
+    
+    .guest-match-score {
+        background: rgba(31, 41, 55, 0.95);
+    }
+    
+    .guest-match-score .score-label {
+        color: #9CA3AF;
+    }
+    
+    .guest-match-compact {
+        background: #1F2937;
+        border-color: #374151;
+    }
+    
+    .guest-match-compact .compact-title {
+        color: #F9FAFB;
+    }
+    
+    .guest-match-compact .compact-item {
+        background: #374151;
+    }
+    
+    .guest-match-compact .compact-item:hover {
+        background: #1E40AF;
+    }
+    
+    .guest-match-compact .compact-name {
+        color: #F9FAFB;
+    }
+}
+
+/* ==========================================
+   Animation
+   ========================================== */
+
+@keyframes slideInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.guest-match-section {
+    animation: slideInUp 0.4s ease-out;
+}
+
+.guest-match-card {
+    animation: slideInUp 0.3s ease-out;
+    animation-fill-mode: both;
+}
+
+.guest-match-card:nth-child(1) { animation-delay: 0.05s; }
+.guest-match-card:nth-child(2) { animation-delay: 0.1s; }
+.guest-match-card:nth-child(3) { animation-delay: 0.15s; }
+.guest-match-card:nth-child(4) { animation-delay: 0.2s; }
+.guest-match-card:nth-child(5) { animation-delay: 0.25s; }
+.guest-match-card:nth-child(6) { animation-delay: 0.3s; }

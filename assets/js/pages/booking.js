@@ -239,6 +239,12 @@ function renderBookingPage() {
             <!-- Booking Confidence Panel -->
             <div id="booking-confidence-panel"></div>
             
+            <!-- FlexBook Policy Card -->
+            <div id="flexbook-container" class="flexbook-container" style="margin-bottom: var(--space-4);"></div>
+            
+            <!-- Price Genius Insights -->
+            <div id="price-genius-container" style="margin-bottom: var(--space-4);"></div>
+            
             <div class="summary-pricing">
                 <div class="pricing-row">
                     <span>${UI.formatCurrency(roomPrice)} x <span id="summaryNights">${bookingData.nights}</span> night(s)</span>
@@ -322,6 +328,11 @@ function initBookingForm() {
         if (typeof onDatesChanged === 'function') {
             onDatesChanged(bookingData.roomId, checkInInput.value, checkOutInput.value);
         }
+        
+        // Update FlexBook policy when dates change
+        if (typeof FlexBook !== 'undefined' && typeof FlexBook.loadPolicyCard === 'function') {
+            FlexBook.loadPolicyCard('flexbook-container', bookingData.roomId, checkInInput.value);
+        }
     });
     
     checkOutInput.addEventListener('change', () => {
@@ -336,6 +347,24 @@ function initBookingForm() {
     // Initialize booking confidence panel
     if (typeof initializeBookingConfidence === 'function') {
         initializeBookingConfidence(bookingData.roomId, bookingData.checkIn, bookingData.checkOut);
+    }
+    
+    // Initialize FlexBook policy card
+    if (typeof FlexBook !== 'undefined' && typeof FlexBook.loadPolicyCard === 'function') {
+        FlexBook.loadPolicyCard(
+            'flexbook-container',
+            bookingData.roomId,
+            bookingData.checkIn
+        );
+    }
+    
+    // Initialize Price Genius insights
+    if (typeof PriceGenius !== 'undefined' && typeof PriceGenius.initForRoom === 'function') {
+        PriceGenius.initForRoom(
+            'price-genius-container',
+            bookingData.hotelId,
+            bookingData.roomId
+        );
     }
     
     // Confirm booking button

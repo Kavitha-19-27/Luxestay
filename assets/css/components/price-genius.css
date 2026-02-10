@@ -1,0 +1,505 @@
+/**
+ * Price Genius Styles
+ * Price comparison insights and deal quality visualization
+ */
+
+/* ==========================================
+   Deal Badges
+   ========================================== */
+
+.price-genius-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    padding: 0.35rem 0.75rem;
+    border-radius: 9999px;
+    font-size: 0.8125rem;
+    font-weight: 600;
+    white-space: nowrap;
+}
+
+.price-genius-badge .badge-icon {
+    font-size: 0.875rem;
+}
+
+.price-genius-badge .badge-label {
+    letter-spacing: 0.01em;
+}
+
+/* Deal rating variants */
+.deal-excellent {
+    background: linear-gradient(135deg, #D1FAE5 0%, #A7F3D0 100%);
+    color: #065F46;
+    border: 1px solid #6EE7B7;
+}
+
+.deal-good {
+    background: linear-gradient(135deg, #DBEAFE 0%, #BFDBFE 100%);
+    color: #1E40AF;
+    border: 1px solid #93C5FD;
+}
+
+.deal-fair {
+    background: #F3F4F6;
+    color: #374151;
+    border: 1px solid #D1D5DB;
+}
+
+.deal-average {
+    background: #F9FAFB;
+    color: #6B7280;
+    border: 1px solid #E5E7EB;
+}
+
+.deal-premium {
+    background: linear-gradient(135deg, #EDE9FE 0%, #DDD6FE 100%);
+    color: #5B21B6;
+    border: 1px solid #C4B5FD;
+}
+
+/* ==========================================
+   Compact Deal Indicator (for cards)
+   ========================================== */
+
+.price-genius-badge-container {
+    position: absolute;
+    top: 0.75rem;
+    left: 0.75rem;
+    z-index: 10;
+}
+
+.price-genius-compact {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.25rem;
+    padding: 0.25rem 0.5rem;
+    border-radius: 0.375rem;
+    font-size: 0.75rem;
+    font-weight: 600;
+    backdrop-filter: blur(4px);
+}
+
+.price-genius-compact .compact-icon {
+    font-size: 0.75rem;
+}
+
+.price-genius-compact .savings-percent {
+    margin-left: 0.25rem;
+    padding-left: 0.375rem;
+    border-left: 1px solid currentColor;
+    opacity: 0.8;
+}
+
+/* Compact deal variants */
+.price-genius-compact.deal-excellent {
+    background: rgba(16, 185, 129, 0.95);
+    color: #fff;
+    border: none;
+}
+
+.price-genius-compact.deal-good {
+    background: rgba(59, 130, 246, 0.95);
+    color: #fff;
+    border: none;
+}
+
+.price-genius-compact.deal-fair {
+    background: rgba(107, 114, 128, 0.9);
+    color: #fff;
+    border: none;
+}
+
+.price-genius-compact.deal-premium {
+    background: rgba(139, 92, 246, 0.95);
+    color: #fff;
+    border: none;
+}
+
+/* ==========================================
+   Price Trend Indicator
+   ========================================== */
+
+.price-trend {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    padding: 0.25rem 0.5rem;
+    border-radius: 0.375rem;
+    font-size: 0.8125rem;
+    font-weight: 500;
+}
+
+.price-trend .trend-icon {
+    font-size: 1rem;
+    font-weight: bold;
+}
+
+.trend-increasing {
+    background: #FEF2F2;
+    color: #B91C1C;
+}
+
+.trend-stable {
+    background: #F3F4F6;
+    color: #374151;
+}
+
+.trend-decreasing {
+    background: #ECFDF5;
+    color: #047857;
+}
+
+/* ==========================================
+   Price Genius Widget
+   ========================================== */
+
+.price-genius-widget {
+    background: #fff;
+    border: 1px solid #E5E7EB;
+    border-radius: 0.75rem;
+    overflow: hidden;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+}
+
+.price-genius-widget .widget-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1rem 1.25rem;
+    background: linear-gradient(to right, #F9FAFB, #fff);
+    border-bottom: 1px solid #E5E7EB;
+}
+
+.price-genius-widget .widget-title {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin: 0;
+    font-size: 1rem;
+    font-weight: 600;
+    color: #111827;
+}
+
+.price-genius-widget .title-icon {
+    font-size: 1.125rem;
+}
+
+.price-genius-widget .widget-body {
+    padding: 1.25rem;
+}
+
+/* ==========================================
+   Price Insight Message
+   ========================================== */
+
+.price-genius-insight {
+    padding: 0.875rem 1rem;
+    margin-bottom: 1rem;
+    background: #F9FAFB;
+    border-left: 3px solid #3B82F6;
+    border-radius: 0 0.5rem 0.5rem 0;
+}
+
+.price-genius-insight .insight-text {
+    margin: 0;
+    font-size: 0.9375rem;
+    color: #374151;
+    line-height: 1.5;
+}
+
+/* ==========================================
+   Market Comparison
+   ========================================== */
+
+.price-genius-comparison {
+    margin-bottom: 1rem;
+}
+
+.price-genius-comparison .comparison-title {
+    margin: 0 0 0.75rem 0;
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: #374151;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.comparison-bars {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.comparison-row {
+    display: grid;
+    grid-template-columns: 80px 1fr 60px;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.comparison-row .bar-label {
+    font-size: 0.8125rem;
+    color: #6B7280;
+}
+
+.comparison-row .bar-container {
+    height: 0.5rem;
+    background: #E5E7EB;
+    border-radius: 9999px;
+    overflow: hidden;
+}
+
+.comparison-row .bar {
+    height: 100%;
+    border-radius: 9999px;
+    transition: width 0.5s ease-out;
+}
+
+.comparison-row .bar-current {
+    background: linear-gradient(90deg, #3B82F6 0%, #2563EB 100%);
+}
+
+.comparison-row .bar-market {
+    background: #9CA3AF;
+}
+
+.comparison-row .bar-value {
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: #111827;
+    text-align: right;
+}
+
+.comparison-savings {
+    margin: 0.75rem 0 0 0;
+    padding: 0.5rem 0.75rem;
+    font-size: 0.875rem;
+    font-weight: 500;
+    text-align: center;
+    border-radius: 0.375rem;
+}
+
+.comparison-savings.savings-positive {
+    background: #ECFDF5;
+    color: #047857;
+}
+
+.comparison-savings.savings-negative {
+    background: #FEF2F2;
+    color: #B91C1C;
+}
+
+/* ==========================================
+   Widget Row & Sections
+   ========================================== */
+
+.widget-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0.75rem 0;
+    border-top: 1px solid #E5E7EB;
+    margin-bottom: 1rem;
+}
+
+.trend-section {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.trend-section .section-label {
+    font-size: 0.8125rem;
+    color: #6B7280;
+}
+
+/* ==========================================
+   Booking Advice Card
+   ========================================== */
+
+.price-genius-advice {
+    padding: 1rem;
+    border-radius: 0.5rem;
+    border: 1px solid #E5E7EB;
+}
+
+.price-genius-advice .advice-header {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-bottom: 0.5rem;
+}
+
+.price-genius-advice .advice-icon {
+    font-size: 1.125rem;
+}
+
+.price-genius-advice .advice-urgency {
+    font-size: 0.875rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.price-genius-advice .advice-content {
+    padding-left: 1.625rem;
+}
+
+.price-genius-advice .advice-recommendation {
+    margin: 0 0 0.25rem 0;
+    font-size: 0.9375rem;
+    font-weight: 500;
+    color: #111827;
+}
+
+.price-genius-advice .advice-reasoning {
+    margin: 0;
+    font-size: 0.8125rem;
+    color: #6B7280;
+}
+
+/* Urgency variants */
+.price-genius-advice.urgency-high {
+    background: linear-gradient(135deg, #FEF2F2 0%, #FEE2E2 100%);
+    border-color: #FECACA;
+}
+
+.price-genius-advice.urgency-high .advice-urgency {
+    color: #B91C1C;
+}
+
+.price-genius-advice.urgency-medium {
+    background: linear-gradient(135deg, #FFFBEB 0%, #FEF3C7 100%);
+    border-color: #FDE68A;
+}
+
+.price-genius-advice.urgency-medium .advice-urgency {
+    color: #B45309;
+}
+
+.price-genius-advice.urgency-low {
+    background: linear-gradient(135deg, #ECFDF5 0%, #D1FAE5 100%);
+    border-color: #A7F3D0;
+}
+
+.price-genius-advice.urgency-low .advice-urgency {
+    color: #047857;
+}
+
+.price-genius-advice.urgency-wait {
+    background: linear-gradient(135deg, #F3F4F6 0%, #E5E7EB 100%);
+    border-color: #D1D5DB;
+}
+
+.price-genius-advice.urgency-wait .advice-urgency {
+    color: #374151;
+}
+
+/* ==========================================
+   Responsive Adjustments
+   ========================================== */
+
+@media (max-width: 640px) {
+    .price-genius-widget .widget-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.75rem;
+    }
+    
+    .comparison-row {
+        grid-template-columns: 60px 1fr 50px;
+        gap: 0.5rem;
+    }
+    
+    .comparison-row .bar-label {
+        font-size: 0.75rem;
+    }
+    
+    .comparison-row .bar-value {
+        font-size: 0.8125rem;
+    }
+    
+    .price-genius-advice .advice-content {
+        padding-left: 0;
+        margin-top: 0.5rem;
+    }
+}
+
+/* ==========================================
+   Dark Mode Support
+   ========================================== */
+
+@media (prefers-color-scheme: dark) {
+    .price-genius-widget {
+        background: #1F2937;
+        border-color: #374151;
+    }
+    
+    .price-genius-widget .widget-header {
+        background: linear-gradient(to right, #1F2937, #111827);
+        border-color: #374151;
+    }
+    
+    .price-genius-widget .widget-title {
+        color: #F9FAFB;
+    }
+    
+    .price-genius-insight {
+        background: #374151;
+    }
+    
+    .price-genius-insight .insight-text {
+        color: #E5E7EB;
+    }
+    
+    .comparison-row .bar-container {
+        background: #374151;
+    }
+    
+    .comparison-row .bar-value {
+        color: #F9FAFB;
+    }
+    
+    .comparison-row .bar-label {
+        color: #9CA3AF;
+    }
+    
+    .widget-row {
+        border-color: #374151;
+    }
+    
+    .price-genius-advice {
+        border-color: #374151;
+    }
+    
+    .price-genius-advice .advice-recommendation {
+        color: #F9FAFB;
+    }
+    
+    .price-genius-advice .advice-reasoning {
+        color: #9CA3AF;
+    }
+}
+
+/* ==========================================
+   Animation
+   ========================================== */
+
+@keyframes fadeSlideIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.price-genius-widget {
+    animation: fadeSlideIn 0.3s ease-out;
+}
+
+.price-genius-badge {
+    animation: fadeSlideIn 0.2s ease-out;
+}

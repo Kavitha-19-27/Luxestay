@@ -26,6 +26,11 @@ document.addEventListener('DOMContentLoaded', () => {
     initModal();
     initReviewModal();
     loadBookings();
+    
+    // Initialize Memory Lane compact view
+    if (window.MemoryLane) {
+        window.MemoryLane.initCompactView('memoryLaneSidebar', 3);
+    }
 });
 
 /**
@@ -156,6 +161,83 @@ function initModal() {
 }
 
 /**
+ * Load Stay Countdown widgets for booking cards
+ * Enhances each booking card with a visual countdown
+ */
+async function loadStayCountdowns(bookings) {
+    for (const booking of bookings) {
+        try {
+            const countdown = await StayCountdown.getBookingCountdown(booking.id);
+            if (!countdown) continue;
+            
+            // Find the booking card
+            const bookingCard = document.querySelector(`.booking-card[data-booking-id="${booking.id}"]`);
+            if (!bookingCard) {
+                // Try by booking reference if data attribute doesn't exist
+                const cards = document.querySelectorAll('.booking-card');
+                for (const card of cards) {
+                    const refEl = card.querySelector('.booking-ref-value');
+                    if (refEl && refEl.textContent === booking.bookingReference) {
+                        addCountdownToCard(card, countdown);
+                        break;
+                    }
+                }
+            } else {
+                addCountdownToCard(bookingCard, countdown);
+            }
+        } catch (error) {
+            console.warn('Could not load countdown for booking:', booking.id);
+        }
+    }
+}
+
+/**
+ * Add countdown widget to a booking card
+ */
+function addCountdownToCard(card, countdown) {
+    // Check if countdown already exists
+    if (card.querySelector('.stay-countdown-inline')) return;
+    
+    // Create inline countdown element
+    const countdownEl = document.createElement('div');
+    countdownEl.className = 'stay-countdown-inline';
+    
+    const daysUntil = countdown.daysUntilCheckIn;
+    const phase = countdown.phase;
+    
+    // Create countdown display based on phase
+    let badgeClass = 'countdown-normal';
+    let displayText = '';
+    
+    if (daysUntil === 0) {
+        badgeClass = 'countdown-today';
+        displayText = '🎉 Today!';
+    } else if (daysUntil === 1) {
+        badgeClass = 'countdown-tomorrow';
+        displayText = '⭐ Tomorrow!';
+    } else if (daysUntil <= 7) {
+        badgeClass = 'countdown-soon';
+        displayText = `${daysUntil} days`;
+    } else {
+        displayText = `${daysUntil} days`;
+    }
+    
+    countdownEl.innerHTML = `
+        <div class="countdown-inline-badge ${badgeClass}">
+            <span class="countdown-inline-number">${displayText}</span>
+            <span class="countdown-inline-label">until check-in</span>
+        </div>
+        <p class="countdown-inline-message">${countdown.excitementMessage || ''}</p>
+    `;
+    
+    // Insert after booking header
+    const bookingBody = card.querySelector('.booking-card-body');
+    if (bookingBody) {
+        bookingBody.insertBefore(countdownEl, bookingBody.firstChild);
+    }
+}
+
+/**
  * Load bookings
  */
 async function loadBookings() {
@@ -260,6 +342,11 @@ async function filterBookings() {
     
     // Start countdown timers
     startCountdownTimers();
+    
+    // Load Stay Countdown widgets for upcoming bookings
+    if (currentTab === 'upcoming' && typeof StayCountdown !== 'undefined') {
+        loadStayCountdowns(filtered);
+    }
     
     // Add cancel button handlers
     document.querySelectorAll('.cancel-booking-btn').forEach(btn => {

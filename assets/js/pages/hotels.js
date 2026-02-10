@@ -15,6 +15,11 @@ document.addEventListener('DOMContentLoaded', () => {
     initQuickLocationChips();
     // Initial load
     fetchHotels(0);
+    
+    // Load Guest Match recommendations for logged-in users
+    if (window.GuestMatch) {
+        window.GuestMatch.initOnHotelsPage('guestMatchContainer');
+    }
 });
 
 /**

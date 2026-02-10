@@ -16,6 +16,18 @@ document.addEventListener('DOMContentLoaded', () => {
     
     loadHotelDetails(hotelId);
     initDatePicker();
+    
+    // Load Guest Match recommendations (compact view, exclude current hotel)
+    if (window.GuestMatch) {
+        window.GuestMatch.initOnDetailPage('guestMatchContainer', hotelId);
+        // Show section after loading
+        setTimeout(() => {
+            const section = document.getElementById('guestMatchSection');
+            if (section && document.getElementById('guestMatchContainer').innerHTML) {
+                section.style.display = 'block';
+            }
+        }, 1500);
+    }
 });
 
 /**
@@ -215,6 +227,16 @@ function renderHotelDetails(hotel) {
                         Free cancellation available
                     </p>
                     
+                    <!-- TrustScore Section -->
+                    <div id="trustScoreContainer" class="trust-score-sidebar-container">
+                        <!-- Loaded dynamically -->
+                    </div>
+                    
+                    <!-- Live Pulse Section -->
+                    <div id="livePulseContainer" class="live-pulse-sidebar-container">
+                        <!-- Loaded dynamically -->
+                    </div>
+                    
                     <div class="hotel-info-list">
                         <div class="hotel-info-item">
                             <i class="fas fa-clock"></i>
@@ -243,8 +265,34 @@ function renderHotelDetails(hotel) {
     // Initialize wishlist button
     initWishlistButton(hotel.id);
     
+    // Load TrustScore (async, won't block page)
+    loadTrustScore(hotel.id);
+    
+    // Load Live Pulse (async, won't block page)
+    loadLivePulse(hotel.id);
+    
     // Show rooms section
     document.getElementById('roomsSection').style.display = 'block';
+}
+
+/**
+ * Load TrustScore for the hotel
+ */
+async function loadTrustScore(hotelId) {
+    const container = document.getElementById('trustScoreContainer');
+    if (container && window.TrustScore) {
+        await TrustScore.loadHotelTrustScore(hotelId, container);
+    }
+}
+
+/**
+ * Load Live Pulse for the hotel
+ */
+async function loadLivePulse(hotelId) {
+    const container = document.getElementById('livePulseContainer');
+    if (container && window.LivePulse) {
+        await LivePulse.loadPulseCard(container, hotelId);
+    }
 }
 
 /**
@@ -396,6 +444,42 @@ function renderRooms(rooms, checkIn = '', checkOut = '') {
     }
     
     container.innerHTML = rooms.map(room => UI.renderRoomCard(room, currentHotel.id, checkIn, checkOut)).join('');
+    
+    // Load FlexBook policy badges for each room card
+    if (typeof FlexBook !== 'undefined' && typeof FlexBook.loadPolicyBadge === 'function') {
+        const roomCards = container.querySelectorAll('.room-card');
+        rooms.forEach((room, index) => {
+            const card = roomCards[index];
+            if (card) {
+                // Create badge container if it doesn't exist
+                let badgeContainer = card.querySelector('.flexbook-badge-container');
+                if (!badgeContainer) {
+                    badgeContainer = document.createElement('div');
+                    badgeContainer.className = 'flexbook-badge-container';
+                    badgeContainer.style.cssText = 'margin-top: var(--space-2); margin-bottom: var(--space-2);';
+                    // Insert after room specs
+                    const roomSpecs = card.querySelector('.room-specs');
+                    if (roomSpecs && roomSpecs.parentNode) {
+                        roomSpecs.parentNode.insertBefore(badgeContainer, roomSpecs.nextSibling);
+                    }
+                }
+                FlexBook.loadPolicyBadge(badgeContainer, room.id);
+            }
+        });
+    }
+    
+    // Add Price Genius deal badges to room cards
+    if (typeof PriceGenius !== 'undefined' && typeof PriceGenius.addBadgeToRoomCard === 'function') {
+        const roomCards = container.querySelectorAll('.room-card');
+        rooms.forEach((room, index) => {
+            const card = roomCards[index];
+            if (card) {
+                card.setAttribute('data-room-id', room.id);
+                card.style.position = 'relative'; // Ensure absolute positioning works for badge
+                PriceGenius.addBadgeToRoomCard(card, currentHotel.id, room.id);
+            }
+        });
+    }
 }
 
 /**
