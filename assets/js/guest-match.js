@@ -131,7 +131,7 @@ const GuestMatch = (function() {
             : '';
         
         const price = hotel.startingPrice
-            ? `<span class="hotel-price">From $${hotel.startingPrice}</span>`
+            ? `<span class="hotel-price">From ₹${hotel.startingPrice.toLocaleString('en-IN')}</span>`
             : '';
         
         return `

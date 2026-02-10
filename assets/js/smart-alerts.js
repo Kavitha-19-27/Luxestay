@@ -236,7 +236,7 @@ const SmartAlerts = {
                     <h4 class="alert-title">${this.escapeHtml(alert.title)}</h4>
                     <p class="alert-message">${this.escapeHtml(alert.message)}</p>
                     ${data.savings ? `
-                        <span class="alert-savings">Save $${data.savings.toFixed(0)}</span>
+                        <span class="alert-savings">Save ₹${data.savings.toLocaleString('en-IN')}</span>
                     ` : ''}
                     ${data.actionUrl ? `
                         <a href="${data.actionUrl}" class="alert-action">

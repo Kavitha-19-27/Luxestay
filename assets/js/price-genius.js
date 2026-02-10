@@ -228,8 +228,8 @@ const PriceGenius = (function() {
         
         const savingsClass = savingsVsMarket > 0 ? 'savings-positive' : (savingsVsMarket < 0 ? 'savings-negative' : '');
         const savingsText = savingsVsMarket > 0 
-            ? `You save $${savingsVsMarket.toFixed(0)}/night` 
-            : (savingsVsMarket < 0 ? `$${Math.abs(savingsVsMarket).toFixed(0)} above average` : 'At market average');
+            ? `You save ₹${savingsVsMarket.toLocaleString('en-IN')}/night` 
+            : (savingsVsMarket < 0 ? `₹${Math.abs(savingsVsMarket).toLocaleString('en-IN')} above average` : 'At market average');
         
         return `
             <div class="price-genius-comparison">
@@ -241,7 +241,7 @@ const PriceGenius = (function() {
                         <div class="bar-container">
                             <div class="bar bar-current" style="width: ${currentWidth}%"></div>
                         </div>
-                        <span class="bar-value">$${currentPrice.toFixed(0)}</span>
+                        <span class="bar-value">₹${currentPrice.toLocaleString('en-IN')}</span>
                     </div>
                     
                     <div class="comparison-row">
@@ -249,7 +249,7 @@ const PriceGenius = (function() {
                         <div class="bar-container">
                             <div class="bar bar-market" style="width: ${marketWidth}%"></div>
                         </div>
-                        <span class="bar-value">$${marketAverage.toFixed(0)}</span>
+                        <span class="bar-value">₹${marketAverage.toLocaleString('en-IN')}</span>
                     </div>
                 </div>
                 

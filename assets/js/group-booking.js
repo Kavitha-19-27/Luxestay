@@ -412,7 +412,7 @@ const GroupBooking = {
                     <h3 class="group-price-summary-title">Total Summary</h3>
                     <div class="group-price-row group-price-row--total">
                         <span>Group Total</span>
-                        <span class="group-price-value">$${group.totalPrice.toFixed(2)}</span>
+                        <span class="group-price-value">₹${group.totalPrice.toLocaleString('en-IN')}</span>
                     </div>
                 </div>
             ` : ''}
@@ -644,7 +644,7 @@ const GroupBooking = {
                          ${!isTaken ? `onclick="GroupBooking.handleRoomSelect(${room.id})"` : ''}>
                         <div class="group-room-header">
                             <span class="group-room-name">${this.escapeHtml(room.name)}</span>
-                            <span class="group-room-price">$${room.price}/night</span>
+                            <span class="group-room-price">₹${room.price?.toLocaleString('en-IN')}/night</span>
                         </div>
                         <div class="group-room-details">
                             <span><i class="fas fa-user"></i> ${room.capacity} guests</span>

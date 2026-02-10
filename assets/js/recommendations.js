@@ -144,7 +144,7 @@ const Recommendations = {
                         </div>
                         ${rec.startingPrice ? `
                             <div class="recommendation-card-price">
-                                <span class="recommendation-card-price-value">$${rec.startingPrice}</span>
+                                <span class="recommendation-card-price-value">₹${rec.startingPrice?.toLocaleString('en-IN')}</span>
                                 <span class="recommendation-card-price-label">/ night</span>
                             </div>
                         ` : ''}

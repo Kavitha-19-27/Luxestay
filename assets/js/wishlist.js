@@ -212,7 +212,7 @@ const Wishlist = {
      */
     renderWishlistCard(item) {
         const imageUrl = item.hotelImageUrl || 'assets/images/placeholder-hotel.jpg';
-        const price = item.minPrice ? `$${item.minPrice}` : 'Contact for price';
+        const price = item.minPrice ? `₹${item.minPrice.toLocaleString('en-IN')}` : 'Contact for price';
         const stars = '★'.repeat(item.starRating || 0) + '☆'.repeat(5 - (item.starRating || 0));
         
         return `
