@@ -21,6 +21,9 @@ function initProfilePage() {
     // Setup event listeners
     setupEventListeners();
     
+    // Setup avatar upload
+    setupAvatarUpload();
+    
     // Initialize Stay Countdown (upcoming trips)
     if (window.StayCountdown) {
         window.StayCountdown.initForUser('stayCountdownContainer');
@@ -52,7 +55,17 @@ function loadUserProfile() {
     
     // Set profile card
     const initials = Auth.getUserInitials();
-    document.getElementById('profileAvatar').textContent = initials;
+    const avatarEl = document.getElementById('profileAvatar');
+    const initialsEl = avatarEl.querySelector('.avatar-initials');
+    const imageEl = document.getElementById('avatarImage');
+    
+    if (initialsEl) {
+        initialsEl.textContent = initials;
+    }
+    
+    // Load profile picture from localStorage
+    loadProfilePicture(user.id || user.email);
+    
     document.getElementById('profileName').textContent = `${user.firstName} ${user.lastName}`;
     document.getElementById('profileEmail').textContent = user.email;
     
@@ -341,5 +354,136 @@ function updateRewardsCard(data) {
         progressText.textContent = `${nextLevel.minXp - xp} XP to ${nextLevel.levelName}`;
     } else if (progressText) {
         progressText.textContent = 'View Rewards →';
+    }
+}
+
+// =====================================================
+// PROFILE PICTURE FUNCTIONS
+// =====================================================
+
+/**
+ * Load profile picture from localStorage
+ */
+function loadProfilePicture(userId) {
+    const avatarEl = document.getElementById('profileAvatar');
+    const imageEl = document.getElementById('avatarImage');
+    
+    if (!avatarEl || !imageEl) return;
+    
+    const savedPicture = localStorage.getItem(`profilePicture_${userId}`);
+    
+    if (savedPicture) {
+        imageEl.src = savedPicture;
+        imageEl.style.display = 'block';
+        avatarEl.classList.add('has-image');
+    }
+}
+
+/**
+ * Handle profile picture upload
+ */
+function handleAvatarUpload(event) {
+    const file = event.target.files[0];
+    if (!file) return;
+    
+    // Validate file type
+    if (!file.type.startsWith('image/')) {
+        UI.toast('Please select a valid image file', 'error');
+        return;
+    }
+    
+    // Validate file size (max 5MB)
+    const maxSize = 5 * 1024 * 1024;
+    if (file.size > maxSize) {
+        UI.toast('Image size must be less than 5MB', 'error');
+        return;
+    }
+    
+    // Read and compress image
+    const reader = new FileReader();
+    reader.onload = function(e) {
+        compressAndSaveImage(e.target.result, file.type);
+    };
+    reader.onerror = function() {
+        UI.toast('Failed to read image file', 'error');
+    };
+    reader.readAsDataURL(file);
+}
+
+/**
+ * Compress image and save to localStorage
+ */
+function compressAndSaveImage(dataUrl, mimeType) {
+    const img = new Image();
+    img.onload = function() {
+        const canvas = document.createElement('canvas');
+        const ctx = canvas.getContext('2d');
+        
+        // Target dimension (max 200px)
+        const maxDim = 200;
+        let width = img.width;
+        let height = img.height;
+        
+        if (width > height) {
+            if (width > maxDim) {
+                height = height * (maxDim / width);
+                width = maxDim;
+            }
+        } else {
+            if (height > maxDim) {
+                width = width * (maxDim / height);
+                height = maxDim;
+            }
+        }
+        
+        canvas.width = width;
+        canvas.height = height;
+        
+        // Draw and compress
+        ctx.drawImage(img, 0, 0, width, height);
+        const compressedDataUrl = canvas.toDataURL('image/jpeg', 0.8);
+        
+        // Save to localStorage
+        const user = Auth.getUser();
+        const userId = user?.id || user?.email;
+        
+        try {
+            localStorage.setItem(`profilePicture_${userId}`, compressedDataUrl);
+            
+            // Update UI
+            const avatarEl = document.getElementById('profileAvatar');
+            const imageEl = document.getElementById('avatarImage');
+            
+            if (imageEl && avatarEl) {
+                imageEl.src = compressedDataUrl;
+                imageEl.style.display = 'block';
+                avatarEl.classList.add('has-image');
+            }
+            
+            UI.toast('Profile picture updated successfully!', 'success');
+        } catch (error) {
+            console.error('Failed to save profile picture:', error);
+            UI.toast('Failed to save profile picture. Try a smaller image.', 'error');
+        }
+    };
+    img.onerror = function() {
+        UI.toast('Failed to process image', 'error');
+    };
+    img.src = dataUrl;
+}
+
+/**
+ * Setup avatar upload event listeners
+ */
+function setupAvatarUpload() {
+    const editBtn = document.getElementById('avatarEditBtn');
+    const input = document.getElementById('avatarInput');
+    
+    if (editBtn && input) {
+        editBtn.addEventListener('click', () => {
+            input.click();
+        });
+        
+        input.addEventListener('change', handleAvatarUpload);
     }
 }

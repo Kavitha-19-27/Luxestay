@@ -77,10 +77,14 @@
                 <aside class="profile-sidebar">
                     <div class="profile-card">
                         <div class="profile-avatar-section">
-                            <div class="profile-avatar" id="profileAvatar">JD</div>
-                            <button class="avatar-edit-btn">
+                            <div class="profile-avatar" id="profileAvatar">
+                                <span class="avatar-initials">JD</span>
+                                <img class="avatar-image" id="avatarImage" src="" alt="Profile" style="display: none;">
+                            </div>
+                            <button class="avatar-edit-btn" id="avatarEditBtn" type="button" title="Change profile picture">
                                 <i class="fas fa-camera"></i>
                             </button>
+                            <input type="file" id="avatarInput" accept="image/*" hidden>
                         </div>
                         <h2 class="profile-name" id="profileName">John Doe</h2>
                         <p class="profile-email" id="profileEmail">john.doe@example.com</p>
