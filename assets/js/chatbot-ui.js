@@ -1,12 +1,12 @@
 /**
  * LuxeStay AI Travel Concierge Chatbot - Production UI Version
  * 
- * ARCHITECTURE: UI-ONLY Layer
- * - This module handles ONLY the user interface (HTML rendering, animations, events)
- * - ALL business logic, database queries, and intelligence is on the BACKEND
- * - Uses ChatbotAPI for all backend communication
+ * ARCHITECTURE: Smart UI Layer with ConversationEngine
+ * - Uses ConversationEngine for intelligent responses
+ * - Falls back to backend API if engine unavailable
+ * - ALL rendering and UX handled here
  * 
- * @version 2.0.0 (Production)
+ * @version 3.0.0 (Production)
  */
 
 class LuxeStayChatbot {
@@ -15,8 +15,10 @@ class LuxeStayChatbot {
         this.messages = [];
         this.isTyping = false;
         this.isBackendAvailable = false;
+        this.engine = null;
+        this.useEngine = true;
         
-        // UI state only - no business data
+        // UI state
         this.conversationContext = {
             sessionId: this.generateSessionId(),
             lastCity: null,
@@ -30,8 +32,27 @@ class LuxeStayChatbot {
         this.createChatbotHTML();
         this.cacheElements();
         this.bindEvents();
-        await this.checkBackendHealth();
+        await this.initEngine();
         this.showWelcomeMessage();
+    }
+    
+    async initEngine() {
+        // Wait for conversation engine (max 2 seconds)
+        let attempts = 0;
+        while (!window.conversationEngine && attempts < 20) {
+            await new Promise(r => setTimeout(r, 100));
+            attempts++;
+        }
+        
+        if (window.conversationEngine) {
+            this.engine = window.conversationEngine;
+            console.log('Chatbot: Using ConversationEngine v3.0');
+            this.useEngine = true;
+        } else {
+            console.log('Chatbot: Engine not found, checking backend');
+            this.useEngine = false;
+            await this.checkBackendHealth();
+        }
     }
     
     generateSessionId() {
@@ -153,18 +174,24 @@ class LuxeStayChatbot {
     }
 
     async showWelcomeMessage() {
-        // Get greeting from backend
-        const response = await this.sendToBackend('hello', 'GREETING');
+        let response;
+        
+        // Use engine if available
+        if (this.useEngine && this.engine) {
+            response = await this.processWithEngine('hello');
+        } else {
+            response = await this.sendToBackend('hello', 'GREETING');
+        }
         
         const welcomeHTML = `
             <div class="welcome-message">
                 <div class="welcome-emoji">🏨</div>
                 <div class="welcome-title">Welcome to LuxeStay!</div>
-                <div class="welcome-text">I'm your AI Travel Concierge powered by our intelligent backend. Ask me about hotels, destinations, distances, or travel tips!</div>
+                <div class="welcome-text">I'm your AI Travel Concierge. Ask me about hotels, destinations, distances, or travel tips! I understand natural language - just chat like you normally would.</div>
             </div>
         `;
         
-        const quickReplies = response.quickReplies || ['Hotels in Chennai', 'Tamil Nadu destinations', 'Budget hotels', 'Hill stations'];
+        const quickReplies = response.quickReplies || ['Hotels in Chennai', 'Plan a weekend trip', 'Budget hotels', 'Hill stations'];
         
         setTimeout(() => {
             this.addBotMessage(welcomeHTML, quickReplies);
@@ -284,13 +311,45 @@ class LuxeStayChatbot {
         const delay = Math.random() * 300 + 200;
         await new Promise(resolve => setTimeout(resolve, delay));
 
-        // Send to backend and get response
-        const response = await this.sendToBackend(userInput);
+        let response;
+        
+        // Use conversation engine if available
+        if (this.useEngine && this.engine) {
+            response = await this.processWithEngine(userInput);
+        } else {
+            // Fallback to backend
+            response = await this.sendToBackend(userInput);
+        }
         
         this.hideTypingIndicator();
         
         // Render the response
         this.renderBackendResponse(response);
+    }
+    
+    /**
+     * Process input using local ConversationEngine
+     */
+    async processWithEngine(message) {
+        try {
+            const engineResponse = await this.engine.process(message, 'chat');
+            
+            // Convert engine response to standard format
+            return {
+                success: true,
+                message: engineResponse.message,
+                quickReplies: engineResponse.quickReplies || [],
+                intent: engineResponse.context?.state || 'GENERAL',
+                data: {
+                    hotels: engineResponse.hotels || [],
+                    city: engineResponse.context?.city
+                },
+                meta: engineResponse.meta || {}
+            };
+        } catch (error) {
+            console.error('Engine error, falling back to backend:', error);
+            return this.sendToBackend(message);
+        }
     }
 
     handleQuickReply(value) {

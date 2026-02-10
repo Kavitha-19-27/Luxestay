@@ -131,7 +131,7 @@ const Wishlist = {
      * Update all wishlist buttons on page
      */
     updateAllButtons() {
-        document.querySelectorAll('.wishlist-btn[data-hotel-id]').forEach(button => {
+        document.querySelectorAll('.wishlist-btn[data-hotel-id], .card-favorite[data-hotel-id]').forEach(button => {
             const hotelId = parseInt(button.dataset.hotelId);
             this.updateButton(button, this.isWishlisted(hotelId));
         });
@@ -141,7 +141,7 @@ const Wishlist = {
      * Update all buttons for a specific hotel
      */
     updateAllButtonsForHotel(hotelId) {
-        document.querySelectorAll(`.wishlist-btn[data-hotel-id="${hotelId}"]`).forEach(button => {
+        document.querySelectorAll(`.wishlist-btn[data-hotel-id="${hotelId}"], .card-favorite[data-hotel-id="${hotelId}"]`).forEach(button => {
             this.updateButton(button, this.isWishlisted(hotelId));
         });
     },

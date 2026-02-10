@@ -650,3 +650,241 @@
     50% { transform: scale(1.2); }
     100% { transform: scale(1); }
 }
+
+/* ===== CONVERSATION ENGINE ENHANCEMENTS ===== */
+
+/* Smart Context Indicator */
+.chatbot-context-bar {
+    background: linear-gradient(90deg, rgba(212, 175, 55, 0.1), transparent);
+    padding: var(--space-2) var(--space-3);
+    font-size: var(--text-xs);
+    color: var(--color-gray-600);
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    border-bottom: 1px solid rgba(212, 175, 55, 0.2);
+}
+
+.chatbot-context-bar i {
+    color: var(--color-gold);
+}
+
+.chatbot-context-bar .context-item {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    padding: 2px 8px;
+    background: var(--color-white);
+    border-radius: var(--radius-full);
+    box-shadow: var(--shadow-xs);
+}
+
+/* Action Buttons in Messages */
+.message-action-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-1);
+    padding: var(--space-2) var(--space-3);
+    background: linear-gradient(135deg, var(--color-gold), var(--color-gold-dark));
+    color: var(--color-white);
+    border: none;
+    border-radius: var(--radius-md);
+    font-size: var(--text-xs);
+    font-weight: var(--font-semibold);
+    cursor: pointer;
+    transition: all var(--transition-fast);
+    margin-top: var(--space-2);
+}
+
+.message-action-btn:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(212, 175, 55, 0.4);
+}
+
+.message-action-btn.secondary {
+    background: var(--color-white);
+    color: var(--color-gold-dark);
+    border: 1px solid var(--color-gold-light);
+}
+
+.message-action-btn.secondary:hover {
+    background: rgba(212, 175, 55, 0.1);
+}
+
+/* Follow-up Suggestion */
+.follow-up-suggestion {
+    background: linear-gradient(135deg, rgba(212, 175, 55, 0.08), rgba(212, 175, 55, 0.02));
+    border-left: 3px solid var(--color-gold);
+    padding: var(--space-3);
+    margin-top: var(--space-3);
+    border-radius: 0 var(--radius-md) var(--radius-md) 0;
+    font-size: var(--text-sm);
+    color: var(--color-gray-700);
+}
+
+.follow-up-suggestion strong {
+    color: var(--color-gold-dark);
+}
+
+/* Enhanced Hotel Cards */
+.chat-hotel-card.featured {
+    border: 2px solid var(--color-gold);
+    position: relative;
+}
+
+.chat-hotel-card.featured::before {
+    content: '★ Top Pick';
+    position: absolute;
+    top: var(--space-2);
+    right: var(--space-2);
+    background: var(--color-gold);
+    color: var(--color-white);
+    font-size: 10px;
+    font-weight: var(--font-bold);
+    padding: 2px 8px;
+    border-radius: var(--radius-full);
+    z-index: 1;
+}
+
+/* Book Now CTA */
+.chat-hotel-card .book-now-btn {
+    width: 100%;
+    padding: var(--space-2);
+    background: linear-gradient(135deg, var(--color-gold), var(--color-gold-dark));
+    color: var(--color-white);
+    border: none;
+    font-size: var(--text-xs);
+    font-weight: var(--font-semibold);
+    cursor: pointer;
+    transition: all var(--transition-fast);
+}
+
+.chat-hotel-card .book-now-btn:hover {
+    filter: brightness(1.1);
+}
+
+/* Booking Summary Card */
+.booking-summary-card {
+    background: linear-gradient(135deg, #f8f8f8, #fff);
+    border: 1px solid var(--color-gold-light);
+    border-radius: var(--radius-lg);
+    padding: var(--space-4);
+    margin: var(--space-3) 0;
+}
+
+.booking-summary-card h4 {
+    font-size: var(--text-sm);
+    font-weight: var(--font-semibold);
+    color: var(--color-gray-800);
+    margin-bottom: var(--space-3);
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+}
+
+.booking-summary-card h4 i {
+    color: var(--color-gold);
+}
+
+.booking-summary-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: var(--space-2) 0;
+    font-size: var(--text-sm);
+    border-bottom: 1px solid rgba(0,0,0,0.05);
+}
+
+.booking-summary-row:last-child {
+    border-bottom: none;
+    font-weight: var(--font-bold);
+    color: var(--color-gold-dark);
+}
+
+/* Loading State Shimmer */
+.message-loading {
+    background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+    background-size: 200% 100%;
+    animation: shimmer 1.5s infinite;
+    border-radius: var(--radius-md);
+    height: 60px;
+}
+
+@keyframes shimmer {
+    0% { background-position: 200% 0; }
+    100% { background-position: -200% 0; }
+}
+
+/* Status Indicators */
+.message-status {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    font-size: 10px;
+    color: var(--color-gray-400);
+    margin-top: 4px;
+}
+
+.message-status.delivered i {
+    color: var(--color-gray-400);
+}
+
+.message-status.read i {
+    color: var(--color-gold);
+}
+
+/* Mobile Optimizations */
+@media (max-width: 480px) {
+    .chatbot-container {
+        bottom: var(--space-4);
+        right: var(--space-4);
+    }
+    
+    .chatbot-toggle {
+        width: 54px;
+        height: 54px;
+    }
+    
+    .chatbot-window {
+        width: calc(100vw - var(--space-4) * 2);
+        max-width: 100%;
+        right: 0;
+        bottom: 70px;
+        height: calc(100vh - 150px);
+        max-height: none;
+        border-radius: var(--radius-xl) var(--radius-xl) 0 0;
+    }
+    
+    .chat-hotel-card {
+        display: flex;
+        flex-direction: row;
+    }
+    
+    .chat-hotel-image {
+        width: 80px;
+        height: 80px;
+    }
+    
+    .quick-replies {
+        flex-wrap: wrap;
+    }
+    
+    .quick-reply-btn {
+        flex: 0 0 auto;
+    }
+}
+
+/* Reduced Motion Preference */
+@media (prefers-reduced-motion: reduce) {
+    .chatbot-toggle::after,
+    .typing-dot,
+    .message-loading {
+        animation: none;
+    }
+    
+    .chatbot-toggle:hover,
+    .chat-hotel-card:hover,
+    .quick-reply-btn:hover {
+        transform: none;
+    }
+}

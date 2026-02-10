@@ -168,14 +168,19 @@ const UI = {
      */
     renderHotelCard(hotel) {
         const imageUrl = this.getHotelImage(hotel);
+        const isWishlisted = typeof Wishlist !== 'undefined' && Wishlist.isWishlisted(hotel.id);
         
         return `
-            <article class="hotel-card card">
+            <article class="hotel-card card" data-hotel-id="${hotel.id}">
                 <div class="card-image">
                     <img src="${imageUrl}" alt="${hotel.name}" loading="lazy">
                     ${hotel.featured ? '<span class="card-badge">Featured</span>' : ''}
-                    <button class="card-favorite" aria-label="Add to favorites">
+                    <button class="card-favorite wishlist-btn ${isWishlisted ? 'active' : ''}" 
+                            data-hotel-id="${hotel.id}"
+                            aria-label="${isWishlisted ? 'Remove from favorites' : 'Add to favorites'}"
+                            aria-pressed="${isWishlisted}">
                         <i class="far fa-heart"></i>
+                        <i class="fas fa-heart"></i>
                     </button>
                 </div>
                 <div class="card-body">
@@ -930,6 +935,26 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Setup lazy loading for images
     UI.setupLazyImages();
+
+    // Setup wishlist button event delegation
+    document.body.addEventListener('click', (e) => {
+        const wishlistBtn = e.target.closest('.wishlist-btn, .card-favorite');
+        if (wishlistBtn && wishlistBtn.dataset.hotelId) {
+            e.preventDefault();
+            e.stopPropagation();
+            
+            const hotelId = parseInt(wishlistBtn.dataset.hotelId);
+            
+            if (typeof Wishlist !== 'undefined') {
+                Wishlist.toggle(hotelId);
+            } else {
+                // Fallback if Wishlist not loaded
+                const isActive = wishlistBtn.classList.toggle('active');
+                wishlistBtn.setAttribute('aria-pressed', isActive);
+                UI.toast(isActive ? 'Added to wishlist!' : 'Removed from wishlist', 'success');
+            }
+        }
+    });
 
     // Add page content entrance animation
     const pageContent = document.querySelector('.page-content, main');

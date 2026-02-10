@@ -1,10 +1,11 @@
 /**
- * LuxeStay Voice Assistant
+ * LuxeStay Voice Assistant v2.0
  * 
  * Production-grade voice search and booking assistant
  * Uses Web Speech API for speech recognition and synthesis
+ * Integrated with ConversationEngine for smart responses
  * 
- * @version 1.0.0
+ * @version 2.0.0
  */
 
 class LuxeStayVoiceAssistant {
@@ -23,6 +24,9 @@ class LuxeStayVoiceAssistant {
         // State
         this.isSupported = false;
         this.isInitialized = false;
+        this.engine = null; // ConversationEngine reference
+        this.useEngine = true;
+        
         this.conversationContext = {
             sessionId: this.generateSessionId(),
             lastCity: null,
@@ -45,7 +49,7 @@ class LuxeStayVoiceAssistant {
             interimResults: true,
             maxAlternatives: 3,
             silenceTimeout: 3000,
-            speechRate: 1.0,
+            speechRate: 0.95, // Slightly slower for clarity
             speechPitch: 1.0,
             speechVolume: 1.0
         };
@@ -60,7 +64,7 @@ class LuxeStayVoiceAssistant {
     /**
      * Initialize the voice assistant
      */
-    init() {
+    async init() {
         // Check browser support
         this.checkSupport();
         
@@ -75,9 +79,33 @@ class LuxeStayVoiceAssistant {
         // Initialize speech synthesis
         this.initSynthesis();
         
+        // Wait for conversation engine
+        await this.initEngine();
+        
         // Create UI
         this.createUI();
         
+    }
+    
+    /**
+     * Initialize conversation engine
+     */
+    async initEngine() {
+        let attempts = 0;
+        while (!window.conversationEngine && attempts < 20) {
+            await new Promise(r => setTimeout(r, 100));
+            attempts++;
+        }
+        
+        if (window.conversationEngine) {
+            this.engine = window.conversationEngine;
+            console.log('VoiceAssistant: Using ConversationEngine');
+            this.useEngine = true;
+        } else {
+            console.log('VoiceAssistant: Engine not found, using backend API');
+            this.useEngine = false;
+        }
+    }
         // Bind events
         this.bindEvents();
         
@@ -558,8 +586,15 @@ class LuxeStayVoiceAssistant {
         this.updateStatus('Processing your request...');
         
         try {
-            // Send to backend for processing
-            const response = await this.sendCommand(transcript);
+            let response;
+            
+            // Use conversation engine if available
+            if (this.useEngine && this.engine) {
+                response = await this.processWithEngine(transcript);
+            } else {
+                // Fallback to backend API
+                response = await this.sendCommand(transcript);
+            }
             
             if (response && response.success) {
                 this.handleResponse(response);
@@ -587,6 +622,71 @@ class LuxeStayVoiceAssistant {
                 suggestions: ['Hotels in Chennai', 'Search hotels', 'Help']
             });
         }
+    }
+    
+    /**
+     * Process transcript using ConversationEngine
+     */
+    async processWithEngine(transcript) {
+        try {
+            const engineResponse = await this.engine.process(transcript, 'voice');
+            
+            // Convert engine response to voice assistant format
+            // Create concise speech text (shorter for voice)
+            const speechText = this.createSpeechText(engineResponse);
+            
+            return {
+                success: true,
+                message: engineResponse.message,
+                displayMessage: engineResponse.message,
+                speechText: speechText,
+                intent: engineResponse.context?.state || 'GENERAL',
+                suggestions: engineResponse.quickReplies || [],
+                data: {
+                    hotels: engineResponse.hotels || [],
+                    city: engineResponse.context?.city
+                },
+                action: engineResponse.meta?.action || null,
+                meta: engineResponse.meta || {}
+            };
+        } catch (error) {
+            console.error('VoiceAssistant: Engine error', error);
+            return this.getFallbackResponse(transcript);
+        }
+    }
+    
+    /**
+     * Create concise speech text from engine response
+     */
+    createSpeechText(response) {
+        const message = response.message || '';
+        const hotels = response.hotels || [];
+        
+        // Extract just the key information for speech
+        // Remove markdown formatting
+        let speech = message
+            .replace(/\*\*/g, '')
+            .replace(/\n+/g, '. ')
+            .replace(/•/g, '')
+            .trim();
+        
+        // Shorten if too long for speech
+        if (speech.length > 200) {
+            const sentences = speech.split('. ');
+            speech = sentences.slice(0, 2).join('. ');
+        }
+        
+        // Add hotel info if present
+        if (hotels.length > 0) {
+            const hotelNames = hotels.slice(0, 2).map(h => h.name).join(' and ');
+            if (hotels.length === 1) {
+                speech += ` I found ${hotels[0].name}.`;
+            } else {
+                speech += ` Top options include ${hotelNames}.`;
+            }
+        }
+        
+        return speech;
     }
     
     /**

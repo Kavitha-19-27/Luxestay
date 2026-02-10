@@ -300,6 +300,27 @@
     background: var(--color-white);
 }
 
+/* Card favorite icon toggle */
+.card-favorite i {
+    transition: all 0.3s ease;
+    position: absolute;
+}
+
+.card-favorite .fa-heart.fas {
+    opacity: 0;
+    transform: scale(0);
+}
+
+.card-favorite.active .fa-heart.far {
+    opacity: 0;
+    transform: scale(0);
+}
+
+.card-favorite.active .fa-heart.fas {
+    opacity: 1;
+    transform: scale(1);
+}
+
 .card-body {
     padding: var(--space-5);
 }
