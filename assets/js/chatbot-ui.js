@@ -331,10 +331,11 @@ class LuxeStayChatbot {
     }
 
     createHotelCardHTML(hotel) {
-        const stars = '★'.repeat(Math.floor(hotel.rating || 4));
-        const imageUrl = hotel.imageUrl || hotel.image || 'https://images.unsplash.com/photo-1566073771259-6a8506099945';
-        const price = hotel.pricePerNight || hotel.minPrice || 3999;
+        const stars = '★'.repeat(Math.floor(hotel.rating || hotel.starRating || 4));
+        const imageUrl = hotel.heroImageUrl || hotel.imageUrl || hotel.image || 'https://images.unsplash.com/photo-1566073771259-6a8506099945';
+        const price = hotel.pricePerNight || hotel.minPrice || 0;
         const city = hotel.city || hotel.location || 'Tamil Nadu';
+        const priceDisplay = price > 0 ? `₹${price.toLocaleString()}/night` : 'Price on request';
         
         return `
             <div class="chat-hotel-card" data-hotel-id="${hotel.id}">
@@ -347,7 +348,7 @@ class LuxeStayChatbot {
                     </div>
                     <div class="chat-hotel-meta">
                         <div class="chat-hotel-rating">${stars}</div>
-                        <div class="chat-hotel-price">₹${price.toLocaleString()}/night</div>
+                        <div class="chat-hotel-price">${priceDisplay}</div>
                     </div>
                 </div>
             </div>
