@@ -10,6 +10,9 @@
     bottom: var(--space-6, 24px);
     left: var(--space-6, 24px);
     z-index: 9998;
+    display: block !important;
+    visibility: visible !important;
+    opacity: 1 !important;
 }
 
 .voice-btn {
