@@ -552,7 +552,6 @@ class ConversationEngine {
     
     async handleHotelSearch(query, intent) {
         const city = this.context.searchCity;
-        const budget = this.context.budget;
         
         // If no city specified, ask
         if (!city) {
@@ -565,19 +564,23 @@ class ConversationEngine {
             );
         }
         
-        // Filter hotels
+        // Filter hotels by city
         let matchingHotels = this.hotels.filter(h => 
             h.city && h.city.toLowerCase().includes(city.toLowerCase())
         );
         
-        // Apply budget filter
-        if (intent === 'BUDGET_SEARCH' || budget.preference === 'budget') {
-            const maxPrice = budget.max || 3500;
-            matchingHotels = matchingHotels.filter(h => h.pricePerNight && h.pricePerNight <= maxPrice);
-        } else if (intent === 'LUXURY_SEARCH' || budget.preference === 'luxury') {
-            const minPrice = budget.min || 8000;
+        // Apply budget filter ONLY for explicit budget/luxury search intents
+        let budgetLabel = '';
+        if (intent === 'BUDGET_SEARCH') {
+            const maxPrice = this.context.budget.max || 3500;
+            matchingHotels = matchingHotels.filter(h => h.pricePerNight && h.pricePerNight > 0 && h.pricePerNight <= maxPrice);
+            budgetLabel = 'budget-friendly ';
+        } else if (intent === 'LUXURY_SEARCH') {
+            const minPrice = this.context.budget.min || 8000;
             matchingHotels = matchingHotels.filter(h => h.pricePerNight && h.pricePerNight >= minPrice);
+            budgetLabel = 'luxury ';
         }
+        // For regular HOTEL_SEARCH - don't apply any budget filter, show all hotels
         
         // Sort by rating
         matchingHotels.sort((a, b) => (b.rating || 0) - (a.rating || 0));
@@ -590,7 +593,8 @@ class ConversationEngine {
         if (matchingHotels.length === 0) {
             const cityInfo = this.getCityInfo(city);
             let message = `No hotels found in ${city}`;
-            if (budget.preference) message += ` within your ${budget.preference} budget`;
+            if (intent === 'BUDGET_SEARCH') message += ' within budget range';
+            else if (intent === 'LUXURY_SEARCH') message += ' in luxury category';
             message += '.\n\n';
             
             if (cityInfo) {
@@ -599,14 +603,10 @@ class ConversationEngine {
             message += `Try these alternatives:`;
             
             return this.createResponse(message, [
-                'Show all budgets',
+                'Show all hotels',
                 ...this.cities.slice(0, 3).map(c => `Hotels in ${c}`)
             ]);
         }
-        
-        // Build response
-        const budgetLabel = intent === 'BUDGET_SEARCH' ? 'budget-friendly ' : 
-                           intent === 'LUXURY_SEARCH' ? 'luxury ' : '';
         
         let message = `🏨 Found **${matchingHotels.length} ${budgetLabel}hotels** in ${city}!\n\n`;
         
