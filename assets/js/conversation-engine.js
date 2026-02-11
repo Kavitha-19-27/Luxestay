@@ -29,9 +29,9 @@ class ConversationEngine {
             // Greetings
             GREETING: /^(hi|hello|hey|good\s*(morning|afternoon|evening)|namaste|howdy)$/i,
             
-            // Hotel Search
-            HOTEL_SEARCH: /(hotels?|stay|accommodation|place to stay|lodging)\s*(in|at|near|around)?/i,
-            LUXURY_SEARCH: /(luxury|premium|5\s*star|five star|best|top rated|high end|boutique)/i,
+            // Hotel Search - STRONGEST PATTERNS FOR HOTEL QUERIES
+            HOTEL_SEARCH: /(find|search|show|list|get|looking for|need|want)?\s*(hotels?|stays?|accommodation|place to stay|lodging|resorts?|rooms?)\s*(in|at|near|around|for)?/i,
+            LUXURY_SEARCH: /(luxury|premium|5\s*star|five star|best|top rated|high end|boutique)\s*(hotels?|stays?|resorts?)?/i,
             BUDGET_SEARCH: /(budget|cheap|affordable|economical|low cost|under|below|within)\s*₹?\d*/i,
             
             // Specific Actions
@@ -45,11 +45,11 @@ class ConversationEngine {
             
             // Location & Distance
             DISTANCE_QUERY: /(how far|distance|km|kilometers|far is|from.*to)/i,
-            CITY_INFO: /(about|tell me|what is|describe|info)\s*(chennai|madurai|coimbatore|ooty|kodaikanal|pondicherry|mahabalipuram|trichy|thanjavur|kanyakumari|rameswaram|yelagiri)/i,
+            CITY_INFO: /^(about|tell me about|what is|describe|info about)\s+(chennai|madurai|coimbatore|ooty|kodaikanal|pondicherry|mahabalipuram|trichy|thanjavur|kanyakumari|rameswaram|yelagiri)$/i,
             
             // Travel Planning
             ATTRACTIONS: /(attractions?|places? to (visit|see)|things to do|sightseeing|tourist|what to see)/i,
-            WEATHER: /(weather|climate|best time|when to visit|temperature|hot|cold|rainy)/i,
+            WEATHER: /^(weather|climate|best time|when to visit|temperature)\s*(in|of|for)?\s*(chennai|madurai|coimbatore|ooty|kodaikanal|pondicherry|mahabalipuram|trichy|thanjavur|kanyakumari|rameswaram|yelagiri)?$/i,
             FOOD: /(food|eat|restaurant|cuisine|specialty|must try|famous dish)/i,
             
             // Booking Flow
@@ -271,12 +271,19 @@ class ConversationEngine {
             if (this.intentPatterns.NO_DECLINE.test(lower)) return 'NO_DECLINE';
         }
         
-        // Check patterns in priority order
+        // PRIORITY 1: Check hotel-related searches FIRST (most common user intent)
+        if (this.intentPatterns.HOTEL_SEARCH.test(lower)) {
+            // Check if it's specifically luxury or budget
+            if (this.intentPatterns.LUXURY_SEARCH.test(lower)) return 'LUXURY_SEARCH';
+            if (this.intentPatterns.BUDGET_SEARCH.test(lower)) return 'BUDGET_SEARCH';
+            return 'HOTEL_SEARCH';
+        }
+        
+        // PRIORITY 2: Check patterns in importance order
         const priorityOrder = [
             'GREETING', 'BOOK_NOW', 'YES_CONFIRM', 'NO_DECLINE',
             'SHOW_MORE', 'SHOW_DETAILS', 'COMPARE',
-            'DISTANCE_QUERY', 'CITY_INFO', 'ATTRACTIONS', 'WEATHER', 'FOOD',
-            'LUXURY_SEARCH', 'BUDGET_SEARCH', 'HOTEL_SEARCH',
+            'DISTANCE_QUERY', 'ATTRACTIONS', 'WEATHER', 'FOOD', 'CITY_INFO',
             'SELECT_DATES', 'SELECT_GUESTS', 'SELECT_ROOM',
             'HELP', 'THANKS', 'CANCEL', 'NAVIGATION'
         ];
@@ -287,7 +294,7 @@ class ConversationEngine {
             }
         }
         
-        // Check if it's just a city name
+        // Check if it's just a city name (treat as hotel search)
         const city = this.extractCity(query);
         if (city) return 'HOTEL_SEARCH';
         

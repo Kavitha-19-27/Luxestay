@@ -1,7 +1,0 @@
-# This file triggers Netlify deployment
-# Every push to main will auto-deploy via Netlify's GitHub integration
-
-name: Trigger Netlify Deploy
-on:
-  push:
-    branches: [main]

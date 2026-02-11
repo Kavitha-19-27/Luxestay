@@ -80,6 +80,7 @@ class LuxeStayChatbot {
         }
         
         const chatbotHTML = `
+            <div class="chatbot-overlay" id="chatbotOverlay"></div>
             <div class="chatbot-container" id="chatbot" style="display: block !important; visibility: visible !important;">
                 <button class="chatbot-toggle" id="chatbotToggle" aria-label="Open Chat" title="Chat with LuxeStay AI">
                     <i class="fas fa-robot"></i>
@@ -155,6 +156,7 @@ class LuxeStayChatbot {
         this.badge = document.getElementById('chatbotBadge');
         this.voiceBtn = document.getElementById('voiceBtn');
         this.statusText = document.getElementById('chatbotStatusText');
+        this.overlay = document.getElementById('chatbotOverlay');
     }
 
     bindEvents() {
@@ -177,6 +179,15 @@ class LuxeStayChatbot {
             }
         });
         
+        // Close chatbot when overlay is clicked (mobile)
+        if (this.overlay) {
+            this.overlay.addEventListener('click', () => {
+                if (this.isOpen) {
+                    this.toggle();
+                }
+            });
+        }
+        
         // Mobile optimization: Close other modals when chatbot opens
         this.toggleBtn.addEventListener('click', () => {
             if (window.voiceAssistant && window.voiceAssistant.elements && window.voiceAssistant.elements.modal) {
@@ -186,6 +197,13 @@ class LuxeStayChatbot {
                 }
             }
         });
+        
+        // Handle window resize - remove scroll lock if resized to desktop
+        window.addEventListener('resize', () => {
+            if (window.innerWidth > 768 && document.body.classList.contains('chatbot-open')) {
+                document.body.classList.remove('chatbot-open');
+            }
+        });
     }
 
     toggle() {
@@ -193,12 +211,22 @@ class LuxeStayChatbot {
         this.toggleBtn.classList.toggle('active', this.isOpen);
         this.window.classList.toggle('active', this.isOpen);
         
+        // Handle overlay for mobile
+        if (this.overlay) {
+            this.overlay.classList.toggle('active', this.isOpen);
+        }
+        
+        // Handle body scroll lock for mobile
+        const isMobile = window.innerWidth <= 768;
+        
         if (this.isOpen) {
             this.badge.style.display = 'none';
             this.input.focus();
-            document.body.classList.add('modal-open');
+            if (isMobile) {
+                document.body.classList.add('chatbot-open');
+            }
         } else {
-            document.body.classList.remove('modal-open');
+            document.body.classList.remove('chatbot-open');
         }
     }
 
