@@ -150,8 +150,8 @@ class ConversationEngine {
         try {
             const baseUrl = this.getApiBaseUrl();
             
-            // Load hotels
-            const hotelsRes = await fetch(`${baseUrl}/hotels`);
+            // Load ALL hotels (use size=100 to get all in one request)
+            const hotelsRes = await fetch(`${baseUrl}/hotels?size=100`);
             if (hotelsRes.ok) {
                 const data = await hotelsRes.json();
                 this.hotels = data.data?.content || data.data || data.content || data || [];
