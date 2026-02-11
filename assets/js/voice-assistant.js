@@ -80,6 +80,13 @@ class LuxeStayVoiceAssistant {
         // Always create UI (even if speech not supported - will show text fallback)
         this.createUI();
         
+        // Bind events after UI is created and elements are cached
+        this.bindEvents();
+        
+        // Load preferred voice
+        this.loadVoice();
+        
+        this.isInitialized = true;
     }
     
     /**
@@ -100,15 +107,6 @@ class LuxeStayVoiceAssistant {
             // Console logging removed for production
             this.useEngine = false;
         }
-        
-        // Bind events
-        this.bindEvents();
-        
-        // Load preferred voice
-        this.loadVoice();
-        
-        this.isInitialized = true;
-        // Console logging removed for production
     }
     
     /**
@@ -349,6 +347,12 @@ class LuxeStayVoiceAssistant {
      * Bind UI events
      */
     bindEvents() {
+        // Ensure all elements exist before binding
+        if (!this.elements || !this.elements.trigger) {
+            console.warn('Voice Assistant: UI elements not ready, skipping event binding');
+            return;
+        }
+        
         // Open modal
         this.elements.trigger.addEventListener('click', () => this.openModal());
         

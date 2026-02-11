@@ -145,7 +145,7 @@ const SmartAlerts = {
                 this.viewedHotels.forEach(id => params.append('viewedHotelIds', id));
             }
             
-            const response = await API.request(`/api/alerts/session?${params.toString()}`, {
+            const response = await API.request(`/alerts/session?${params.toString()}`, {
                 method: 'GET',
                 headers: {
                     'X-Session-Id': this.sessionId

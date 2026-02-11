@@ -12,11 +12,7 @@
 
 class ConversationEngine {
     constructor() {
-        this.context = this.loadContext();
-        this.hotels = [];
-        this.cities = [];
-        this.kb = typeof CHATBOT_KNOWLEDGE !== 'undefined' ? CHATBOT_KNOWLEDGE : null;
-        
+        // Define states BEFORE loadContext() since createFreshContext() needs it
         // Conversation state machine
         this.states = {
             IDLE: 'idle',
@@ -71,6 +67,12 @@ class ConversationEngine {
             YES_CONFIRM: /^(yes|yeah|yep|sure|ok|okay|go ahead|confirm|proceed|do it)$/i,
             NO_DECLINE: /^(no|nope|nah|not now|later|maybe later)$/i
         };
+        
+        // Load context AFTER states and intentPatterns are defined
+        this.context = this.loadContext();
+        this.hotels = [];
+        this.cities = [];
+        this.kb = typeof CHATBOT_KNOWLEDGE !== 'undefined' ? CHATBOT_KNOWLEDGE : null;
         
         this.init();
     }
