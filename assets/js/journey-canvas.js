@@ -1148,18 +1148,13 @@ class JourneyCanvas {
             // API is defined as const in api.js, not on window
             if (typeof API !== 'undefined' && typeof API.request === 'function') {
                 console.log('Journey Canvas: Using API service to fetch hotels');
-                const data = await API.request('/hotels?size=100');
+                const response = await API.request('/hotels?size=100');
                 
-                // Handle various response formats
-                if (Array.isArray(data)) {
-                    this.hotelsCache = data;
-                } else if (data && Array.isArray(data.content)) {
-                    this.hotelsCache = data.content;
-                } else if (data && data.content === null) {
-                    this.hotelsCache = [];
-                } else {
-                    this.hotelsCache = [];
-                }
+                // Handle various response formats:
+                // Format 1: { success: true, data: { content: [...] } }
+                // Format 2: { content: [...] }
+                // Format 3: [...]
+                this.hotelsCache = this.extractHotels(response);
                 
                 console.log('Journey Canvas: Loaded', this.hotelsCache.length, 'hotels');
                 return this.hotelsCache;
@@ -1179,14 +1174,7 @@ class JourneyCanvas {
             
             if (response.ok) {
                 const data = await response.json();
-                
-                if (Array.isArray(data)) {
-                    this.hotelsCache = data;
-                } else if (data && Array.isArray(data.content)) {
-                    this.hotelsCache = data.content;
-                } else {
-                    this.hotelsCache = [];
-                }
+                this.hotelsCache = this.extractHotels(data);
                 
                 console.log('Journey Canvas: Loaded', this.hotelsCache.length, 'hotels');
                 return this.hotelsCache;
@@ -1196,6 +1184,33 @@ class JourneyCanvas {
         } catch (e) {
             console.error('Journey Canvas: Fetch error:', e.message);
         }
+        return [];
+    }
+    
+    /**
+     * Extract hotels array from various API response formats
+     */
+    extractHotels(data) {
+        if (!data) return [];
+        
+        // Direct array
+        if (Array.isArray(data)) return data;
+        
+        // Wrapped format: { success: true, data: { content: [...] } }
+        if (data.data && Array.isArray(data.data.content)) {
+            return data.data.content;
+        }
+        
+        // Wrapped format: { success: true, data: [...] }
+        if (data.data && Array.isArray(data.data)) {
+            return data.data;
+        }
+        
+        // Paginated: { content: [...] }
+        if (Array.isArray(data.content)) {
+            return data.content;
+        }
+        
         return [];
     }
     
