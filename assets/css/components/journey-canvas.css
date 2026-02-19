@@ -1,0 +1,1138 @@
+/* =====================================================
+   JOURNEY CANVAS - Unified Travel Experience Timeline
+   A cohesive visual journey from discovery to memories
+   ===================================================== */
+
+/* ==================== CSS VARIABLES ==================== */
+:root {
+    --journey-primary: #6366f1;
+    --journey-secondary: #8b5cf6;
+    --journey-accent: #D4AF37;
+    --journey-bg: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+    --journey-card-bg: rgba(255, 255, 255, 0.05);
+    --journey-card-hover: rgba(255, 255, 255, 0.1);
+    --journey-text: #ffffff;
+    --journey-muted: #a1a1aa;
+    --journey-border: rgba(255, 255, 255, 0.1);
+    
+    /* Phase Colors */
+    --phase-discover: #ec4899;
+    --phase-plan: #f59e0b;
+    --phase-book: #10b981;
+    --phase-stay: #3b82f6;
+    --phase-remember: #8b5cf6;
+}
+
+/* ==================== JOURNEY CANVAS CONTAINER ==================== */
+.journey-canvas {
+    position: relative;
+    width: 100%;
+    background: var(--journey-bg);
+    border-radius: 24px;
+    overflow: hidden;
+    margin: 2rem 0;
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.4);
+}
+
+.journey-canvas-inner {
+    padding: 2rem;
+}
+
+/* ==================== HEADER ==================== */
+.journey-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 2rem;
+    padding-bottom: 1.5rem;
+    border-bottom: 1px solid var(--journey-border);
+}
+
+.journey-title {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.journey-title-icon {
+    width: 48px;
+    height: 48px;
+    border-radius: 12px;
+    background: linear-gradient(135deg, var(--journey-primary), var(--journey-secondary));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 20px;
+    color: white;
+}
+
+.journey-title h2 {
+    font-family: var(--font-display, 'Playfair Display', serif);
+    font-size: 1.75rem;
+    font-weight: 600;
+    color: var(--journey-text);
+    margin: 0;
+}
+
+.journey-title p {
+    font-size: 0.875rem;
+    color: var(--journey-muted);
+    margin: 4px 0 0 0;
+}
+
+.journey-minimize-btn {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    border: 1px solid var(--journey-border);
+    background: transparent;
+    color: var(--journey-muted);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s ease;
+}
+
+.journey-minimize-btn:hover {
+    background: var(--journey-card-bg);
+    color: var(--journey-text);
+}
+
+/* ==================== TIMELINE ==================== */
+.journey-timeline {
+    position: relative;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 0 2rem;
+    margin-bottom: 2rem;
+}
+
+/* Timeline Track */
+.journey-timeline::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 5%;
+    right: 5%;
+    height: 4px;
+    background: var(--journey-border);
+    border-radius: 2px;
+    transform: translateY(-50%);
+    z-index: 1;
+}
+
+/* Progress Fill */
+.journey-timeline-progress {
+    position: absolute;
+    top: 50%;
+    left: 5%;
+    height: 4px;
+    background: linear-gradient(90deg, var(--phase-discover), var(--phase-plan), var(--phase-book));
+    border-radius: 2px;
+    transform: translateY(-50%);
+    z-index: 2;
+    transition: width 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+    width: 0%;
+}
+
+/* Phase Dots */
+.journey-phase {
+    position: relative;
+    z-index: 3;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+    cursor: pointer;
+    transition: transform 0.2s ease;
+}
+
+.journey-phase:hover {
+    transform: translateY(-2px);
+}
+
+.journey-phase-dot {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    background: var(--color-primary, #1a1a2e);
+    border: 3px solid var(--journey-border);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    color: var(--journey-muted);
+    transition: all 0.3s ease;
+    position: relative;
+}
+
+.journey-phase-dot i {
+    transition: transform 0.3s ease;
+}
+
+/* Active Phase */
+.journey-phase.active .journey-phase-dot {
+    border-color: var(--phase-color, var(--journey-primary));
+    background: var(--phase-color, var(--journey-primary));
+    color: white;
+    box-shadow: 0 0 20px rgba(99, 102, 241, 0.4);
+}
+
+.journey-phase.active .journey-phase-dot i {
+    transform: scale(1.1);
+}
+
+/* Completed Phase */
+.journey-phase.completed .journey-phase-dot {
+    border-color: var(--phase-color, var(--journey-primary));
+    background: var(--phase-color, var(--journey-primary));
+    color: white;
+}
+
+.journey-phase.completed .journey-phase-dot::after {
+    content: '✓';
+    position: absolute;
+    top: -4px;
+    right: -4px;
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    background: #10b981;
+    color: white;
+    font-size: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Phase Labels */
+.journey-phase-label {
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: var(--journey-muted);
+    transition: color 0.3s ease;
+}
+
+.journey-phase.active .journey-phase-label {
+    color: var(--journey-text);
+}
+
+/* Phase Colors */
+.journey-phase[data-phase="discover"] { --phase-color: var(--phase-discover); }
+.journey-phase[data-phase="plan"] { --phase-color: var(--phase-plan); }
+.journey-phase[data-phase="book"] { --phase-color: var(--phase-book); }
+.journey-phase[data-phase="stay"] { --phase-color: var(--phase-stay); }
+.journey-phase[data-phase="remember"] { --phase-color: var(--phase-remember); }
+
+/* ==================== CONTENT AREA ==================== */
+.journey-content {
+    position: relative;
+    min-height: 300px;
+}
+
+.journey-phase-content {
+    display: none;
+    animation: journeyFadeIn 0.4s ease;
+}
+
+.journey-phase-content.active {
+    display: block;
+}
+
+@keyframes journeyFadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Content Header */
+.journey-content-header {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 1.5rem;
+}
+
+.journey-content-icon {
+    width: 56px;
+    height: 56px;
+    border-radius: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 24px;
+    color: white;
+}
+
+.journey-content-icon.discover { background: linear-gradient(135deg, #ec4899, #db2777); }
+.journey-content-icon.plan { background: linear-gradient(135deg, #f59e0b, #d97706); }
+.journey-content-icon.book { background: linear-gradient(135deg, #10b981, #059669); }
+.journey-content-icon.stay { background: linear-gradient(135deg, #3b82f6, #2563eb); }
+.journey-content-icon.remember { background: linear-gradient(135deg, #8b5cf6, #7c3aed); }
+
+.journey-content-title h3 {
+    font-family: var(--font-display, 'Playfair Display', serif);
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: var(--journey-text);
+    margin: 0;
+}
+
+.journey-content-title p {
+    font-size: 0.875rem;
+    color: var(--journey-muted);
+    margin: 4px 0 0 0;
+}
+
+/* ==================== MOOD SELECTOR (DISCOVER PHASE) ==================== */
+.journey-mood-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+    gap: 12px;
+    margin-bottom: 1.5rem;
+}
+
+.journey-mood-card {
+    position: relative;
+    padding: 1.25rem 1rem;
+    background: var(--journey-card-bg);
+    border: 2px solid transparent;
+    border-radius: 16px;
+    cursor: pointer;
+    text-align: center;
+    transition: all 0.3s ease;
+    overflow: hidden;
+}
+
+.journey-mood-card::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: var(--mood-gradient);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.journey-mood-card:hover {
+    border-color: var(--mood-color, var(--journey-primary));
+    transform: translateY(-4px);
+}
+
+.journey-mood-card:hover::before {
+    opacity: 0.1;
+}
+
+.journey-mood-card.selected {
+    border-color: var(--mood-color, var(--journey-primary));
+    background: var(--journey-card-hover);
+}
+
+.journey-mood-card.selected::before {
+    opacity: 0.15;
+}
+
+.journey-mood-icon {
+    position: relative;
+    z-index: 1;
+    font-size: 2rem;
+    margin-bottom: 8px;
+}
+
+.journey-mood-name {
+    position: relative;
+    z-index: 1;
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: var(--journey-text);
+}
+
+/* ==================== HOTEL CARDS ==================== */
+.journey-hotels-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 16px;
+    margin-top: 1.5rem;
+}
+
+.journey-hotel-card {
+    background: var(--journey-card-bg);
+    border-radius: 16px;
+    overflow: hidden;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    border: 1px solid var(--journey-border);
+}
+
+.journey-hotel-card:hover {
+    transform: translateY(-4px);
+    border-color: var(--journey-accent);
+    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.3);
+}
+
+.journey-hotel-image {
+    position: relative;
+    height: 160px;
+    overflow: hidden;
+}
+
+.journey-hotel-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.5s ease;
+}
+
+.journey-hotel-card:hover .journey-hotel-image img {
+    transform: scale(1.05);
+}
+
+.journey-hotel-match {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    padding: 6px 12px;
+    background: rgba(0, 0, 0, 0.7);
+    backdrop-filter: blur(8px);
+    border-radius: 20px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: var(--journey-accent);
+}
+
+.journey-hotel-info {
+    padding: 16px;
+}
+
+.journey-hotel-name {
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--journey-text);
+    margin: 0 0 4px 0;
+}
+
+.journey-hotel-location {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 0.8125rem;
+    color: var(--journey-muted);
+    margin-bottom: 12px;
+}
+
+.journey-hotel-location i {
+    color: var(--journey-primary);
+    font-size: 0.75rem;
+}
+
+.journey-hotel-meta {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.journey-hotel-rating {
+    color: var(--journey-accent);
+    font-size: 0.875rem;
+}
+
+.journey-hotel-price {
+    font-size: 0.9375rem;
+    font-weight: 600;
+    color: var(--journey-text);
+}
+
+.journey-hotel-price span {
+    font-size: 0.75rem;
+    font-weight: 400;
+    color: var(--journey-muted);
+}
+
+/* ==================== CALENDAR (PLAN PHASE) ==================== */
+.journey-calendar-wrapper {
+    display: grid;
+    grid-template-columns: 1fr 300px;
+    gap: 24px;
+    margin-top: 1.5rem;
+}
+
+.journey-calendar {
+    background: var(--journey-card-bg);
+    border-radius: 16px;
+    padding: 1.5rem;
+    border: 1px solid var(--journey-border);
+}
+
+.journey-calendar-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+}
+
+.journey-calendar-nav {
+    display: flex;
+    gap: 8px;
+}
+
+.journey-calendar-nav button {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    border: 1px solid var(--journey-border);
+    background: transparent;
+    color: var(--journey-muted);
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.journey-calendar-nav button:hover {
+    background: var(--journey-card-hover);
+    color: var(--journey-text);
+}
+
+.journey-calendar-month {
+    font-size: 1.125rem;
+    font-weight: 600;
+    color: var(--journey-text);
+}
+
+.journey-calendar-grid {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 4px;
+}
+
+.journey-calendar-day-header {
+    padding: 8px;
+    text-align: center;
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: var(--journey-muted);
+    text-transform: uppercase;
+}
+
+.journey-calendar-day {
+    aspect-ratio: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 8px;
+    font-size: 0.875rem;
+    color: var(--journey-text);
+    cursor: pointer;
+    transition: all 0.2s ease;
+    position: relative;
+}
+
+.journey-calendar-day:hover {
+    background: var(--journey-card-hover);
+}
+
+.journey-calendar-day.today {
+    border: 2px solid var(--journey-primary);
+}
+
+.journey-calendar-day.selected {
+    background: var(--journey-primary);
+    color: white;
+}
+
+.journey-calendar-day.in-range {
+    background: rgba(99, 102, 241, 0.2);
+    border-radius: 0;
+}
+
+.journey-calendar-day.start-date {
+    border-radius: 8px 0 0 8px;
+}
+
+.journey-calendar-day.end-date {
+    border-radius: 0 8px 8px 0;
+}
+
+.journey-calendar-day.disabled {
+    opacity: 0.3;
+    cursor: not-allowed;
+}
+
+/* Price indicator */
+.journey-calendar-day .price-indicator {
+    position: absolute;
+    bottom: 2px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+}
+
+.journey-calendar-day .price-indicator.low {
+    background: #10b981;
+}
+
+.journey-calendar-day .price-indicator.medium {
+    background: #f59e0b;
+}
+
+.journey-calendar-day .price-indicator.high {
+    background: #ef4444;
+}
+
+/* Sidebar */
+.journey-plan-sidebar {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.journey-plan-card {
+    background: var(--journey-card-bg);
+    border-radius: 16px;
+    padding: 1.25rem;
+    border: 1px solid var(--journey-border);
+}
+
+.journey-plan-card h4 {
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: var(--journey-text);
+    margin: 0 0 12px 0;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.journey-plan-card h4 i {
+    color: var(--journey-primary);
+}
+
+.journey-weather-forecast {
+    display: flex;
+    gap: 12px;
+}
+
+.journey-weather-day {
+    flex: 1;
+    text-align: center;
+    padding: 12px 8px;
+    background: var(--journey-card-hover);
+    border-radius: 12px;
+}
+
+.journey-weather-day .day {
+    font-size: 0.75rem;
+    color: var(--journey-muted);
+    margin-bottom: 8px;
+}
+
+.journey-weather-day .icon {
+    font-size: 1.5rem;
+    margin-bottom: 4px;
+}
+
+.journey-weather-day .temp {
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: var(--journey-text);
+}
+
+/* ==================== BOOKING SUMMARY (BOOK PHASE) ==================== */
+.journey-booking-layout {
+    display: grid;
+    grid-template-columns: 1fr 360px;
+    gap: 24px;
+    margin-top: 1.5rem;
+}
+
+.journey-booking-details {
+    background: var(--journey-card-bg);
+    border-radius: 16px;
+    padding: 1.5rem;
+    border: 1px solid var(--journey-border);
+}
+
+.journey-booking-hotel {
+    display: flex;
+    gap: 16px;
+    padding-bottom: 1.5rem;
+    border-bottom: 1px solid var(--journey-border);
+    margin-bottom: 1.5rem;
+}
+
+.journey-booking-hotel img {
+    width: 120px;
+    height: 90px;
+    border-radius: 12px;
+    object-fit: cover;
+}
+
+.journey-booking-hotel-info h4 {
+    font-size: 1.125rem;
+    font-weight: 600;
+    color: var(--journey-text);
+    margin: 0 0 4px 0;
+}
+
+.journey-booking-hotel-info p {
+    font-size: 0.875rem;
+    color: var(--journey-muted);
+    margin: 0;
+}
+
+.journey-booking-dates {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+}
+
+.journey-date-box {
+    padding: 1rem;
+    background: var(--journey-card-hover);
+    border-radius: 12px;
+}
+
+.journey-date-box label {
+    display: block;
+    font-size: 0.75rem;
+    color: var(--journey-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 4px;
+}
+
+.journey-date-box .date {
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--journey-text);
+}
+
+/* Confidence Meter */
+.journey-confidence {
+    margin-top: 1.5rem;
+    padding: 1rem;
+    background: var(--journey-card-hover);
+    border-radius: 12px;
+}
+
+.journey-confidence-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 12px;
+}
+
+.journey-confidence-label {
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: var(--journey-text);
+}
+
+.journey-confidence-value {
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: #10b981;
+}
+
+.journey-confidence-bar {
+    height: 8px;
+    background: var(--journey-border);
+    border-radius: 4px;
+    overflow: hidden;
+}
+
+.journey-confidence-fill {
+    height: 100%;
+    background: linear-gradient(90deg, #10b981, #34d399);
+    border-radius: 4px;
+    transition: width 0.5s ease;
+}
+
+/* Price Summary */
+.journey-price-summary {
+    background: var(--journey-card-bg);
+    border-radius: 16px;
+    padding: 1.5rem;
+    border: 1px solid var(--journey-border);
+}
+
+.journey-price-row {
+    display: flex;
+    justify-content: space-between;
+    padding: 12px 0;
+    border-bottom: 1px solid var(--journey-border);
+}
+
+.journey-price-row:last-child {
+    border-bottom: none;
+}
+
+.journey-price-row .label {
+    color: var(--journey-muted);
+    font-size: 0.875rem;
+}
+
+.journey-price-row .value {
+    color: var(--journey-text);
+    font-weight: 500;
+}
+
+.journey-price-row.total {
+    padding-top: 16px;
+    margin-top: 8px;
+    border-top: 2px solid var(--journey-border);
+}
+
+.journey-price-row.total .label {
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--journey-text);
+}
+
+.journey-price-row.total .value {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: var(--journey-accent);
+}
+
+.journey-book-btn {
+    width: 100%;
+    margin-top: 1.5rem;
+    padding: 16px;
+    background: linear-gradient(135deg, var(--journey-accent), #c49660);
+    border: none;
+    border-radius: 12px;
+    color: white;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+}
+
+.journey-book-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(212, 175, 55, 0.3);
+}
+
+/* ==================== STAY PHASE ==================== */
+.journey-stay-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 16px;
+    margin-top: 1.5rem;
+}
+
+.journey-stay-card {
+    background: var(--journey-card-bg);
+    border-radius: 16px;
+    padding: 1.5rem;
+    border: 1px solid var(--journey-border);
+    text-align: center;
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
+
+.journey-stay-card:hover {
+    transform: translateY(-4px);
+    border-color: var(--journey-primary);
+}
+
+.journey-stay-icon {
+    width: 64px;
+    height: 64px;
+    margin: 0 auto 16px;
+    border-radius: 16px;
+    background: linear-gradient(135deg, var(--journey-primary), var(--journey-secondary));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 24px;
+    color: white;
+}
+
+.journey-stay-card h4 {
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--journey-text);
+    margin: 0 0 4px 0;
+}
+
+.journey-stay-card p {
+    font-size: 0.8125rem;
+    color: var(--journey-muted);
+    margin: 0;
+}
+
+/* ==================== REMEMBER PHASE ==================== */
+.journey-memories-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 16px;
+    margin-top: 1.5rem;
+}
+
+.journey-memory-card {
+    position: relative;
+    border-radius: 16px;
+    overflow: hidden;
+    aspect-ratio: 4/3;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.journey-memory-card:hover {
+    transform: scale(1.02);
+}
+
+.journey-memory-card img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.journey-memory-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to top, rgba(0,0,0,0.8) 0%, transparent 50%);
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    padding: 1.25rem;
+}
+
+.journey-memory-date {
+    font-size: 0.75rem;
+    color: var(--journey-muted);
+    margin-bottom: 4px;
+}
+
+.journey-memory-title {
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--journey-text);
+}
+
+/* Empty State */
+.journey-empty-state {
+    text-align: center;
+    padding: 3rem;
+}
+
+.journey-empty-icon {
+    font-size: 4rem;
+    margin-bottom: 1rem;
+    opacity: 0.5;
+}
+
+.journey-empty-title {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: var(--journey-text);
+    margin: 0 0 8px 0;
+}
+
+.journey-empty-desc {
+    font-size: 0.875rem;
+    color: var(--journey-muted);
+    margin: 0 0 1.5rem 0;
+}
+
+/* ==================== ACTIONS ==================== */
+.journey-actions {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 2rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--journey-border);
+}
+
+.journey-nav-btn {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 12px 24px;
+    border-radius: 12px;
+    font-size: 0.875rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.journey-nav-btn.secondary {
+    background: transparent;
+    border: 1px solid var(--journey-border);
+    color: var(--journey-muted);
+}
+
+.journey-nav-btn.secondary:hover {
+    border-color: var(--journey-primary);
+    color: var(--journey-text);
+}
+
+.journey-nav-btn.primary {
+    background: linear-gradient(135deg, var(--journey-primary), var(--journey-secondary));
+    border: none;
+    color: white;
+}
+
+.journey-nav-btn.primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 16px rgba(99, 102, 241, 0.4);
+}
+
+/* ==================== LOADING STATE ==================== */
+.journey-loading {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 200px;
+    gap: 16px;
+}
+
+.journey-spinner {
+    width: 48px;
+    height: 48px;
+    border: 3px solid var(--journey-border);
+    border-top-color: var(--journey-primary);
+    border-radius: 50%;
+    animation: journeySpin 1s linear infinite;
+}
+
+@keyframes journeySpin {
+    to { transform: rotate(360deg); }
+}
+
+.journey-loading-text {
+    font-size: 0.875rem;
+    color: var(--journey-muted);
+}
+
+/* ==================== MINIMIZED STATE ==================== */
+.journey-canvas.minimized .journey-canvas-inner {
+    padding: 1rem 1.5rem;
+}
+
+.journey-canvas.minimized .journey-header {
+    margin-bottom: 0;
+    padding-bottom: 0;
+    border-bottom: none;
+}
+
+.journey-canvas.minimized .journey-timeline,
+.journey-canvas.minimized .journey-content,
+.journey-canvas.minimized .journey-actions {
+    display: none;
+}
+
+.journey-canvas.minimized .journey-title p {
+    display: none;
+}
+
+/* ==================== RESPONSIVE ==================== */
+@media (max-width: 768px) {
+    .journey-canvas {
+        margin: 1rem;
+        border-radius: 20px;
+    }
+    
+    .journey-canvas-inner {
+        padding: 1.25rem;
+    }
+    
+    .journey-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 12px;
+    }
+    
+    .journey-minimize-btn {
+        position: absolute;
+        top: 1rem;
+        right: 1rem;
+    }
+    
+    .journey-timeline {
+        padding: 0.5rem 0 1.5rem;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+    }
+    
+    .journey-timeline::before {
+        left: 10%;
+        right: 10%;
+    }
+    
+    .journey-phase-dot {
+        width: 40px;
+        height: 40px;
+        font-size: 16px;
+    }
+    
+    .journey-phase-label {
+        font-size: 0.6875rem;
+    }
+    
+    .journey-mood-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    
+    .journey-hotels-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .journey-calendar-wrapper {
+        grid-template-columns: 1fr;
+    }
+    
+    .journey-plan-sidebar {
+        order: -1;
+    }
+    
+    .journey-booking-layout {
+        grid-template-columns: 1fr;
+    }
+    
+    .journey-actions {
+        flex-direction: column;
+        gap: 12px;
+    }
+    
+    .journey-nav-btn {
+        width: 100%;
+        justify-content: center;
+    }
+    
+    .journey-content-header {
+        flex-direction: column;
+        text-align: center;
+    }
+}
+
+/* ==================== TRANSITIONS ==================== */
+.journey-canvas,
+.journey-phase,
+.journey-mood-card,
+.journey-hotel-card,
+.journey-stay-card,
+.journey-memory-card {
+    will-change: transform;
+}
+
+/* Smooth transitions for all interactive elements */
+* {
+    -webkit-tap-highlight-color: transparent;
+}
