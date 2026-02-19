@@ -50,8 +50,10 @@ class JourneyCanvas {
         this.hotelsCache = null;
         this.bookingsCache = null;
         
-        // API Base URL
-        this.apiBase = window.API?.BASE_URL || window.CONFIG?.API_BASE_URL || 'https://luxestay-backend-1.onrender.com/api';
+        // API Base URL - Use CONFIG directly
+        this.apiBase = (window.CONFIG && window.CONFIG.API_BASE_URL) 
+            ? window.CONFIG.API_BASE_URL 
+            : 'https://luxestay-backend-1.onrender.com/api';
         
         // Element references
         this.container = null;
@@ -1142,14 +1144,20 @@ class JourneyCanvas {
         if (this.hotelsCache) return this.hotelsCache;
         
         try {
-            const response = await fetch(`${this.apiBase}/hotels?size=100`);
+            const url = `${this.apiBase}/hotels?size=100`;
+            console.log('Journey Canvas: Fetching hotels from', url);
+            
+            const response = await fetch(url);
             if (response.ok) {
                 const data = await response.json();
                 this.hotelsCache = data.content || data || [];
+                console.log('Journey Canvas: Loaded', this.hotelsCache.length, 'hotels');
                 return this.hotelsCache;
+            } else {
+                console.warn('Journey Canvas: API response not OK:', response.status);
             }
         } catch (e) {
-            // Ignore
+            console.error('Journey Canvas: Fetch error:', e.message);
         }
         return [];
     }
