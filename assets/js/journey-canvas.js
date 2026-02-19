@@ -1141,16 +1141,45 @@ class JourneyCanvas {
      * Fetch hotels
      */
     async fetchHotels() {
-        if (this.hotelsCache) return this.hotelsCache;
+        if (this.hotelsCache && this.hotelsCache.length > 0) return this.hotelsCache;
         
         try {
+            // Use existing API service if available (handles auth, CORS, etc.)
+            if (window.API && typeof window.API.request === 'function') {
+                console.log('Journey Canvas: Using API service to fetch hotels');
+                const data = await API.request('/hotels?size=100');
+                
+                // Handle various response formats
+                if (Array.isArray(data)) {
+                    this.hotelsCache = data;
+                } else if (data && Array.isArray(data.content)) {
+                    this.hotelsCache = data.content;
+                } else if (data && data.content === null) {
+                    this.hotelsCache = [];
+                } else {
+                    this.hotelsCache = [];
+                }
+                
+                console.log('Journey Canvas: Loaded', this.hotelsCache.length, 'hotels');
+                return this.hotelsCache;
+            }
+            
+            // Fallback to direct fetch
             const url = `${this.apiBase}/hotels?size=100`;
-            console.log('Journey Canvas: Fetching hotels from', url);
+            console.log('Journey Canvas: Direct fetch from', url);
             
             const response = await fetch(url);
             if (response.ok) {
                 const data = await response.json();
-                this.hotelsCache = data.content || data || [];
+                
+                if (Array.isArray(data)) {
+                    this.hotelsCache = data;
+                } else if (data && Array.isArray(data.content)) {
+                    this.hotelsCache = data.content;
+                } else {
+                    this.hotelsCache = [];
+                }
+                
                 console.log('Journey Canvas: Loaded', this.hotelsCache.length, 'hotels');
                 return this.hotelsCache;
             } else {
