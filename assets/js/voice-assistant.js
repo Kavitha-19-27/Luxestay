@@ -423,6 +423,7 @@ class LuxeStayVoiceAssistant {
         this.elements.modal.classList.add('active');
         document.body.style.overflow = 'hidden';
         document.body.classList.add('modal-open');
+        document.body.classList.add('voice-modal-open');
         
         // Show message if speech recognition not supported
         if (!this.isSupported) {
@@ -446,6 +447,7 @@ class LuxeStayVoiceAssistant {
         this.elements.modal.classList.remove('active');
         document.body.style.overflow = '';
         document.body.classList.remove('modal-open');
+        document.body.classList.remove('voice-modal-open');
         this.resetUI();
     }
     
