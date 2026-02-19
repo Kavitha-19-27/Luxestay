@@ -1145,7 +1145,8 @@ class JourneyCanvas {
         
         try {
             // Use existing API service if available (handles auth, CORS, etc.)
-            if (window.API && typeof window.API.request === 'function') {
+            // API is defined as const in api.js, not on window
+            if (typeof API !== 'undefined' && typeof API.request === 'function') {
                 console.log('Journey Canvas: Using API service to fetch hotels');
                 const data = await API.request('/hotels?size=100');
                 
@@ -1164,11 +1165,18 @@ class JourneyCanvas {
                 return this.hotelsCache;
             }
             
-            // Fallback to direct fetch
+            // Fallback to direct fetch with proper headers
             const url = `${this.apiBase}/hotels?size=100`;
             console.log('Journey Canvas: Direct fetch from', url);
             
-            const response = await fetch(url);
+            const response = await fetch(url, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json'
+                }
+            });
+            
             if (response.ok) {
                 const data = await response.json();
                 
